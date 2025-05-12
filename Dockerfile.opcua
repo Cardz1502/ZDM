@@ -1,0 +1,18 @@
+# Dockerfile.opcua
+FROM python:3.12-slim
+
+WORKDIR /app
+
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY octoprint-api.py .
+COPY opcua_server.py .
+COPY start.sh .
+
+# Tornar o start.sh executável
+RUN chmod +x start.sh
+
+ENV ENABLE_OPCUA=true
+
+CMD ["./start.sh"]
