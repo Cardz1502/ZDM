@@ -8,6 +8,7 @@ import json
 import threading
 import re
 import logging
+from exponential_backoff import ExponentialBackoff
 
 # Configurações do OctoPrint
 BASE_URL = "http://192.168.250.115"
@@ -19,11 +20,17 @@ TIMEOUT_LIMIT = 90
 CSV_FILE = "/app/data/printer_data2.csv"
 LOG_FILE = "/app/data/octoprint_monitor2.log"
 CHECK_INTERVAL = 5
+HTTP_TIMEOUT = 30
 
 HEADERS = {
     "X-Api-Key": API_KEY,
     "Content-Type": "application/json"
 }
+
+# Criar o diretório para logs e dados, se não existir
+log_dir = "/app/data"
+if not os.path.exists(log_dir):
+    os.makedirs(log_dir, exist_ok=True)
 
 # Configurar logging para stdout e arquivo
 logging.basicConfig(
@@ -34,19 +41,7 @@ logging.basicConfig(
         logging.StreamHandler()
     ]
 )
-
-# Verificar se o modo OPC UA está ativado e importar opcua_server apenas se necessário
-ENABLE_OPCUA = os.getenv("ENABLE_OPCUA", "false").lower() == "true"
-update_data = None
-if ENABLE_OPCUA:
-    try:
-        from opcua_server import update_data
-        logging.info("Modo OPC UA ativado: dados serão enviados ao servidor OPC UA")
-    except ImportError as e:
-        logging.error(f"Erro ao importar opcua_server: {e}. Desativando modo OPC UA.")
-        ENABLE_OPCUA = False
-else:
-    logging.info("Modo OPC UA desativado: apenas guarda localmente")
+logger = logging.getLogger(__name__)
 
 class PrinterData:
     def __init__(self):
@@ -106,74 +101,81 @@ control = Control()
 def login():
     url = f"{BASE_URL}/api/login"
     payload = {"user": USERNAME, "pass": PASSWORD, "remember": True}
-    try:
-        response = requests.post(url, json=payload, headers=HEADERS, timeout=10)
-        response.raise_for_status()
-        control.session_key = response.json().get("session")
-        logging.info("Login bem-sucedido! Chave de sessão: %s", control.session_key)
-        return True
-    except requests.exceptions.RequestException as e:
-        logging.error("Erro no login: %s", e)
-        return False
+    backoff = ExponentialBackoff(maximum=300, base=5)
+    while True:
+        try:
+            response = requests.post(url, json=payload, headers=HEADERS, timeout=HTTP_TIMEOUT)
+            response.raise_for_status()
+            control.session_key = response.json().get("session")
+            logger.info("Login bem-sucedido! Chave de sessão: %s", control.session_key)
+            return True
+        except requests.exceptions.RequestException as e:
+            logger.error("Erro no login: %s", e)
+            wait_time = backoff.next()
+            logger.warning("Tentando novamente em %ds...", wait_time)
+            time.sleep(wait_time)
 
 def check_printing_status():
     url = f"{BASE_URL}/api/job"
+    backoff = ExponentialBackoff(maximum=300, base=5)
     try:
-        response = requests.get(url, headers=HEADERS, timeout=10)
+        response = requests.get(url, headers=HEADERS, timeout=HTTP_TIMEOUT)
         response.raise_for_status()
         job_data = response.json()
         state = job_data["state"]
         control.printerState = state
-        is_printing = (state == "Printing" or state == "Printing from SD") and \
-                      (data.nozzle_target is None or data.nozzle_target > 0) and \
-                      (data.bed_target is None or data.bed_target > 0)
+        is_printing = state == "Printing" or state == "Printing from SD"
+        logger.debug(f"Estado da impressora: {state}, is_printing: {is_printing}")
         return is_printing
     except requests.exceptions.RequestException as e:
-        logging.error("Erro ao verificar estado da impressora: %s", e)
+        logger.error("Erro ao verificar estado da impressora: %s", e)
         control.printerState = "Unknown"
         return False
-    
+
 def get_current_filename_from_api():
     url = f"{BASE_URL}/api/job"
+    backoff = ExponentialBackoff(maximum=300, base=5)
     try:
-        response = requests.get(url, headers=HEADERS, timeout=10)
+        response = requests.get(url, headers=HEADERS, timeout=HTTP_TIMEOUT)
         response.raise_for_status()
         job_data = response.json()
         file_info = job_data.get("job", {}).get("file", {})
         filename = file_info.get("name", "(no file)")
-        if filename is not None and filename.lower().endswith(".gco"):
+        if filename and filename.lower().endswith(".gco"):
             filename = filename[:-4]
-        logging.info("Nome do arquivo obtido via API: %s", filename)
+        logger.info("Nome do arquivo obtido via API: %s", filename)
         return filename
     except requests.exceptions.RequestException as e:
-        logging.error("Erro ao obter nome do arquivo via API: %s", e)
+        logger.error("Erro ao obter nome do arquivo via API: %s", e)
         return "(no file)"
 
 def send_m114():
     url = f"{BASE_URL}/api/printer/command"
     payload = {"command": "M114"}
+    backoff = ExponentialBackoff(maximum=300, base=5)
     try:
-        response = requests.post(url, json=payload, headers=HEADERS, timeout=10)
+        response = requests.post(url, json=payload, headers=HEADERS, timeout=HTTP_TIMEOUT)
         response.raise_for_status()
-        logging.info("Comando M114 enviado com sucesso!")
+        logger.info("Comando M114 enviado com sucesso!")
         control.m114_waiting = True
         control.m114_last_time = time.time()
     except requests.exceptions.RequestException as e:
-        logging.error("Erro ao enviar M114: %s", e)
+        logger.error("Erro ao enviar M114: %s", e)
         control.m114_waiting = False
         control.m114_last_time = None
 
 def send_m503():
     url = f"{BASE_URL}/api/printer/command"
     payload = {"command": "M503"}
+    backoff = ExponentialBackoff(maximum=300, base=5)
     try:
-        response = requests.post(url, json=payload, headers=HEADERS, timeout=10)
+        response = requests.post(url, json=payload, headers=HEADERS, timeout=HTTP_TIMEOUT)
         response.raise_for_status()
-        logging.info("Comando M503 enviado com sucesso!")
+        logger.info("Comando M503 enviado com sucesso!")
         control.m503_waiting = True
         control.m503_last_time = time.time()
     except requests.exceptions.RequestException as e:
-        logging.error("Erro ao enviar M503: %s", e)
+        logger.error("Erro ao enviar M503: %s", e)
         control.m503_waiting = False
         control.m503_last_time = None
 
@@ -181,51 +183,46 @@ def save_data(timestamp, is_m114=True):
     if not os.path.exists(CSV_FILE):
         with open(CSV_FILE, "w", newline="", encoding="utf-8") as file:
             writer = csv.writer(file)
-            writer.writerow(["timestamp", "temp_nozzle", "temp_target_nozzle", "temp_delta_nozzle", 
-                             "pwm_nozzle", "temp_bed", "temp_target_bed", "temp_delta_bed", "pwm_bed", 
-                             "X", "Y", "Z", "E", "accel_print", 
-                             "accel_retract", "accel_travel", 
+            writer.writerow(["timestamp", "temp_nozzle", "temp_target_nozzle", "temp_delta_nozzle",
+                             "pwm_nozzle", "temp_bed", "temp_target_bed", "temp_delta_bed", "pwm_bed",
+                             "X", "Y", "Z", "E", "accel_print",
+                             "accel_retract", "accel_travel",
                              "jerk_x", "jerk_y", "filename"])
-    
+
     timestamp_str = timestamp.strftime("%Y-%m-%d %H:%M:%S")
     if is_m114:
         row = [timestamp_str, data.nozzle_temp, data.nozzle_target, data.nozzle_delta,
                data.nozzle_pwm, data.bed_temp, data.bed_target, data.bed_delta, data.bed_pwm,
                data.x, data.y, data.z, data.extrusion_level, None, None, None, None, None, control.filename]
-        logging.info("Salvo M114: %s, Posição: X=%s, Y=%s, Z=%s, E=%s, Temperaturas: T:%s/%s, B:%s/%s",
-                     timestamp_str, data.x, data.y, data.z, data.extrusion_level, 
+        logger.info("Salvo M114: %s, Posição: X=%s, Y=%s, Z=%s, E=%s, Temperaturas: T:%s/%s, B:%s/%s",
+                     timestamp_str, data.x, data.y, data.z, data.extrusion_level,
                      data.nozzle_temp, data.nozzle_target, data.bed_temp, data.bed_target)
     else:
         row = [timestamp_str, data.nozzle_temp, data.nozzle_target, data.nozzle_delta,
                data.nozzle_pwm, data.bed_temp, data.bed_target, data.bed_delta, data.bed_pwm,
                None, None, None, None, data.accel_print, data.accel_retract, data.accel_travel, data.jerk_x, data.jerk_y, control.filename]
-        logging.info("Salvo M503: %s, Accel P=%s, R=%s, T=%s, Jerk X=%s, Y=%s, Temperaturas: T:%s/%s, B:%s/%s",
+        logger.info("Salvo M503: %s, Accel P=%s, R=%s, T=%s, Jerk X=%s, Y=%s, Temperaturas: T:%s/%s, B:%s/%s",
                      timestamp_str, data.accel_print, data.accel_retract, data.accel_travel,
                      data.jerk_x, data.jerk_y, data.nozzle_temp, data.nozzle_target, data.bed_temp, data.bed_target)
-    
+
     with open(CSV_FILE, "a", newline="", encoding="utf-8") as file:
         writer = csv.writer(file)
         writer.writerow(row)
-    
-    # Enviar dados ao servidor OPC UA, se ativado
-    if ENABLE_OPCUA and update_data is not None:
-        update_data(data.to_dict())
-        logging.info("Dados enviados ao servidor OPC UA")
 
 def on_message(ws, message):
     try:
         message_data = json.loads(message)
         if "connected" in message_data:
-            logging.info("Conexão WebSocket estabelecida")
+            logger.info("Conexão WebSocket estabelecida")
             return
-        
+
         if "current" in message_data:
             current = message_data["current"]
             logs = current.get("logs", [])
             is_printing = check_printing_status()
             m204_received = False
             m205_received = False
-            
+
             for log in logs:
                 temp_match = re.search(r"T:([\d.]+)\s*/([\d.]+)\s*B:([\d.]+)\s*/([\d.]+)\s*@:(\d+)\s*B@:(\d+)", log)
                 if temp_match:
@@ -237,6 +234,7 @@ def on_message(ws, message):
                     data.bed_pwm = int(temp_match.group(6))
                     data.nozzle_delta = data.nozzle_temp - data.nozzle_target if data.nozzle_temp is not None and data.nozzle_target is not None else None
                     data.bed_delta = data.bed_temp - data.bed_target if data.bed_temp is not None and data.bed_target is not None else None
+                    logger.debug(f"Temperaturas atualizadas: Nozzle {data.nozzle_temp}/{data.nozzle_target}, Bed {data.bed_temp}/{data.bed_target}")
 
                 pos_match = re.search(r"X:([-\d.]+)\s+Y:([-\d.]+)\s+Z:([-\d.]+)\s+E:([-\d.]+)", log)
                 if pos_match and control.m114_waiting:
@@ -244,12 +242,11 @@ def on_message(ws, message):
                     data.y = float(pos_match.group(2))
                     data.z = float(pos_match.group(3))
                     data.extrusion_level = float(pos_match.group(4))
-                    if data.nozzle_target > 0 and data.bed_target > 0:
-                        if is_printing:
-                            timestamp = datetime.now()
-                            save_data(timestamp, is_m114=True)
+                    if is_printing:
+                        timestamp = datetime.now()
+                        save_data(timestamp, is_m114=True)
                     else:
-                        logging.info("M114 recebido após fim da impressão, ignorado: %s", log)
+                        logger.info("M114 recebido após fim da impressão, ignorado: %s", log)
                     control.m114_waiting = False
 
                 accel_match = re.search(r"M204\s+(?:S([\d.]+)|P([\d.]+)\s+R([\d.]+)\s+T([\d.]+))", log)
@@ -263,39 +260,36 @@ def on_message(ws, message):
                         data.accel_retract = float(accel_match.group(3))
                         data.accel_travel = float(accel_match.group(4))
                     m204_received = True
-                    logging.info("Aceleração: P=%s, R=%s, T=%s", 
-                                 data.accel_print, data.accel_retract, data.accel_travel)
+                    logger.info("Aceleração: P=%s, R=%s, T=%s",
+                                data.accel_print, data.accel_retract, data.accel_travel)
 
                 jerk_match = re.search(r"M205.*X([\d.]+).*Y([\d.]+)", log)
                 if jerk_match and control.m503_waiting:
                     data.jerk_x = float(jerk_match.group(1))
                     data.jerk_y = float(jerk_match.group(2))
                     m205_received = True
-                    logging.info("Jerk: X=%s, Y=%s", data.jerk_x, data.jerk_y)
+                    logger.info("Jerk: X=%s, Y=%s", data.jerk_x, data.jerk_y)
 
                 if control.m503_waiting and m204_received and m205_received and is_printing:
-                    if data.nozzle_target > 0 and data.bed_target > 0:
-                        timestamp = datetime.now()
-                        save_data(timestamp, is_m114=False)
-                    else:
-                        logging.info("M503 recebido após fim da impressão, ignorado: %s", log)
+                    timestamp = datetime.now()
+                    save_data(timestamp, is_m114=False)
                     control.m503_waiting = False
 
     except json.JSONDecodeError as e:
-        logging.error("Erro ao decodificar mensagem WebSocket: %s", e)
+        logger.error("Erro ao decodificar mensagem WebSocket: %s", e)
     except ValueError as e:
-        logging.error("Erro ao processar mensagem: %s", e)
+        logger.error("Erro ao processar mensagem: %s", e)
     except Exception as e:
-        logging.error("Erro inesperado: %s", e)
+        logger.error("Erro inesperado: %s", e)
 
 def on_error(ws, error):
-    logging.error("Erro no WebSocket: %s", error)
+    logger.error("Erro no WebSocket: %s", error)
 
 def on_close(ws, close_status_code, close_msg):
-    logging.info("Conexão WebSocket fechada: %s", close_msg)
+    logger.info("Conexão WebSocket fechada: %s", close_msg)
 
 def on_open(ws):
-    logging.info("Conexão WebSocket aberta")
+    logger.info("Conexão WebSocket aberta")
     ws.send(json.dumps({"auth": f"{USERNAME}:{control.session_key}"}))
     ws.send(json.dumps({"throttle": 0.5}))
 
@@ -303,24 +297,24 @@ def start_websocket():
     ws_url = f"ws://{BASE_URL.split('http://')[1]}/sockjs/websocket"
     while True:
         try:
-            ws = websocket.WebSocketApp(ws_url, on_open=on_open, on_message=on_message, 
+            ws = websocket.WebSocketApp(ws_url, on_open=on_open, on_message=on_message,
                                         on_error=on_error, on_close=on_close)
             ws_thread = threading.Thread(target=ws.run_forever)
             ws_thread.daemon = True
             ws_thread.start()
             return ws
         except Exception as e:
-            logging.error("Erro ao iniciar WebSocket: %s", e)
+            logger.error("Erro ao iniciar WebSocket: %s", e)
             time.sleep(10)
 
 def main():
     while not login():
-        logging.warning("Falha no login, tentando novamente em 10s...")
+        logger.warning("Falha no login, tentando novamente em 10s...")
         time.sleep(10)
 
     ws = start_websocket()
     time.sleep(2)
-    
+
     last_check_time = 0
     last_m114_time = 0
     first_m114 = True
@@ -334,7 +328,7 @@ def main():
             if current_time - last_check_time >= CHECK_INTERVAL:
                 is_printing = check_printing_status()
                 if is_printing and control.printerState != last_logged_state:
-                    logging.info("Impressora está imprimindo! Estado: %s", control.printerState)
+                    logger.info("Impressora está imprimindo! Estado: %s", control.printerState)
                     last_logged_state = control.printerState
                     if not control.m114_waiting and first_m114:
                         send_m114()
@@ -344,7 +338,7 @@ def main():
                         send_m503()
                         first_m503 = False
                 elif not is_printing and control.printerState != last_logged_state:
-                    logging.info("Impressora não está imprimindo. Estado: %s", control.printerState)
+                    logger.info("Impressora não está imprimindo. Estado: %s", control.printerState)
                     last_logged_state = control.printerState
                     control.m114_waiting = False
                     control.m503_waiting = False
@@ -358,12 +352,12 @@ def main():
                 last_m114_time = current_time
 
             if control.m114_waiting and control.m114_last_time and (current_time - control.m114_last_time > TIMEOUT_LIMIT) and is_printing:
-                logging.warning("Timeout de %ds para M114. Reenviando...", TIMEOUT_LIMIT)
+                logger.warning("Timeout de %ds para M114. Reenviando...", TIMEOUT_LIMIT)
                 send_m114()
                 last_m114_time = current_time
 
             if control.m503_waiting and control.m503_last_time and first_m503 and (current_time - control.m503_last_time > TIMEOUT_LIMIT):
-                logging.warning("Timeout de %ds para M503. Reenviando...", TIMEOUT_LIMIT)
+                logger.warning("Timeout de %ds para M503. Reenviando...", TIMEOUT_LIMIT)
                 send_m503()
 
             if not control.filename_obtained:
@@ -371,10 +365,12 @@ def main():
                 control.filename_obtained = True
 
             time.sleep(1)
+
     except KeyboardInterrupt:
-        logging.info("Programa encerrado pelo usuário.")
+        logger.info("Programa encerrado pelo usuário.")
+        ws.close()
     except Exception as e:
-        logging.error("Erro no loop principal: %s", e)
+        logger.error("Erro no loop principal: %s", e)
         time.sleep(10)
         main()
 
@@ -382,4 +378,4 @@ if __name__ == "__main__":
     try:
         main()
     except KeyboardInterrupt:
-        logging.info("Programa encerrado pelo usuário.")
+        logger.info("Programa encerrado pelo usuário.")
