@@ -1,7 +1,7 @@
 BUILD THE CONTAINER (OCTOPRINT-API.PY)
 
-docker build -f Dockerfile.local -t octoprint-local .    
+sudo docker build -f Dockerfile.local -t octoprint-local .    
 
 RUN THE CONTAINER
 
-docker run -d --name octoprint-local octoprint-local                
+sudo docker run -d --restart always --name octoprint-local octoprint-local                
