@@ -8,7 +8,6 @@ import json
 import threading
 import re
 import logging
-from exponential_backoff import ExponentialBackoff
 
 # Configurações do OctoPrint
 BASE_URL = "http://192.168.250.115"
@@ -21,6 +20,10 @@ CSV_FILE = "/app/data/printer_data2.csv"
 LOG_FILE = "/app/data/octoprint_monitor2.log"
 CHECK_INTERVAL = 5
 HTTP_TIMEOUT = 30
+
+# Configurações de Retry
+MAX_RETRIES = 5
+RETRY_WAIT = 10  # Tempo de espera entre tentativas, em segundos
 
 HEADERS = {
     "X-Api-Key": API_KEY,
@@ -101,8 +104,8 @@ control = Control()
 def login():
     url = f"{BASE_URL}/api/login"
     payload = {"user": USERNAME, "pass": PASSWORD, "remember": True}
-    backoff = ExponentialBackoff(maximum=300, base=5)
-    while True:
+    retries = 0
+    while retries < MAX_RETRIES:
         try:
             response = requests.post(url, json=payload, headers=HEADERS, timeout=HTTP_TIMEOUT)
             response.raise_for_status()
@@ -110,74 +113,100 @@ def login():
             logger.info("Login bem-sucedido! Chave de sessão: %s", control.session_key)
             return True
         except requests.exceptions.RequestException as e:
-            logger.error("Erro no login: %s", e)
-            wait_time = backoff.next()
-            logger.warning("Tentando novamente em %ds...", wait_time)
-            time.sleep(wait_time)
+            retries += 1
+            logger.error("Erro no login (tentativa %d/%d): %s", retries, MAX_RETRIES, e)
+            if retries < MAX_RETRIES:
+                logger.warning("Tentando novamente em %ds...", RETRY_WAIT)
+                time.sleep(RETRY_WAIT)
+            else:
+                logger.error("Falha ao fazer login após %d tentativas.", MAX_RETRIES)
+                return False
 
 def check_printing_status():
     url = f"{BASE_URL}/api/job"
-    backoff = ExponentialBackoff(maximum=300, base=5)
-    try:
-        response = requests.get(url, headers=HEADERS, timeout=HTTP_TIMEOUT)
-        response.raise_for_status()
-        job_data = response.json()
-        state = job_data["state"]
-        control.printerState = state
-        is_printing = state == "Printing" or state == "Printing from SD"
-        logger.debug(f"Estado da impressora: {state}, is_printing: {is_printing}")
-        return is_printing
-    except requests.exceptions.RequestException as e:
-        logger.error("Erro ao verificar estado da impressora: %s", e)
-        control.printerState = "Unknown"
-        return False
+    retries = 0
+    while retries < MAX_RETRIES:
+        try:
+            response = requests.get(url, headers=HEADERS, timeout=HTTP_TIMEOUT)
+            response.raise_for_status()
+            job_data = response.json()
+            state = job_data["state"]
+            control.printerState = state
+            is_printing = state == "Printing" or state == "Printing from SD"
+            logger.debug(f"Estado da impressora: {state}, is_printing: {is_printing}")
+            return is_printing
+        except requests.exceptions.RequestException as e:
+            retries += 1
+            logger.error("Erro ao verificar estado da impressora (tentativa %d/%d): %s", retries, MAX_RETRIES, e)
+            if retries < MAX_RETRIES:
+                time.sleep(RETRY_WAIT)
+            else:
+                control.printerState = "Unknown"
+                return False
 
 def get_current_filename_from_api():
     url = f"{BASE_URL}/api/job"
-    backoff = ExponentialBackoff(maximum=300, base=5)
-    try:
-        response = requests.get(url, headers=HEADERS, timeout=HTTP_TIMEOUT)
-        response.raise_for_status()
-        job_data = response.json()
-        file_info = job_data.get("job", {}).get("file", {})
-        filename = file_info.get("name", "(no file)")
-        if filename and filename.lower().endswith(".gco"):
-            filename = filename[:-4]
-        logger.info("Nome do arquivo obtido via API: %s", filename)
-        return filename
-    except requests.exceptions.RequestException as e:
-        logger.error("Erro ao obter nome do arquivo via API: %s", e)
-        return "(no file)"
+    retries = 0
+    while retries < MAX_RETRIES:
+        try:
+            response = requests.get(url, headers=HEADERS, timeout=HTTP_TIMEOUT)
+            response.raise_for_status()
+            job_data = response.json()
+            file_info = job_data.get("job", {}).get("file", {})
+            filename = file_info.get("name", "(no file)")
+            if filename and filename.lower().endswith(".gco"):
+                filename = filename[:-4]
+            logger.info("Nome do arquivo obtido via API: %s", filename)
+            return filename
+        except requests.exceptions.RequestException as e:
+            retries += 1
+            logger.error("Erro ao obter nome do arquivo via API (tentativa %d/%d): %s", retries, MAX_RETRIES, e)
+            if retries < MAX_RETRIES:
+                time.sleep(RETRY_WAIT)
+            else:
+                return "(no file)"
 
 def send_m114():
     url = f"{BASE_URL}/api/printer/command"
     payload = {"command": "M114"}
-    backoff = ExponentialBackoff(maximum=300, base=5)
-    try:
-        response = requests.post(url, json=payload, headers=HEADERS, timeout=HTTP_TIMEOUT)
-        response.raise_for_status()
-        logger.info("Comando M114 enviado com sucesso!")
-        control.m114_waiting = True
-        control.m114_last_time = time.time()
-    except requests.exceptions.RequestException as e:
-        logger.error("Erro ao enviar M114: %s", e)
-        control.m114_waiting = False
-        control.m114_last_time = None
+    retries = 0
+    while retries < MAX_RETRIES:
+        try:
+            response = requests.post(url, json=payload, headers=HEADERS, timeout=HTTP_TIMEOUT)
+            response.raise_for_status()
+            logger.info("Comando M114 enviado com sucesso!")
+            control.m114_waiting = True
+            control.m114_last_time = time.time()
+            return
+        except requests.exceptions.RequestException as e:
+            retries += 1
+            logger.error("Erro ao enviar M114 (tentativa %d/%d): %s", retries, MAX_RETRIES, e)
+            if retries < MAX_RETRIES:
+                time.sleep(RETRY_WAIT)
+            else:
+                control.m114_waiting = False
+                control.m114_last_time = None
 
 def send_m503():
     url = f"{BASE_URL}/api/printer/command"
     payload = {"command": "M503"}
-    backoff = ExponentialBackoff(maximum=300, base=5)
-    try:
-        response = requests.post(url, json=payload, headers=HEADERS, timeout=HTTP_TIMEOUT)
-        response.raise_for_status()
-        logger.info("Comando M503 enviado com sucesso!")
-        control.m503_waiting = True
-        control.m503_last_time = time.time()
-    except requests.exceptions.RequestException as e:
-        logger.error("Erro ao enviar M503: %s", e)
-        control.m503_waiting = False
-        control.m503_last_time = None
+    retries = 0
+    while retries < MAX_RETRIES:
+        try:
+            response = requests.post(url, json=payload, headers=HEADERS, timeout=HTTP_TIMEOUT)
+            response.raise_for_status()
+            logger.info("Comando M503 enviado com sucesso!")
+            control.m503_waiting = True
+            control.m503_last_time = time.time()
+            return
+        except requests.exceptions.RequestException as e:
+            retries += 1
+            logger.error("Erro ao enviar M503 (tentativa %d/%d): %s", retries, MAX_RETRIES, e)
+            if retries < MAX_RETRIES:
+                time.sleep(RETRY_WAIT)
+            else:
+                control.m503_waiting = False
+                control.m503_last_time = None
 
 def save_data(timestamp, is_m114=True):
     if not os.path.exists(CSV_FILE):
@@ -305,12 +334,12 @@ def start_websocket():
             return ws
         except Exception as e:
             logger.error("Erro ao iniciar WebSocket: %s", e)
-            time.sleep(10)
+            time.sleep(RETRY_WAIT)
 
 def main():
     while not login():
-        logger.warning("Falha no login, tentando novamente em 10s...")
-        time.sleep(10)
+        logger.warning("Falha no login, esperando %ds antes de tentar novamente...", RETRY_WAIT)
+        time.sleep(RETRY_WAIT)
 
     ws = start_websocket()
     time.sleep(2)
@@ -371,7 +400,7 @@ def main():
         ws.close()
     except Exception as e:
         logger.error("Erro no loop principal: %s", e)
-        time.sleep(10)
+        time.sleep(RETRY_WAIT)
         main()
 
 if __name__ == "__main__":
