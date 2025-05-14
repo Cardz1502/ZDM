@@ -15,12 +15,12 @@ API_KEY = "Yfvanr37vlCxeQCFi8_pdyrz-GrqYFIYh2RpYKYtQ0I"
 USERNAME = "rics"
 PASSWORD = "ricsricsjabjab"
 UPDATE_INTERVAL_M114 = 5
-TIMEOUT_LIMIT = 30
+TIMEOUT_LIMIT = 60
 CSV_FILE = "/app/data/printer_data2.csv"
 LOG_FILE = "/app/data/octoprint_monitor2.log"
 CHECK_INTERVAL = 5
-HTTP_TIMEOUT = 30
-INACTIVITY_THRESHOLD = 3600  # 1 hora de inatividade para fechar a WebSocket
+HTTP_TIMEOUT = 60
+INACTIVITY_THRESHOLD = 1800  # 30 minutos de inatividade para fechar a WebSocket
 OFFLINE_CHECK_INTERVAL = 900  # Verificar a cada 15 minutos se o OctoPrint estiver offline
 
 # Configurações de Retry
@@ -131,7 +131,7 @@ def login():
             else:
                 logger.error("Falha ao fazer login após %d tentativas.", MAX_RETRIES)
                 control.connection_failed_count += 1
-                if ws and control.connection_failed_count >= 3:  # Após 3 falhas consecutivas
+                if ws and control.connection_failed_count >= 10:  # Após 10 falhas consecutivas
                     logger.warning("OctoPrint offline por muito tempo. Fechando WebSocket.")
                     ws.close()
                     control.websocket_active = False
@@ -166,7 +166,7 @@ def check_printing_status():
             else:
                 control.connection_failed_count += 1
                 control.printerState = "Unknown"
-                if ws and control.connection_failed_count >= 3:  # Após 3 falhas consecutivas
+                if ws and control.connection_failed_count >= 10:  # Após 10 falhas consecutivas
                     logger.warning("OctoPrint offline por muito tempo. Fechando WebSocket.")
                     ws.close()
                     control.websocket_active = False
