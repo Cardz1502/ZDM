@@ -15,11 +15,11 @@ API_KEY = "Yfvanr37vlCxeQCFi8_pdyrz-GrqYFIYh2RpYKYtQ0I"
 USERNAME = "rics"
 PASSWORD = "ricsricsjabjab"
 UPDATE_INTERVAL_M114 = 5
-TIMEOUT_LIMIT = 60
+TIMEOUT_LIMIT = 75
 CSV_FILE = "/app/data/printer_data2.csv"
 LOG_FILE = "/app/data/octoprint_monitor2.log"
 CHECK_INTERVAL = 5
-HTTP_TIMEOUT = 30
+HTTP_TIMEOUT = 60
 INACTIVITY_THRESHOLD = 3600  # 1 hora de inatividade para fechar a WebSocket
 OFFLINE_CHECK_INTERVAL = 900  # Verificar a cada 15 minutos se o OctoPrint estiver offline
 
