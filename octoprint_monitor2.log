@@ -24295,3 +24295,1033 @@ RuntimeError: Session is closed
 2025-05-12 15:20:25,449 - INFO - M114 recebido após fim da impressão, ignorado: Recv: X:0.00 Y:220.00 Z:22.60 E:2375.21 Count X:0 Y:17600 Z:9040
 2025-05-12 15:20:33,783 - INFO - Impressora não está imprimindo. Estado: Operational
 2025-05-12 15:20:33,953 - INFO - Nome do arquivo obtido via API: zd2c72~1
+2025-05-14 09:07:13,155 - INFO - Modo OPC UA desativado: apenas guarda localmente
+2025-05-14 09:07:14,408 - INFO - Login bem-sucedido! Chave de sessão: e3d0c495520be87f611ae400061b81407b280e9753c2c64db0f96be8d8993e35
+2025-05-14 09:07:14,428 - INFO - Websocket connected
+2025-05-14 09:07:14,429 - INFO - Conexão WebSocket aberta
+2025-05-14 09:07:14,451 - INFO - Conexão WebSocket estabelecida
+2025-05-14 09:07:16,470 - INFO - Impressora está imprimindo! Estado: Printing from SD
+2025-05-14 09:07:16,531 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:07:16,565 - INFO - Comando M503 enviado com sucesso!
+2025-05-14 09:07:16,595 - INFO - Nome do arquivo obtido via API: zd2c72~1
+2025-05-14 09:07:32,469 - INFO - Salvo M114: 2025-05-14 09:07:32, Posição: X=86.46, Y=109.65, Z=0.2, E=165.42, Temperaturas: T:199.99/200.0, B:60.01/60.0
+2025-05-14 09:07:32,859 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:07:39,481 - INFO - Aceleração: P=500.0, R=500.0, T=1000.0
+2025-05-14 09:07:39,482 - INFO - Jerk: X=10.0, Y=10.0
+2025-05-14 09:07:39,485 - INFO - Salvo M503: 2025-05-14 09:07:39, Accel P=500.0, R=500.0, T=1000.0, Jerk X=10.0, Y=10.0, Temperaturas: T:199.99/200.0, B:60.0/60.0
+2025-05-14 09:07:52,558 - INFO - Salvo M114: 2025-05-14 09:07:52, Posição: X=86.46, Y=106.26, Z=0.2, E=178.71, Temperaturas: T:200.03/200.0, B:60.0/60.0
+2025-05-14 09:07:53,151 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:08:13,052 - INFO - Salvo M114: 2025-05-14 09:08:13, Posição: X=86.46, Y=102.86, Z=0.2, E=192.0, Temperaturas: T:200.0/200.0, B:59.98/60.0
+2025-05-14 09:08:13,440 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:08:26,705 - INFO - Salvo M114: 2025-05-14 09:08:26, Posição: X=86.46, Y=100.6, Z=0.2, E=200.85, Temperaturas: T:200.01/200.0, B:59.99/60.0
+2025-05-14 09:08:27,771 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:08:47,197 - INFO - Salvo M114: 2025-05-14 09:08:47, Posição: X=86.46, Y=97.21, Z=0.2, E=214.14, Temperaturas: T:200.03/200.0, B:60.0/60.0
+2025-05-14 09:08:48,124 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:09:08,184 - INFO - Salvo M114: 2025-05-14 09:09:08, Posição: X=86.46, Y=93.81, Z=0.2, E=227.43, Temperaturas: T:199.99/200.0, B:59.99/60.0
+2025-05-14 09:09:08,415 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:09:28,181 - INFO - Salvo M114: 2025-05-14 09:09:28, Posição: X=86.46, Y=90.42, Z=0.2, E=240.72, Temperaturas: T:199.99/200.0, B:60.0/60.0
+2025-05-14 09:09:28,689 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:09:42,199 - INFO - Salvo M114: 2025-05-14 09:09:42, Posição: X=86.46, Y=88.15, Z=0.2, E=249.58, Temperaturas: T:199.99/200.0, B:59.99/60.0
+2025-05-14 09:09:42,864 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:09:53,646 - ERROR - Erro ao verificar estado da impressora: HTTPConnectionPool(host='192.168.250.115', port=80): Max retries exceeded with url: /api/job (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f9c46855880>, 'Connection to 192.168.250.115 timed out. (connect timeout=10)'))
+2025-05-14 09:10:02,339 - INFO - Salvo M114: 2025-05-14 09:10:02, Posição: X=86.46, Y=84.76, Z=0.2, E=262.86, Temperaturas: T:200.01/200.0, B:59.99/60.0
+2025-05-14 09:10:03,264 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:10:22,826 - INFO - Salvo M114: 2025-05-14 09:10:22, Posição: X=86.46, Y=81.37, Z=0.2, E=276.15, Temperaturas: T:199.98/200.0, B:60.0/60.0
+2025-05-14 09:10:23,561 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:10:43,312 - INFO - Salvo M114: 2025-05-14 09:10:43, Posição: X=86.46, Y=77.97, Z=0.2, E=289.44, Temperaturas: T:200.02/200.0, B:59.99/60.0
+2025-05-14 09:10:43,855 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:11:04,270 - INFO - Salvo M114: 2025-05-14 09:11:04, Posição: X=86.46, Y=74.58, Z=0.2, E=302.73, Temperaturas: T:200.01/200.0, B:60.0/60.0
+2025-05-14 09:11:05,216 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:11:24,289 - INFO - Salvo M114: 2025-05-14 09:11:24, Posição: X=86.46, Y=71.18, Z=0.2, E=316.01, Temperaturas: T:200.01/200.0, B:60.0/60.0
+2025-05-14 09:11:24,434 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:11:38,278 - INFO - Salvo M114: 2025-05-14 09:11:38, Posição: X=86.46, Y=68.92, Z=0.2, E=324.87, Temperaturas: T:199.99/200.0, B:59.98/60.0
+2025-05-14 09:11:38,678 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:11:51,618 - INFO - Salvo M114: 2025-05-14 09:11:51, Posição: X=86.46, Y=66.66, Z=0.2, E=333.73, Temperaturas: T:199.99/200.0, B:60.01/60.0
+2025-05-14 09:11:51,961 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:12:11,031 - ERROR - Erro ao verificar estado da impressora: HTTPConnectionPool(host='192.168.250.115', port=80): Max retries exceeded with url: /api/job (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f9c46856540>, 'Connection to 192.168.250.115 timed out. (connect timeout=10)'))
+2025-05-14 09:12:11,032 - INFO - Impressora não está imprimindo. Estado: Unknown
+2025-05-14 09:12:11,083 - INFO - Nome do arquivo obtido via API: zd2c72~1
+2025-05-14 09:12:12,137 - INFO - Impressora está imprimindo! Estado: Printing from SD
+2025-05-14 09:12:12,189 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:12:12,244 - INFO - Comando M503 enviado com sucesso!
+2025-05-14 09:12:12,283 - INFO - Salvo M114: 2025-05-14 09:12:12, Posição: X=86.46, Y=63.26, Z=0.2, E=347.02, Temperaturas: T:200.0/200.0, B:60.01/60.0
+2025-05-14 09:12:17,350 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:12:25,781 - INFO - Salvo M114: 2025-05-14 09:12:25, Posição: X=87.01, Y=61.56, Z=0.2, E=355.85, Temperaturas: T:199.99/200.0, B:60.0/60.0
+2025-05-14 09:12:26,466 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:12:33,105 - INFO - Aceleração: P=500.0, R=500.0, T=1000.0
+2025-05-14 09:12:33,106 - INFO - Jerk: X=10.0, Y=10.0
+2025-05-14 09:12:33,108 - INFO - Salvo M503: 2025-05-14 09:12:33, Accel P=500.0, R=500.0, T=1000.0, Jerk X=10.0, Y=10.0, Temperaturas: T:200.0/200.0, B:60.02/60.0
+2025-05-14 09:12:46,300 - INFO - Salvo M114: 2025-05-14 09:12:46, Posição: X=90.41, Y=61.56, Z=0.2, E=368.42, Temperaturas: T:200.01/200.0, B:59.99/60.0
+2025-05-14 09:12:46,806 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:12:53,058 - INFO - Salvo M114: 2025-05-14 09:12:53, Posição: X=91.54, Y=61.56, Z=0.2, E=372.4, Temperaturas: T:199.97/200.0, B:60.0/60.0
+2025-05-14 09:12:53,959 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:13:06,312 - INFO - Salvo M114: 2025-05-14 09:13:06, Posição: X=93.8, Y=61.56, Z=0.2, E=380.03, Temperaturas: T:199.99/200.0, B:60.01/60.0
+2025-05-14 09:13:07,118 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:13:12,468 - INFO - Salvo M114: 2025-05-14 09:13:12, Posição: X=94.93, Y=61.56, Z=0.2, E=383.69, Temperaturas: T:199.97/200.0, B:60.01/60.0
+2025-05-14 09:13:13,252 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:13:24,617 - INFO - Salvo M114: 2025-05-14 09:13:24, Posição: X=97.2, Y=61.56, Z=0.2, E=390.69, Temperaturas: T:200.0/200.0, B:60.01/60.0
+2025-05-14 09:13:25,420 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:13:36,341 - INFO - Salvo M114: 2025-05-14 09:13:36, Posição: X=99.46, Y=61.56, Z=0.2, E=397.26, Temperaturas: T:200.02/200.0, B:60.0/60.0
+2025-05-14 09:13:36,579 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:13:46,882 - INFO - Salvo M114: 2025-05-14 09:13:46, Posição: X=101.72, Y=61.56, Z=0.2, E=403.41, Temperaturas: T:200.01/200.0, B:60.01/60.0
+2025-05-14 09:13:47,731 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:13:58,891 - INFO - Salvo M114: 2025-05-14 09:13:58, Posição: X=103.99, Y=61.56, Z=0.2, E=409.13, Temperaturas: T:199.99/200.0, B:60.0/60.0
+2025-05-14 09:13:59,008 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:14:06,865 - INFO - Salvo M114: 2025-05-14 09:14:06, Posição: X=106.25, Y=61.56, Z=0.2, E=414.42, Temperaturas: T:199.99/200.0, B:60.0/60.0
+2025-05-14 09:14:07,121 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:14:15,808 - INFO - Salvo M114: 2025-05-14 09:14:15, Posição: X=108.51, Y=61.56, Z=0.2, E=419.29, Temperaturas: T:200.01/200.0, B:60.0/60.0
+2025-05-14 09:14:16,279 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:14:23,698 - INFO - Salvo M114: 2025-05-14 09:14:23, Posição: X=110.77, Y=61.56, Z=0.2, E=423.73, Temperaturas: T:199.99/200.0, B:59.98/60.0
+2025-05-14 09:14:24,436 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:14:31,279 - INFO - Salvo M114: 2025-05-14 09:14:31, Posição: X=113.04, Y=61.56, Z=0.2, E=427.75, Temperaturas: T:199.99/200.0, B:60.0/60.0
+2025-05-14 09:14:32,187 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:14:38,355 - INFO - Salvo M114: 2025-05-14 09:14:38, Posição: X=115.3, Y=61.56, Z=0.2, E=431.34, Temperaturas: T:200.0/200.0, B:60.01/60.0
+2025-05-14 09:14:39,293 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:14:44,494 - INFO - Salvo M114: 2025-05-14 09:14:44, Posição: X=117.56, Y=61.56, Z=0.2, E=434.51, Temperaturas: T:199.99/200.0, B:60.02/60.0
+2025-05-14 09:14:45,446 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:14:50,357 - INFO - Salvo M114: 2025-05-14 09:14:50, Posição: X=119.82, Y=61.56, Z=0.2, E=437.25, Temperaturas: T:199.99/200.0, B:59.99/60.0
+2025-05-14 09:14:50,542 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:14:55,114 - INFO - Salvo M114: 2025-05-14 09:14:55, Posição: X=122.09, Y=61.56, Z=0.2, E=439.56, Temperaturas: T:200.02/200.0, B:59.99/60.0
+2025-05-14 09:14:55,686 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:14:59,456 - INFO - Salvo M114: 2025-05-14 09:14:59, Posição: X=124.35, Y=61.56, Z=0.2, E=441.45, Temperaturas: T:200.01/200.0, B:60.0/60.0
+2025-05-14 09:15:01,808 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:15:03,144 - INFO - Salvo M114: 2025-05-14 09:15:03, Posição: X=126.61, Y=61.56, Z=0.2, E=442.91, Temperaturas: T:200.02/200.0, B:60.01/60.0
+2025-05-14 09:15:15,894 - ERROR - Erro ao enviar M114: HTTPConnectionPool(host='192.168.250.115', port=80): Max retries exceeded with url: /api/printer/command (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f9c468565d0>, 'Connection to 192.168.250.115 timed out. (connect timeout=10)'))
+2025-05-14 09:15:17,031 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:15:22,367 - INFO - Salvo M114: 2025-05-14 09:15:22, Posição: X=137.01, Y=169.52, Z=0.4, E=450.99, Temperaturas: T:199.79/200.0, B:60.01/60.0
+2025-05-14 09:15:23,136 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:15:25,576 - INFO - Salvo M114: 2025-05-14 09:15:25, Posição: X=75.11, Y=159.87, Z=0.4, E=453.24, Temperaturas: T:199.89/200.0, B:59.99/60.0
+2025-05-14 09:15:28,250 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:15:32,346 - INFO - Salvo M114: 2025-05-14 09:15:32, Posição: X=133.74, Y=158.64, Z=0.4, E=476.32, Temperaturas: T:200.08/200.0, B:60.0/60.0
+2025-05-14 09:15:33,391 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:16:00,212 - INFO - Salvo M114: 2025-05-14 09:16:00, Posição: X=131.19, Y=158.44, Z=0.4, E=486.12, Temperaturas: T:199.92/200.0, B:60.01/60.0
+2025-05-14 09:16:00,708 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:16:13,632 - INFO - Salvo M114: 2025-05-14 09:16:13, Posição: X=133.54, Y=152.7, Z=0.4, E=487.45, Temperaturas: T:199.99/200.0, B:60.0/60.0
+2025-05-14 09:16:13,939 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:16:14,650 - INFO - Salvo M114: 2025-05-14 09:16:14, Posição: X=124.97, Y=158.44, Z=0.4, E=489.2, Temperaturas: T:199.98/200.0, B:60.01/60.0
+2025-05-14 09:16:19,049 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:16:20,817 - INFO - Salvo M114: 2025-05-14 09:16:20, Posição: X=118.18, Y=158.44, Z=0.4, E=496.12, Temperaturas: T:199.94/200.0, B:59.99/60.0
+2025-05-14 09:16:25,687 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:16:30,387 - INFO - Salvo M114: 2025-05-14 09:16:30, Posição: X=112.52, Y=158.44, Z=0.4, E=504.8, Temperaturas: T:200.03/200.0, B:60.0/60.0
+2025-05-14 09:16:30,803 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:16:37,373 - INFO - Salvo M114: 2025-05-14 09:16:37, Posição: X=109.13, Y=158.44, Z=0.4, E=511.29, Temperaturas: T:199.99/200.0, B:60.0/60.0
+2025-05-14 09:16:37,943 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:16:42,949 - INFO - Salvo M114: 2025-05-14 09:16:42, Posição: X=106.87, Y=158.44, Z=0.4, E=516.15, Temperaturas: T:199.99/200.0, B:60.03/60.0
+2025-05-14 09:16:43,043 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:16:49,099 - INFO - Salvo M114: 2025-05-14 09:16:49, Posição: X=104.6, Y=158.44, Z=0.4, E=521.44, Temperaturas: T:199.97/200.0, B:60.01/60.0
+2025-05-14 09:16:49,189 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:16:55,842 - INFO - Salvo M114: 2025-05-14 09:16:55, Posição: X=102.34, Y=158.44, Z=0.4, E=527.15, Temperaturas: T:199.99/200.0, B:60.02/60.0
+2025-05-14 09:16:56,334 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:17:06,987 - INFO - Salvo M114: 2025-05-14 09:17:06, Posição: X=98.95, Y=158.44, Z=0.4, E=536.51, Temperaturas: T:200.0/200.0, B:59.97/60.0
+2025-05-14 09:17:07,553 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:17:19,791 - INFO - Salvo M114: 2025-05-14 09:17:19, Posição: X=95.55, Y=158.44, Z=0.4, E=546.83, Temperaturas: T:200.0/200.0, B:60.0/60.0
+2025-05-14 09:17:20,833 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:17:33,264 - INFO - Salvo M114: 2025-05-14 09:17:33, Posição: X=92.16, Y=158.44, Z=0.4, E=558.11, Temperaturas: T:200.02/200.0, B:59.98/60.0
+2025-05-14 09:17:33,986 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:17:48,594 - INFO - Salvo M114: 2025-05-14 09:17:48, Posição: X=88.76, Y=158.44, Z=0.4, E=570.35, Temperaturas: T:200.0/200.0, B:59.98/60.0
+2025-05-14 09:17:49,188 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:18:03,933 - ERROR - Erro ao verificar estado da impressora: HTTPConnectionPool(host='192.168.250.115', port=80): Max retries exceeded with url: /api/job (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f9c4682a660>, 'Connection to 192.168.250.115 timed out. (connect timeout=10)'))
+2025-05-14 09:18:04,668 - INFO - Salvo M114: 2025-05-14 09:18:04, Posição: X=86.46, Y=157.35, Z=0.4, E=583.47, Temperaturas: T:199.99/200.0, B:59.98/60.0
+2025-05-14 09:18:05,474 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:18:22,403 - INFO - Salvo M114: 2025-05-14 09:18:22, Posição: X=86.46, Y=153.96, Z=0.4, E=596.75, Temperaturas: T:200.0/200.0, B:60.02/60.0
+2025-05-14 09:18:22,681 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:18:40,416 - INFO - Salvo M114: 2025-05-14 09:18:40, Posição: X=86.46, Y=150.56, Z=0.4, E=610.04, Temperaturas: T:200.02/200.0, B:60.03/60.0
+2025-05-14 09:18:40,941 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:18:58,434 - INFO - Salvo M114: 2025-05-14 09:18:58, Posição: X=86.46, Y=147.17, Z=0.4, E=623.33, Temperaturas: T:200.06/200.0, B:60.02/60.0
+2025-05-14 09:18:59,141 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:19:10,533 - INFO - Salvo M114: 2025-05-14 09:19:10, Posição: X=86.46, Y=144.9, Z=0.4, E=632.19, Temperaturas: T:200.02/200.0, B:60.03/60.0
+2025-05-14 09:19:11,338 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:19:22,645 - INFO - Salvo M114: 2025-05-14 09:19:22, Posição: X=86.46, Y=142.64, Z=0.4, E=641.04, Temperaturas: T:199.98/200.0, B:60.0/60.0
+2025-05-14 09:19:23,499 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:19:40,807 - INFO - Salvo M114: 2025-05-14 09:19:40, Posição: X=86.46, Y=139.25, Z=0.4, E=654.33, Temperaturas: T:199.99/200.0, B:60.0/60.0
+2025-05-14 09:19:41,749 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:19:58,967 - INFO - Salvo M114: 2025-05-14 09:19:58, Posição: X=86.46, Y=135.85, Z=0.4, E=667.62, Temperaturas: T:200.01/200.0, B:60.01/60.0
+2025-05-14 09:20:00,024 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:20:17,129 - INFO - Salvo M114: 2025-05-14 09:20:17, Posição: X=86.46, Y=132.46, Z=0.4, E=680.9, Temperaturas: T:199.99/200.0, B:60.03/60.0
+2025-05-14 09:20:17,257 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:20:29,236 - INFO - Salvo M114: 2025-05-14 09:20:29, Posição: X=86.46, Y=130.2, Z=0.4, E=689.76, Temperaturas: T:200.01/200.0, B:59.98/60.0
+2025-05-14 09:20:29,398 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:20:41,371 - INFO - Salvo M114: 2025-05-14 09:20:41, Posição: X=86.46, Y=127.93, Z=0.4, E=698.62, Temperaturas: T:199.98/200.0, B:60.0/60.0
+2025-05-14 09:20:41,580 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:21:05,902 - ERROR - Erro ao verificar estado da impressora: HTTPConnectionPool(host='192.168.250.115', port=80): Max retries exceeded with url: /api/job (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f9c468559d0>, 'Connection to 192.168.250.115 timed out. (connect timeout=10)'))
+2025-05-14 09:21:06,057 - INFO - Salvo M114: 2025-05-14 09:21:06, Posição: X=86.46, Y=124.54, Z=0.4, E=711.91, Temperaturas: T:199.97/200.0, B:60.03/60.0
+2025-05-14 09:21:07,757 - ERROR - Erro ao verificar estado da impressora: HTTPConnectionPool(host='192.168.250.115', port=80): Max retries exceeded with url: /api/job (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f9c468566f0>, 'Connection to 192.168.250.115 timed out. (connect timeout=10)'))
+2025-05-14 09:21:07,758 - INFO - Impressora não está imprimindo. Estado: Unknown
+2025-05-14 09:21:07,813 - INFO - Nome do arquivo obtido via API: zd2c72~1
+2025-05-14 09:21:08,871 - INFO - Impressora está imprimindo! Estado: Printing from SD
+2025-05-14 09:21:08,930 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:21:08,965 - INFO - Comando M503 enviado com sucesso!
+2025-05-14 09:21:23,723 - INFO - Salvo M114: 2025-05-14 09:21:23, Posição: X=86.46, Y=120.01, Z=0.4, E=729.62, Temperaturas: T:200.02/200.0, B:59.99/60.0
+2025-05-14 09:21:24,206 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:21:30,262 - INFO - Aceleração: P=500.0, R=500.0, T=1000.0
+2025-05-14 09:21:30,263 - INFO - Jerk: X=10.0, Y=10.0
+2025-05-14 09:21:30,265 - INFO - Salvo M503: 2025-05-14 09:21:30, Accel P=500.0, R=500.0, T=1000.0, Jerk X=10.0, Y=10.0, Temperaturas: T:199.98/200.0, B:60.0/60.0
+2025-05-14 09:21:41,889 - INFO - Salvo M114: 2025-05-14 09:21:41, Posição: X=86.46, Y=116.62, Z=0.4, E=742.91, Temperaturas: T:200.01/200.0, B:60.01/60.0
+2025-05-14 09:21:42,443 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:21:54,452 - INFO - Salvo M114: 2025-05-14 09:21:54, Posição: X=86.46, Y=114.36, Z=0.4, E=751.77, Temperaturas: T:199.98/200.0, B:59.98/60.0
+2025-05-14 09:21:54,630 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:22:12,460 - INFO - Salvo M114: 2025-05-14 09:22:12, Posição: X=86.46, Y=110.96, Z=0.4, E=765.05, Temperaturas: T:199.99/200.0, B:60.03/60.0
+2025-05-14 09:22:12,840 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:22:30,463 - INFO - Salvo M114: 2025-05-14 09:22:30, Posição: X=86.46, Y=107.57, Z=0.4, E=778.27, Temperaturas: T:200.04/200.0, B:59.99/60.0
+2025-05-14 09:22:31,141 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:22:48,469 - INFO - Salvo M114: 2025-05-14 09:22:48, Posição: X=86.46, Y=104.18, Z=0.4, E=790.69, Temperaturas: T:199.99/200.0, B:59.99/60.0
+2025-05-14 09:22:49,358 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:23:05,905 - INFO - Salvo M114: 2025-05-14 09:23:05, Posição: X=86.46, Y=100.78, Z=0.4, E=802.16, Temperaturas: T:200.0/200.0, B:59.99/60.0
+2025-05-14 09:23:06,625 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:23:16,965 - INFO - Salvo M114: 2025-05-14 09:23:16, Posição: X=86.46, Y=98.52, Z=0.4, E=809.27, Temperaturas: T:200.0/200.0, B:60.03/60.0
+2025-05-14 09:23:17,811 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:23:32,108 - INFO - Salvo M114: 2025-05-14 09:23:32, Posição: X=86.46, Y=95.12, Z=0.4, E=819.15, Temperaturas: T:200.0/200.0, B:60.0/60.0
+2025-05-14 09:23:33,045 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:23:46,317 - INFO - Salvo M114: 2025-05-14 09:23:46, Posição: X=86.46, Y=91.73, Z=0.4, E=828.06, Temperaturas: T:200.0/200.0, B:59.98/60.0
+2025-05-14 09:23:47,248 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:23:58,764 - INFO - Salvo M114: 2025-05-14 09:23:58, Posição: X=86.46, Y=88.34, Z=0.4, E=836.02, Temperaturas: T:199.99/200.0, B:60.02/60.0
+2025-05-14 09:23:59,427 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:24:06,557 - INFO - Salvo M114: 2025-05-14 09:24:06, Posição: X=86.46, Y=86.07, Z=0.4, E=840.79, Temperaturas: T:200.03/200.0, B:59.99/60.0
+2025-05-14 09:24:07,611 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:24:17,082 - INFO - Salvo M114: 2025-05-14 09:24:17, Posição: X=86.46, Y=82.68, Z=0.4, E=847.15, Temperaturas: T:200.03/200.0, B:60.03/60.0
+2025-05-14 09:24:17,781 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:24:28,859 - INFO - Salvo M114: 2025-05-14 09:24:28, Posição: X=86.46, Y=79.29, Z=0.4, E=852.55, Temperaturas: T:200.03/200.0, B:60.0/60.0
+2025-05-14 09:24:29,911 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:24:36,667 - INFO - Salvo M114: 2025-05-14 09:24:36, Posição: X=86.46, Y=74.76, Z=0.4, E=858.26, Temperaturas: T:199.99/200.0, B:60.05/60.0
+2025-05-14 09:24:37,066 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:24:42,908 - INFO - Salvo M114: 2025-05-14 09:24:42, Posição: X=86.46, Y=71.37, Z=0.4, E=861.43, Temperaturas: T:200.01/200.0, B:59.98/60.0
+2025-05-14 09:24:43,167 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:24:46,489 - INFO - Salvo M114: 2025-05-14 09:24:46, Posição: X=86.46, Y=69.1, Z=0.4, E=863.01, Temperaturas: T:200.01/200.0, B:59.99/60.0
+2025-05-14 09:24:48,274 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:24:50,745 - INFO - Salvo M114: 2025-05-14 09:24:50, Posição: X=86.46, Y=65.71, Z=0.4, E=864.58, Temperaturas: T:200.03/200.0, B:59.98/60.0
+2025-05-14 09:24:53,373 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:24:54,783 - INFO - Salvo M114: 2025-05-14 09:24:54, Posição: X=77.09, Y=54.37, Z=0.6, E=858.7, Temperaturas: T:200.02/200.0, B:59.99/60.0
+2025-05-14 09:24:58,509 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:24:59,584 - INFO - Salvo M114: 2025-05-14 09:24:59, Posição: X=143.85, Y=164.08, Z=0.6, E=871.15, Temperaturas: T:200.01/200.0, B:59.99/60.0
+2025-05-14 09:25:03,616 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:25:05,359 - INFO - Salvo M114: 2025-05-14 09:25:05, Posição: X=81.65, Y=169.11, Z=0.6, E=873.29, Temperaturas: T:199.91/200.0, B:60.01/60.0
+2025-05-14 09:25:08,717 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:25:09,148 - INFO - Salvo M114: 2025-05-14 09:25:09, Posição: X=85.9, Y=61.0, Z=0.6, E=882.08, Temperaturas: T:199.96/200.0, B:59.99/60.0
+2025-05-14 09:25:13,826 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:25:15,692 - INFO - Salvo M114: 2025-05-14 09:25:15, Posição: X=86.26, Y=61.36, Z=0.6, E=901.58, Temperaturas: T:200.08/200.0, B:59.99/60.0
+2025-05-14 09:25:18,937 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:25:39,956 - INFO - Salvo M114: 2025-05-14 09:25:39, Posição: X=86.46, Y=157.17, Z=0.6, E=906.5, Temperaturas: T:199.97/200.0, B:60.0/60.0
+2025-05-14 09:25:40,201 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:25:52,700 - INFO - Salvo M114: 2025-05-14 09:25:52, Posição: X=86.46, Y=154.34, Z=0.6, E=907.0, Temperaturas: T:199.98/200.0, B:60.01/60.0
+2025-05-14 09:25:53,401 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:25:53,731 - INFO - Salvo M114: 2025-05-14 09:25:53, Posição: X=92.82, Y=158.44, Z=0.6, E=908.23, Temperaturas: T:199.98/200.0, B:60.01/60.0
+2025-05-14 09:25:58,468 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:26:01,583 - INFO - Salvo M114: 2025-05-14 09:26:01, Posição: X=103.0, Y=158.44, Z=0.6, E=918.17, Temperaturas: T:200.03/200.0, B:60.01/60.0
+2025-05-14 09:26:03,573 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:26:06,601 - INFO - Salvo M114: 2025-05-14 09:26:06, Posição: X=106.4, Y=158.44, Z=0.6, E=923.4, Temperaturas: T:200.07/200.0, B:59.99/60.0
+2025-05-14 09:26:08,667 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:26:12,831 - INFO - Salvo M114: 2025-05-14 09:26:12, Posição: X=109.79, Y=158.44, Z=0.6, E=929.58, Temperaturas: T:199.98/200.0, B:59.98/60.0
+2025-05-14 09:26:13,772 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:26:15,175 - INFO - Salvo M114: 2025-05-14 09:26:15, Posição: X=110.92, Y=158.44, Z=0.6, E=931.86, Temperaturas: T:199.96/200.0, B:60.01/60.0
+2025-05-14 09:26:18,879 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:26:20,508 - INFO - Salvo M114: 2025-05-14 09:26:20, Posição: X=113.18, Y=158.44, Z=0.6, E=936.72, Temperaturas: T:199.95/200.0, B:59.99/60.0
+2025-05-14 09:26:24,035 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:26:25,786 - INFO - Salvo M114: 2025-05-14 09:26:25, Posição: X=115.45, Y=158.44, Z=0.6, E=942.02, Temperaturas: T:199.99/200.0, B:60.0/60.0
+2025-05-14 09:26:29,142 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:26:31,883 - INFO - Salvo M114: 2025-05-14 09:26:31, Posição: X=117.71, Y=158.44, Z=0.6, E=947.74, Temperaturas: T:200.0/200.0, B:60.01/60.0
+2025-05-14 09:26:34,249 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:26:38,506 - INFO - Salvo M114: 2025-05-14 09:26:38, Posição: X=119.97, Y=158.44, Z=0.6, E=953.89, Temperaturas: T:199.94/200.0, B:60.0/60.0
+2025-05-14 09:26:39,363 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:26:45,594 - INFO - Salvo M114: 2025-05-14 09:26:45, Posição: X=122.24, Y=158.44, Z=0.6, E=960.46, Temperaturas: T:199.99/200.0, B:60.02/60.0
+2025-05-14 09:26:46,470 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:26:53,232 - INFO - Salvo M114: 2025-05-14 09:26:53, Posição: X=124.5, Y=158.44, Z=0.6, E=967.45, Temperaturas: T:199.99/200.0, B:60.0/60.0
+2025-05-14 09:26:53,572 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:27:01,785 - INFO - Salvo M114: 2025-05-14 09:27:01, Posição: X=126.76, Y=158.44, Z=0.6, E=974.88, Temperaturas: T:200.01/200.0, B:59.99/60.0
+2025-05-14 09:27:02,718 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:27:06,002 - INFO - Salvo M114: 2025-05-14 09:27:06, Posição: X=127.89, Y=158.44, Z=0.6, E=978.75, Temperaturas: T:200.01/200.0, B:60.0/60.0
+2025-05-14 09:27:08,325 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:27:15,008 - INFO - Salvo M114: 2025-05-14 09:27:15, Posição: X=130.15, Y=158.44, Z=0.6, E=986.81, Temperaturas: T:200.0/200.0, B:60.01/60.0
+2025-05-14 09:27:15,487 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:27:24,082 - INFO - Salvo M114: 2025-05-14 09:27:24, Posição: X=132.42, Y=158.44, Z=0.6, E=995.3, Temperaturas: T:200.07/200.0, B:59.99/60.0
+2025-05-14 09:27:24,593 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:27:33,959 - INFO - Salvo M114: 2025-05-14 09:27:33, Posição: X=133.54, Y=157.3, Z=0.6, E=1004.13, Temperaturas: T:199.98/200.0, B:59.99/60.0
+2025-05-14 09:27:34,748 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:27:39,129 - INFO - Salvo M114: 2025-05-14 09:27:39, Posição: X=133.54, Y=156.17, Z=0.6, E=1008.56, Temperaturas: T:199.93/200.0, B:60.0/60.0
+2025-05-14 09:27:39,863 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:27:55,022 - INFO - Salvo M114: 2025-05-14 09:27:55, Posição: X=133.54, Y=153.9, Z=0.6, E=1017.42, Temperaturas: T:200.04/200.0, B:60.0/60.0
+2025-05-14 09:27:56,098 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:28:11,689 - INFO - Salvo M114: 2025-05-14 09:28:11, Posição: X=133.54, Y=149.38, Z=0.6, E=1035.13, Temperaturas: T:199.99/200.0, B:60.01/60.0
+2025-05-14 09:28:12,291 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:28:28,513 - INFO - Salvo M114: 2025-05-14 09:28:28, Posição: X=133.54, Y=145.99, Z=0.6, E=1048.42, Temperaturas: T:200.01/200.0, B:60.01/60.0
+2025-05-14 09:28:28,827 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:28:39,016 - INFO - Salvo M114: 2025-05-14 09:28:39, Posição: X=133.54, Y=143.72, Z=0.6, E=1057.28, Temperaturas: T:199.98/200.0, B:59.99/60.0
+2025-05-14 09:28:40,029 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:28:55,356 - INFO - Salvo M114: 2025-05-14 09:28:55, Posição: X=133.54, Y=140.33, Z=0.6, E=1070.57, Temperaturas: T:199.98/200.0, B:60.02/60.0
+2025-05-14 09:28:56,233 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:29:11,728 - INFO - Salvo M114: 2025-05-14 09:29:11, Posição: X=133.54, Y=136.93, Z=0.6, E=1083.85, Temperaturas: T:199.98/200.0, B:60.02/60.0
+2025-05-14 09:29:12,541 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:29:28,510 - INFO - Salvo M114: 2025-05-14 09:29:28, Posição: X=133.54, Y=133.54, Z=0.6, E=1097.14, Temperaturas: T:199.99/200.0, B:60.0/60.0
+2025-05-14 09:29:28,772 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:29:44,749 - INFO - Salvo M114: 2025-05-14 09:29:44, Posição: X=133.54, Y=130.15, Z=0.6, E=1110.43, Temperaturas: T:199.98/200.0, B:60.0/60.0
+2025-05-14 09:29:45,030 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:29:55,398 - INFO - Salvo M114: 2025-05-14 09:29:55, Posição: X=133.54, Y=127.88, Z=0.6, E=1119.29, Temperaturas: T:200.0/200.0, B:60.0/60.0
+2025-05-14 09:29:56,197 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:30:11,774 - INFO - Salvo M114: 2025-05-14 09:30:11, Posição: X=133.54, Y=124.49, Z=0.6, E=1132.58, Temperaturas: T:199.99/200.0, B:60.0/60.0
+2025-05-14 09:30:12,430 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:30:28,528 - INFO - Salvo M114: 2025-05-14 09:30:28, Posição: X=133.54, Y=121.1, Z=0.6, E=1145.86, Temperaturas: T:200.0/200.0, B:60.0/60.0
+2025-05-14 09:30:28,688 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:30:44,787 - INFO - Salvo M114: 2025-05-14 09:30:44, Posição: X=133.54, Y=117.7, Z=0.6, E=1159.15, Temperaturas: T:199.99/200.0, B:60.0/60.0
+2025-05-14 09:30:44,892 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:30:55,442 - INFO - Salvo M114: 2025-05-14 09:30:55, Posição: X=133.54, Y=115.44, Z=0.6, E=1168.01, Temperaturas: T:200.02/200.0, B:60.0/60.0
+2025-05-14 09:30:56,097 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:31:06,627 - INFO - Salvo M114: 2025-05-14 09:31:06, Posição: X=133.54, Y=113.18, Z=0.6, E=1176.87, Temperaturas: T:199.99/200.0, B:59.99/60.0
+2025-05-14 09:31:07,242 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:31:23,005 - INFO - Salvo M114: 2025-05-14 09:31:23, Posição: X=133.54, Y=109.78, Z=0.6, E=1190.15, Temperaturas: T:199.96/200.0, B:60.0/60.0
+2025-05-14 09:31:23,469 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:31:39,108 - INFO - Salvo M114: 2025-05-14 09:31:39, Posição: X=133.54, Y=106.39, Z=0.6, E=1203.18, Temperaturas: T:199.99/200.0, B:60.0/60.0
+2025-05-14 09:31:39,734 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:31:55,393 - INFO - Salvo M114: 2025-05-14 09:31:55, Posição: X=133.54, Y=102.99, Z=0.6, E=1215.27, Temperaturas: T:199.99/200.0, B:59.98/60.0
+2025-05-14 09:31:55,977 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:32:05,691 - INFO - Salvo M114: 2025-05-14 09:32:05, Posição: X=133.54, Y=100.73, Z=0.6, E=1222.8, Temperaturas: T:200.03/200.0, B:60.0/60.0
+2025-05-14 09:32:06,174 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:32:15,627 - INFO - Salvo M114: 2025-05-14 09:32:15, Posição: X=133.54, Y=98.47, Z=0.6, E=1229.9, Temperaturas: T:199.99/200.0, B:59.99/60.0
+2025-05-14 09:32:15,995 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:32:25,039 - INFO - Salvo M114: 2025-05-14 09:32:25, Posição: X=133.54, Y=96.2, Z=0.6, E=1236.58, Temperaturas: T:200.01/200.0, B:60.0/60.0
+2025-05-14 09:32:25,098 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:32:33,998 - INFO - Salvo M114: 2025-05-14 09:32:33, Posição: X=133.54, Y=93.94, Z=0.6, E=1242.83, Temperaturas: T:199.99/200.0, B:60.0/60.0
+2025-05-14 09:32:34,255 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:32:45,865 - INFO - Salvo M114: 2025-05-14 09:32:45, Posição: X=133.54, Y=90.55, Z=0.6, E=1251.41, Temperaturas: T:200.03/200.0, B:60.01/60.0
+2025-05-14 09:32:46,467 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:32:57,036 - INFO - Salvo M114: 2025-05-14 09:32:57, Posição: X=133.54, Y=87.15, Z=0.6, E=1259.03, Temperaturas: T:200.01/200.0, B:59.99/60.0
+2025-05-14 09:32:57,629 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:33:15,970 - ERROR - Erro ao verificar estado da impressora: HTTPConnectionPool(host='192.168.250.115', port=80): Max retries exceeded with url: /api/job (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f9c46857aa0>, 'Connection to 192.168.250.115 timed out. (connect timeout=10)'))
+2025-05-14 09:33:16,097 - INFO - Salvo M114: 2025-05-14 09:33:16, Posição: X=133.54, Y=83.76, Z=0.6, E=1265.7, Temperaturas: T:199.99/200.0, B:60.01/60.0
+2025-05-14 09:33:16,900 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:33:23,162 - INFO - Salvo M114: 2025-05-14 09:33:23, Posição: X=133.54, Y=76.97, Z=0.6, E=1276.15, Temperaturas: T:199.99/200.0, B:60.0/60.0
+2025-05-14 09:33:24,050 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:33:29,580 - INFO - Salvo M114: 2025-05-14 09:33:29, Posição: X=133.54, Y=73.58, Z=0.6, E=1279.94, Temperaturas: T:199.99/200.0, B:59.99/60.0
+2025-05-14 09:33:30,156 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:33:33,216 - INFO - Salvo M114: 2025-05-14 09:33:33, Posição: X=133.54, Y=71.31, Z=0.6, E=1281.94, Temperaturas: T:199.99/200.0, B:60.01/60.0
+2025-05-14 09:33:35,265 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:33:38,949 - INFO - Salvo M114: 2025-05-14 09:33:38, Posição: X=133.54, Y=66.79, Z=0.6, E=1284.65, Temperaturas: T:200.01/200.0, B:60.01/60.0
+2025-05-14 09:33:40,383 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:33:42,887 - INFO - Salvo M114: 2025-05-14 09:33:42, Posição: X=133.54, Y=62.26, Z=0.6, E=1285.66, Temperaturas: T:200.03/200.0, B:60.01/60.0
+2025-05-14 09:33:45,481 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:34:02,258 - INFO - Salvo M114: 2025-05-14 09:34:02, Posição: X=132.32, Y=158.44, Z=0.8, E=1314.89, Temperaturas: T:199.94/200.0, B:60.0/60.0
+2025-05-14 09:34:02,744 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:34:20,225 - ERROR - Erro ao verificar estado da impressora: HTTPConnectionPool(host='192.168.250.115', port=80): Max retries exceeded with url: /api/job (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f9c46857fb0>, 'Connection to 192.168.250.115 timed out. (connect timeout=10)'))
+2025-05-14 09:34:23,707 - INFO - Salvo M114: 2025-05-14 09:34:23, Posição: X=128.93, Y=158.44, Z=0.8, E=1315.63, Temperaturas: T:200.01/200.0, B:59.99/60.0
+2025-05-14 09:34:24,459 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:34:26,741 - INFO - Salvo M114: 2025-05-14 09:34:26, Posição: X=120.44, Y=158.44, Z=0.8, E=1322.29, Temperaturas: T:199.96/200.0, B:60.0/60.0
+2025-05-14 09:34:30,808 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:34:35,185 - INFO - Salvo M114: 2025-05-14 09:34:35, Posição: X=113.65, Y=158.44, Z=0.8, E=1331.76, Temperaturas: T:200.0/200.0, B:60.0/60.0
+2025-05-14 09:34:35,927 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:34:41,435 - INFO - Salvo M114: 2025-05-14 09:34:41, Posição: X=110.26, Y=158.44, Z=0.8, E=1337.93, Temperaturas: T:199.98/200.0, B:60.0/60.0
+2025-05-14 09:34:42,027 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:34:46,534 - INFO - Salvo M114: 2025-05-14 09:34:46, Posição: X=108.0, Y=158.44, Z=0.8, E=1342.58, Temperaturas: T:199.96/200.0, B:60.0/60.0
+2025-05-14 09:34:47,137 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:34:54,531 - INFO - Salvo M114: 2025-05-14 09:34:54, Posição: X=104.6, Y=158.44, Z=0.8, E=1350.35, Temperaturas: T:200.0/200.0, B:59.99/60.0
+2025-05-14 09:34:55,305 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:35:03,659 - INFO - Salvo M114: 2025-05-14 09:35:03, Posição: X=101.21, Y=158.44, Z=0.8, E=1359.07, Temperaturas: T:200.0/200.0, B:60.01/60.0
+2025-05-14 09:35:04,455 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:35:14,589 - INFO - Salvo M114: 2025-05-14 09:35:14, Posição: X=97.82, Y=158.44, Z=0.8, E=1368.75, Temperaturas: T:200.01/200.0, B:59.99/60.0
+2025-05-14 09:35:15,644 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:35:25,748 - INFO - Salvo M114: 2025-05-14 09:35:25, Posição: X=94.42, Y=158.44, Z=0.8, E=1379.39, Temperaturas: T:199.98/200.0, B:59.99/60.0
+2025-05-14 09:35:25,807 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:35:34,489 - INFO - Salvo M114: 2025-05-14 09:35:34, Posição: X=92.16, Y=158.44, Z=0.8, E=1387.02, Temperaturas: T:200.03/200.0, B:59.98/60.0
+2025-05-14 09:35:34,959 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:35:47,844 - INFO - Salvo M114: 2025-05-14 09:35:47, Posição: X=88.76, Y=158.44, Z=0.8, E=1399.26, Temperaturas: T:199.97/200.0, B:59.99/60.0
+2025-05-14 09:35:48,177 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:35:57,567 - INFO - Salvo M114: 2025-05-14 09:35:57, Posição: X=86.5, Y=158.44, Z=0.8, E=1407.95, Temperaturas: T:200.03/200.0, B:59.99/60.0
+2025-05-14 09:35:58,363 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:36:13,048 - INFO - Salvo M114: 2025-05-14 09:36:13, Posição: X=86.46, Y=155.09, Z=0.8, E=1421.23, Temperaturas: T:200.02/200.0, B:60.0/60.0
+2025-05-14 09:36:13,590 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:36:29,213 - INFO - Salvo M114: 2025-05-14 09:36:29, Posição: X=86.46, Y=151.69, Z=0.8, E=1434.52, Temperaturas: T:200.01/200.0, B:59.99/60.0
+2025-05-14 09:36:29,882 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:36:45,581 - INFO - Salvo M114: 2025-05-14 09:36:45, Posição: X=86.46, Y=148.3, Z=0.8, E=1447.81, Temperaturas: T:199.99/200.0, B:60.01/60.0
+2025-05-14 09:36:46,179 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:36:56,742 - INFO - Salvo M114: 2025-05-14 09:36:56, Posição: X=86.46, Y=146.04, Z=0.8, E=1456.67, Temperaturas: T:200.0/200.0, B:59.99/60.0
+2025-05-14 09:36:57,362 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:37:13,052 - INFO - Salvo M114: 2025-05-14 09:37:13, Posição: X=86.46, Y=142.64, Z=0.8, E=1469.95, Temperaturas: T:200.01/200.0, B:59.99/60.0
+2025-05-14 09:37:13,581 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:37:29,242 - INFO - Salvo M114: 2025-05-14 09:37:29, Posição: X=86.46, Y=139.25, Z=0.8, E=1483.24, Temperaturas: T:200.03/200.0, B:60.01/60.0
+2025-05-14 09:37:29,813 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:37:45,614 - INFO - Salvo M114: 2025-05-14 09:37:45, Posição: X=86.46, Y=135.85, Z=0.8, E=1496.53, Temperaturas: T:199.99/200.0, B:60.01/60.0
+2025-05-14 09:37:46,075 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:37:56,800 - INFO - Salvo M114: 2025-05-14 09:37:56, Posição: X=86.46, Y=133.59, Z=0.8, E=1505.38, Temperaturas: T:200.01/200.0, B:60.01/60.0
+2025-05-14 09:37:57,561 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:38:13,050 - INFO - Salvo M114: 2025-05-14 09:38:13, Posição: X=86.46, Y=130.2, Z=0.8, E=1518.67, Temperaturas: T:200.01/200.0, B:60.0/60.0
+2025-05-14 09:38:13,745 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:38:29,280 - INFO - Salvo M114: 2025-05-14 09:38:29, Posição: X=86.46, Y=126.8, Z=0.8, E=1531.96, Temperaturas: T:199.96/200.0, B:60.0/60.0
+2025-05-14 09:38:29,942 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:38:45,652 - INFO - Salvo M114: 2025-05-14 09:38:45, Posição: X=86.46, Y=123.41, Z=0.8, E=1545.24, Temperaturas: T:200.01/200.0, B:60.01/60.0
+2025-05-14 09:38:46,207 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:38:56,837 - INFO - Salvo M114: 2025-05-14 09:38:56, Posição: X=86.46, Y=121.15, Z=0.8, E=1554.1, Temperaturas: T:200.01/200.0, B:59.99/60.0
+2025-05-14 09:38:57,363 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:39:13,052 - INFO - Salvo M114: 2025-05-14 09:39:13, Posição: X=86.46, Y=117.75, Z=0.8, E=1567.39, Temperaturas: T:200.03/200.0, B:59.98/60.0
+2025-05-14 09:39:13,645 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:39:29,324 - INFO - Salvo M114: 2025-05-14 09:39:29, Posição: X=86.46, Y=114.36, Z=0.8, E=1580.68, Temperaturas: T:200.02/200.0, B:60.01/60.0
+2025-05-14 09:39:29,879 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:39:45,700 - INFO - Salvo M114: 2025-05-14 09:39:45, Posição: X=86.46, Y=110.96, Z=0.8, E=1593.96, Temperaturas: T:200.02/200.0, B:60.0/60.0
+2025-05-14 09:39:46,136 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:39:56,895 - INFO - Salvo M114: 2025-05-14 09:39:56, Posição: X=86.46, Y=108.7, Z=0.8, E=1602.82, Temperaturas: T:200.03/200.0, B:60.0/60.0
+2025-05-14 09:39:57,281 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:40:13,054 - INFO - Salvo M114: 2025-05-14 09:40:13, Posição: X=86.46, Y=105.31, Z=0.8, E=1615.57, Temperaturas: T:199.97/200.0, B:60.0/60.0
+2025-05-14 09:40:13,512 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:40:23,817 - INFO - Salvo M114: 2025-05-14 09:40:23, Posição: X=86.46, Y=103.04, Z=0.8, E=1623.53, Temperaturas: T:199.99/200.0, B:60.0/60.0
+2025-05-14 09:40:24,722 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:40:39,171 - INFO - Salvo M114: 2025-05-14 09:40:39, Posição: X=86.46, Y=99.65, Z=0.8, E=1634.68, Temperaturas: T:200.03/200.0, B:60.01/60.0
+2025-05-14 09:40:39,932 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:40:53,542 - INFO - Salvo M114: 2025-05-14 09:40:53, Posição: X=86.46, Y=96.26, Z=0.8, E=1644.87, Temperaturas: T:199.99/200.0, B:59.98/60.0
+2025-05-14 09:40:54,117 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:41:06,568 - INFO - Salvo M114: 2025-05-14 09:41:06, Posição: X=86.46, Y=92.86, Z=0.8, E=1654.1, Temperaturas: T:200.0/200.0, B:60.01/60.0
+2025-05-14 09:41:07,324 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:41:18,604 - INFO - Salvo M114: 2025-05-14 09:41:18, Posição: X=86.46, Y=89.47, Z=0.8, E=1662.38, Temperaturas: T:200.02/200.0, B:60.0/60.0
+2025-05-14 09:41:19,496 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:41:35,395 - ERROR - Erro ao verificar estado da impressora: HTTPConnectionPool(host='192.168.250.115', port=80): Max retries exceeded with url: /api/job (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f9c46854bf0>, 'Connection to 192.168.250.115 timed out. (connect timeout=10)'))
+2025-05-14 09:41:36,985 - INFO - Salvo M114: 2025-05-14 09:41:36, Posição: X=86.46, Y=86.07, Z=0.8, E=1669.7, Temperaturas: T:200.0/200.0, B:60.02/60.0
+2025-05-14 09:41:37,971 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:41:44,530 - INFO - Salvo M114: 2025-05-14 09:41:44, Posição: X=86.46, Y=80.42, Z=0.8, E=1679.76, Temperaturas: T:200.0/200.0, B:60.0/60.0
+2025-05-14 09:41:45,079 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:41:51,740 - INFO - Salvo M114: 2025-05-14 09:41:51, Posição: X=86.46, Y=77.02, Z=0.8, E=1684.53, Temperaturas: T:200.0/200.0, B:59.98/60.0
+2025-05-14 09:41:52,267 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:41:58,554 - INFO - Salvo M114: 2025-05-14 09:41:58, Posição: X=86.46, Y=73.63, Z=0.8, E=1688.33, Temperaturas: T:200.03/200.0, B:60.01/60.0
+2025-05-14 09:41:59,380 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:42:03,450 - INFO - Salvo M114: 2025-05-14 09:42:03, Posição: X=86.46, Y=70.24, Z=0.8, E=1691.18, Temperaturas: T:200.03/200.0, B:59.99/60.0
+2025-05-14 09:42:04,534 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:42:07,565 - INFO - Salvo M114: 2025-05-14 09:42:07, Posição: X=86.46, Y=66.84, Z=0.8, E=1693.07, Temperaturas: T:199.98/200.0, B:59.99/60.0
+2025-05-14 09:42:09,654 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:42:11,256 - INFO - Salvo M114: 2025-05-14 09:42:11, Posição: X=86.46, Y=62.31, Z=0.8, E=1694.1, Temperaturas: T:200.0/200.0, B:60.0/60.0
+2025-05-14 09:42:14,764 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:42:38,971 - INFO - Salvo M114: 2025-05-14 09:42:38, Posição: X=133.47, Y=146.89, Z=1.0, E=1713.84, Temperaturas: T:199.94/200.0, B:60.0/60.0
+2025-05-14 09:42:39,160 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:42:39,479 - INFO - Salvo M114: 2025-05-14 09:42:39, Posição: X=133.1, Y=135.45, Z=1.0, E=1714.04, Temperaturas: T:199.94/200.0, B:60.0/60.0
+2025-05-14 09:42:44,267 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:42:44,877 - INFO - Salvo M114: 2025-05-14 09:42:44, Posição: X=131.41, Y=113.18, Z=1.0, E=1717.32, Temperaturas: T:199.99/200.0, B:60.0/60.0
+2025-05-14 09:42:49,395 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:42:49,953 - INFO - Salvo M114: 2025-05-14 09:42:49, Posição: X=124.74, Y=61.4, Z=1.0, E=1723.54, Temperaturas: T:200.01/200.0, B:60.01/60.0
+2025-05-14 09:42:54,487 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:42:54,922 - INFO - Salvo M114: 2025-05-14 09:42:54, Posição: X=116.61, Y=123.41, Z=1.0, E=1729.35, Temperaturas: T:200.03/200.0, B:60.0/60.0
+2025-05-14 09:42:59,669 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:43:00,212 - INFO - Salvo M114: 2025-05-14 09:43:00, Posição: X=110.4, Y=140.27, Z=1.0, E=1735.49, Temperaturas: T:199.99/200.0, B:60.0/60.0
+2025-05-14 09:43:05,784 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:43:06,314 - INFO - Salvo M114: 2025-05-14 09:43:06, Posição: X=100.11, Y=107.76, Z=1.0, E=1742.59, Temperaturas: T:199.99/200.0, B:60.0/60.0
+2025-05-14 09:43:09,954 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:43:10,445 - INFO - Salvo M114: 2025-05-14 09:43:10, Posição: X=97.35, Y=94.51, Z=1.0, E=1747.6, Temperaturas: T:200.02/200.0, B:60.01/60.0
+2025-05-14 09:43:15,061 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:43:15,448 - INFO - Salvo M114: 2025-05-14 09:43:15, Posição: X=88.44, Y=150.5, Z=1.0, E=1753.51, Temperaturas: T:200.02/200.0, B:60.01/60.0
+2025-05-14 09:43:20,171 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:43:31,389 - INFO - Salvo M114: 2025-05-14 09:43:31, Posição: X=132.6, Y=154.11, Z=1.2, E=1775.73, Temperaturas: T:200.03/200.0, B:60.0/60.0
+2025-05-14 09:43:32,337 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:43:48,406 - ERROR - Erro ao verificar estado da impressora: HTTPConnectionPool(host='192.168.250.115', port=80): Max retries exceeded with url: /api/job (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f9c46855a00>, 'Connection to 192.168.250.115 timed out. (connect timeout=10)'))
+2025-05-14 09:43:48,408 - INFO - Impressora não está imprimindo. Estado: Unknown
+2025-05-14 09:43:48,472 - INFO - Nome do arquivo obtido via API: zd2c72~1
+2025-05-14 09:43:49,325 - ERROR - Erro ao verificar estado da impressora: HTTPConnectionPool(host='192.168.250.115', port=80): Max retries exceeded with url: /api/job (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f9c46856660>, 'Connection to 192.168.250.115 timed out. (connect timeout=10)'))
+2025-05-14 09:43:49,546 - INFO - Impressora está imprimindo! Estado: Printing from SD
+2025-05-14 09:43:49,621 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:43:49,695 - INFO - Comando M503 enviado com sucesso!
+2025-05-14 09:43:49,744 - INFO - Salvo M114: 2025-05-14 09:43:49, Posição: X=133.8, Y=143.93, Z=1.2, E=1775.95, Temperaturas: T:200.01/200.0, B:60.0/60.0
+2025-05-14 09:43:50,103 - INFO - Aceleração: P=500.0, R=500.0, T=1000.0
+2025-05-14 09:43:50,105 - INFO - Jerk: X=10.0, Y=10.0
+2025-05-14 09:43:50,108 - INFO - Salvo M503: 2025-05-14 09:43:50, Accel P=500.0, R=500.0, T=1000.0, Jerk X=10.0, Y=10.0, Temperaturas: T:200.0/200.0, B:59.99/60.0
+2025-05-14 09:43:55,002 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:43:55,477 - INFO - Salvo M114: 2025-05-14 09:43:55, Posição: X=124.17, Y=118.59, Z=1.2, E=1784.11, Temperaturas: T:199.97/200.0, B:60.0/60.0
+2025-05-14 09:44:00,128 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:44:00,541 - INFO - Salvo M114: 2025-05-14 09:44:00, Posição: X=119.35, Y=117.39, Z=1.2, E=1789.7, Temperaturas: T:200.0/200.0, B:60.01/60.0
+2025-05-14 09:44:05,230 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:44:05,505 - INFO - Salvo M114: 2025-05-14 09:44:05, Posição: X=114.54, Y=80.07, Z=1.2, E=1795.61, Temperaturas: T:199.98/200.0, B:60.0/60.0
+2025-05-14 09:44:10,347 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:44:10,574 - INFO - Salvo M114: 2025-05-14 09:44:10, Posição: X=110.37, Y=155.32, Z=1.2, E=1801.17, Temperaturas: T:199.94/200.0, B:60.0/60.0
+2025-05-14 09:44:15,453 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:44:16,041 - INFO - Salvo M114: 2025-05-14 09:44:16, Posição: X=100.45, Y=72.84, Z=1.2, E=1806.73, Temperaturas: T:199.93/200.0, B:60.02/60.0
+2025-05-14 09:44:20,572 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:44:21,134 - INFO - Salvo M114: 2025-05-14 09:44:21, Posição: X=95.64, Y=124.61, Z=1.2, E=1812.64, Temperaturas: T:200.0/200.0, B:60.0/60.0
+2025-05-14 09:44:25,669 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:44:26,041 - INFO - Salvo M114: 2025-05-14 09:44:26, Posição: X=89.25, Y=110.77, Z=1.2, E=1818.17, Temperaturas: T:200.02/200.0, B:59.99/60.0
+2025-05-14 09:44:30,796 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:44:31,357 - INFO - Salvo M114: 2025-05-14 09:44:31, Posição: X=88.45, Y=93.31, Z=1.2, E=1822.53, Temperaturas: T:199.99/200.0, B:60.0/60.0
+2025-05-14 09:44:35,904 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:44:58,683 - INFO - Salvo M114: 2025-05-14 09:44:58, Posição: X=127.02, Y=158.28, Z=1.4, E=1843.46, Temperaturas: T:199.99/200.0, B:60.01/60.0
+2025-05-14 09:44:59,232 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:44:59,698 - INFO - Salvo M114: 2025-05-14 09:44:59, Posição: X=108.96, Y=156.9, Z=1.4, E=1844.23, Temperaturas: T:199.99/200.0, B:60.01/60.0
+2025-05-14 09:45:04,345 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:45:04,580 - INFO - Salvo M114: 2025-05-14 09:45:04, Posição: X=95.72, Y=143.69, Z=1.4, E=1849.83, Temperaturas: T:200.02/200.0, B:59.99/60.0
+2025-05-14 09:45:09,463 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:45:10,080 - INFO - Salvo M114: 2025-05-14 09:45:10, Posição: X=130.63, Y=131.41, Z=1.4, E=1855.52, Temperaturas: T:199.97/200.0, B:60.01/60.0
+2025-05-14 09:45:14,575 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:45:15,047 - INFO - Salvo M114: 2025-05-14 09:45:15, Posição: X=107.76, Y=119.75, Z=1.4, E=1861.02, Temperaturas: T:199.95/200.0, B:60.0/60.0
+2025-05-14 09:45:19,688 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:45:20,248 - INFO - Salvo M114: 2025-05-14 09:45:20, Posição: X=95.72, Y=105.16, Z=1.4, E=1866.55, Temperaturas: T:199.97/200.0, B:60.01/60.0
+2025-05-14 09:45:24,794 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:45:25,090 - INFO - Salvo M114: 2025-05-14 09:45:25, Posição: X=130.03, Y=92.53, Z=1.4, E=1872.22, Temperaturas: T:199.99/200.0, B:59.99/60.0
+2025-05-14 09:45:29,905 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:45:30,102 - INFO - Salvo M114: 2025-05-14 09:45:30, Posição: X=108.96, Y=79.84, Z=1.4, E=1877.68, Temperaturas: T:199.98/200.0, B:60.0/60.0
+2025-05-14 09:45:35,035 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:45:35,596 - INFO - Salvo M114: 2025-05-14 09:45:35, Posição: X=98.13, Y=64.64, Z=1.4, E=1883.38, Temperaturas: T:199.98/200.0, B:60.0/60.0
+2025-05-14 09:45:40,183 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:45:58,587 - INFO - Salvo M114: 2025-05-14 09:45:58, Posição: X=128.23, Y=156.67, Z=1.6, E=1905.41, Temperaturas: T:200.03/200.0, B:60.0/60.0
+2025-05-14 09:45:59,437 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:46:05,157 - INFO - Salvo M114: 2025-05-14 09:46:05, Posição: X=121.0, Y=155.03, Z=1.6, E=1905.71, Temperaturas: T:200.02/200.0, B:60.0/60.0
+2025-05-14 09:46:05,564 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:46:06,123 - INFO - Salvo M114: 2025-05-14 09:46:06, Posição: X=86.69, Y=157.84, Z=1.6, E=1907.12, Temperaturas: T:200.02/200.0, B:60.0/60.0
+2025-05-14 09:46:10,669 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:46:11,097 - INFO - Salvo M114: 2025-05-14 09:46:11, Posição: X=133.04, Y=143.5, Z=1.6, E=1913.06, Temperaturas: T:199.99/200.0, B:60.01/60.0
+2025-05-14 09:46:15,778 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:46:16,193 - INFO - Salvo M114: 2025-05-14 09:46:16, Posição: X=89.7, Y=127.77, Z=1.6, E=1918.9, Temperaturas: T:200.0/200.0, B:60.0/60.0
+2025-05-14 09:46:20,889 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:46:21,191 - INFO - Salvo M114: 2025-05-14 09:46:21, Posição: X=129.43, Y=111.69, Z=1.6, E=1924.8, Temperaturas: T:199.97/200.0, B:59.99/60.0
+2025-05-14 09:46:26,008 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:46:26,166 - INFO - Salvo M114: 2025-05-14 09:46:26, Posição: X=92.71, Y=97.18, Z=1.6, E=1930.67, Temperaturas: T:199.97/200.0, B:59.99/60.0
+2025-05-14 09:46:31,161 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:46:31,640 - INFO - Salvo M114: 2025-05-14 09:46:31, Posição: X=128.83, Y=82.73, Z=1.6, E=1936.67, Temperaturas: T:199.97/200.0, B:59.99/60.0
+2025-05-14 09:46:36,280 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:46:36,658 - INFO - Salvo M114: 2025-05-14 09:46:36, Posição: X=92.71, Y=68.28, Z=1.6, E=1942.56, Temperaturas: T:200.0/200.0, B:60.01/60.0
+2025-05-14 09:46:41,378 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:46:53,997 - INFO - Salvo M114: 2025-05-14 09:46:53, Posição: X=129.43, Y=155.49, Z=1.8, E=1965.15, Temperaturas: T:200.02/200.0, B:59.99/60.0
+2025-05-14 09:46:54,589 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:47:06,475 - INFO - Salvo M114: 2025-05-14 09:47:06, Posição: X=122.21, Y=155.36, Z=1.8, E=1965.45, Temperaturas: T:199.99/200.0, B:60.0/60.0
+2025-05-14 09:47:06,755 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:47:06,982 - INFO - Salvo M114: 2025-05-14 09:47:06, Posição: X=96.92, Y=157.9, Z=1.8, E=1966.45, Temperaturas: T:199.99/200.0, B:60.0/60.0
+2025-05-14 09:47:11,867 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:47:12,223 - INFO - Salvo M114: 2025-05-14 09:47:12, Posição: X=133.8, Y=138.14, Z=1.8, E=1972.63, Temperaturas: T:199.98/200.0, B:60.03/60.0
+2025-05-14 09:47:16,981 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:47:17,716 - INFO - Salvo M114: 2025-05-14 09:47:17, Posição: X=95.72, Y=124.19, Z=1.8, E=1978.76, Temperaturas: T:199.95/200.0, B:60.02/60.0
+2025-05-14 09:47:22,094 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:47:22,705 - INFO - Salvo M114: 2025-05-14 09:47:22, Posição: X=116.79, Y=109.73, Z=1.8, E=1984.82, Temperaturas: T:199.96/200.0, B:60.0/60.0
+2025-05-14 09:47:27,225 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:47:27,694 - INFO - Salvo M114: 2025-05-14 09:47:27, Posição: X=116.19, Y=94.94, Z=1.8, E=1991.06, Temperaturas: T:199.96/200.0, B:60.0/60.0
+2025-05-14 09:47:32,325 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:47:32,722 - INFO - Salvo M114: 2025-05-14 09:47:32, Posição: X=92.11, Y=78.08, Z=1.8, E=1997.29, Temperaturas: T:200.0/200.0, B:60.0/60.0
+2025-05-14 09:47:37,434 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:47:37,703 - INFO - Salvo M114: 2025-05-14 09:47:37, Posição: X=124.38, Y=61.3, Z=1.8, E=2003.38, Temperaturas: T:199.99/200.0, B:60.01/60.0
+2025-05-14 09:47:42,546 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:48:04,924 - INFO - Salvo M114: 2025-05-14 09:48:04, Posição: X=127.02, Y=157.46, Z=2.0, E=2023.65, Temperaturas: T:199.96/200.0, B:60.0/60.0
+2025-05-14 09:48:05,950 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:48:06,510 - INFO - Salvo M114: 2025-05-14 09:48:06, Posição: X=86.09, Y=157.57, Z=2.0, E=2025.23, Temperaturas: T:199.96/200.0, B:60.0/60.0
+2025-05-14 09:48:11,065 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:48:11,289 - INFO - Salvo M114: 2025-05-14 09:48:11, Posição: X=116.79, Y=138.46, Z=2.0, E=2031.54, Temperaturas: T:199.95/200.0, B:60.0/60.0
+2025-05-14 09:48:16,197 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:48:16,756 - INFO - Salvo M114: 2025-05-14 09:48:16, Posição: X=131.84, Y=122.59, Z=2.0, E=2038.26, Temperaturas: T:199.97/200.0, B:60.0/60.0
+2025-05-14 09:48:21,312 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:48:21,749 - INFO - Salvo M114: 2025-05-14 09:48:21, Posição: X=99.33, Y=102.6, Z=2.0, E=2044.5, Temperaturas: T:199.94/200.0, B:59.99/60.0
+2025-05-14 09:48:26,406 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:48:26,833 - INFO - Salvo M114: 2025-05-14 09:48:26, Posição: X=95.72, Y=90.15, Z=2.0, E=2051.09, Temperaturas: T:199.95/200.0, B:59.99/60.0
+2025-05-14 09:48:31,518 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:48:31,782 - INFO - Salvo M114: 2025-05-14 09:48:31, Posição: X=124.01, Y=70.56, Z=2.0, E=2057.48, Temperaturas: T:199.99/200.0, B:59.99/60.0
+2025-05-14 09:48:36,637 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:48:47,709 - INFO - Salvo M114: 2025-05-14 09:48:47, Posição: X=130.63, Y=155.31, Z=2.2, E=2081.01, Temperaturas: T:200.07/200.0, B:59.99/60.0
+2025-05-14 09:48:47,809 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:49:01,765 - INFO - Salvo M114: 2025-05-14 09:49:01, Posição: X=125.82, Y=157.73, Z=2.2, E=2081.2, Temperaturas: T:200.0/200.0, B:60.02/60.0
+2025-05-14 09:49:02,054 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:49:02,271 - INFO - Salvo M114: 2025-05-14 09:49:02, Posição: X=110.77, Y=155.31, Z=2.2, E=2081.77, Temperaturas: T:199.97/200.0, B:60.0/60.0
+2025-05-14 09:49:07,218 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:49:07,772 - INFO - Salvo M114: 2025-05-14 09:49:07, Posição: X=124.61, Y=138.35, Z=2.2, E=2088.64, Temperaturas: T:199.99/200.0, B:59.99/60.0
+2025-05-14 09:49:12,381 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:49:12,873 - INFO - Salvo M114: 2025-05-14 09:49:12, Posição: X=124.61, Y=124.02, Z=2.2, E=2095.31, Temperaturas: T:199.93/200.0, B:60.0/60.0
+2025-05-14 09:49:17,485 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:49:17,846 - INFO - Salvo M114: 2025-05-14 09:49:17, Posição: X=100.53, Y=102.33, Z=2.2, E=2101.78, Temperaturas: T:199.95/200.0, B:59.99/60.0
+2025-05-14 09:49:22,590 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:49:22,870 - INFO - Salvo M114: 2025-05-14 09:49:22, Posição: X=85.98, Y=90.14, Z=2.2, E=2108.62, Temperaturas: T:199.94/200.0, B:60.0/60.0
+2025-05-14 09:49:27,684 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:49:27,838 - INFO - Salvo M114: 2025-05-14 09:49:27, Posição: X=110.17, Y=68.74, Z=2.2, E=2115.09, Temperaturas: T:200.01/200.0, B:60.01/60.0
+2025-05-14 09:49:32,798 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:49:45,338 - INFO - Salvo M114: 2025-05-14 09:49:45, Posição: X=128.83, Y=155.58, Z=2.4, E=2138.07, Temperaturas: T:200.12/200.0, B:60.01/60.0
+2025-05-14 09:49:45,953 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:49:57,804 - INFO - Salvo M114: 2025-05-14 09:49:57, Posição: X=123.41, Y=157.07, Z=2.4, E=2138.28, Temperaturas: T:199.97/200.0, B:60.0/60.0
+2025-05-14 09:49:58,202 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:49:58,829 - INFO - Salvo M114: 2025-05-14 09:49:58, Posição: X=86.09, Y=157.66, Z=2.4, E=2139.71, Temperaturas: T:199.92/200.0, B:59.99/60.0
+2025-05-14 09:50:03,318 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:50:03,939 - INFO - Salvo M114: 2025-05-14 09:50:03, Posição: X=104.75, Y=138.19, Z=2.4, E=2146.36, Temperaturas: T:199.96/200.0, B:60.0/60.0
+2025-05-14 09:50:08,462 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:50:08,901 - INFO - Salvo M114: 2025-05-14 09:50:08, Posição: X=121.6, Y=117.04, Z=2.4, E=2153.1, Temperaturas: T:199.96/200.0, B:60.0/60.0
+2025-05-14 09:50:17,807 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:50:17,934 - INFO - Salvo M114: 2025-05-14 09:50:17, Posição: X=89.7, Y=88.54, Z=2.4, E=2165.36, Temperaturas: T:199.92/200.0, B:60.01/60.0
+2025-05-14 09:50:22,958 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:50:23,439 - INFO - Salvo M114: 2025-05-14 09:50:23, Posição: X=109.56, Y=68.89, Z=2.4, E=2171.97, Temperaturas: T:199.98/200.0, B:60.01/60.0
+2025-05-14 09:50:32,758 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:50:52,875 - INFO - Salvo M114: 2025-05-14 09:50:52, Posição: X=125.82, Y=157.62, Z=2.6, E=2195.04, Temperaturas: T:199.94/200.0, B:60.0/60.0
+2025-05-14 09:50:53,032 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:50:53,392 - INFO - Salvo M114: 2025-05-14 09:50:53, Posição: X=114.98, Y=157.72, Z=2.6, E=2195.45, Temperaturas: T:199.94/200.0, B:60.0/60.0
+2025-05-14 09:50:58,135 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:50:58,470 - INFO - Salvo M114: 2025-05-14 09:50:58, Posição: X=131.24, Y=136.42, Z=2.6, E=2202.23, Temperaturas: T:200.01/200.0, B:60.0/60.0
+2025-05-14 09:51:03,252 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:51:03,459 - INFO - Salvo M114: 2025-05-14 09:51:03, Posição: X=114.98, Y=123.9, Z=2.6, E=2208.78, Temperaturas: T:200.0/200.0, B:60.01/60.0
+2025-05-14 09:51:08,377 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:51:08,958 - INFO - Salvo M114: 2025-05-14 09:51:08, Posição: X=95.72, Y=104.64, Z=2.6, E=2215.43, Temperaturas: T:199.91/200.0, B:60.02/60.0
+2025-05-14 09:51:13,515 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:51:13,985 - INFO - Salvo M114: 2025-05-14 09:51:13, Posição: X=93.91, Y=89.29, Z=2.6, E=2222.15, Temperaturas: T:199.96/200.0, B:60.0/60.0
+2025-05-14 09:51:18,618 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:51:18,976 - INFO - Salvo M114: 2025-05-14 09:51:18, Posição: X=117.99, Y=69.64, Z=2.6, E=2228.62, Temperaturas: T:200.02/200.0, B:59.99/60.0
+2025-05-14 09:51:23,724 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:51:34,731 - INFO - Salvo M114: 2025-05-14 09:51:34, Posição: X=130.63, Y=155.46, Z=2.8, E=2251.85, Temperaturas: T:200.08/200.0, B:59.99/60.0
+2025-05-14 09:51:39,076 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:51:49,274 - INFO - Salvo M114: 2025-05-14 09:51:49, Posição: X=123.41, Y=157.44, Z=2.8, E=2252.12, Temperaturas: T:199.91/200.0, B:60.0/60.0
+2025-05-14 09:51:53,454 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:51:54,035 - INFO - Salvo M114: 2025-05-14 09:51:54, Posição: X=106.55, Y=143.35, Z=2.8, E=2258.12, Temperaturas: T:199.97/200.0, B:59.99/60.0
+2025-05-14 09:51:55,591 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:51:56,091 - INFO - Salvo M114: 2025-05-14 09:51:56, Posição: X=86.09, Y=138.54, Z=2.8, E=2261.06, Temperaturas: T:200.04/200.0, B:60.01/60.0
+2025-05-14 09:52:00,689 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:52:01,051 - INFO - Salvo M114: 2025-05-14 09:52:01, Posição: X=116.79, Y=118.73, Z=2.8, E=2267.35, Temperaturas: T:199.98/200.0, B:60.0/60.0
+2025-05-14 09:52:05,796 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:52:06,039 - INFO - Salvo M114: 2025-05-14 09:52:06, Posição: X=130.63, Y=102.26, Z=2.8, E=2274.02, Temperaturas: T:199.94/200.0, B:60.01/60.0
+2025-05-14 09:52:10,905 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:52:11,529 - INFO - Salvo M114: 2025-05-14 09:52:11, Posição: X=99.33, Y=84.05, Z=2.8, E=2280.29, Temperaturas: T:199.96/200.0, B:59.99/60.0
+2025-05-14 09:52:16,031 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:52:16,499 - INFO - Salvo M114: 2025-05-14 09:52:16, Posição: X=92.71, Y=69.09, Z=2.8, E=2287.0, Temperaturas: T:200.03/200.0, B:60.0/60.0
+2025-05-14 09:52:22,384 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:52:45,532 - INFO - Salvo M114: 2025-05-14 09:52:45, Posição: X=127.02, Y=156.58, Z=3.0, E=2309.45, Temperaturas: T:199.94/200.0, B:59.99/60.0
+2025-05-14 09:52:45,653 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:52:46,025 - INFO - Salvo M114: 2025-05-14 09:52:46, Posição: X=119.2, Y=155.17, Z=3.0, E=2309.76, Temperaturas: T:199.94/200.0, B:59.99/60.0
+2025-05-14 09:52:50,768 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:52:51,090 - INFO - Salvo M114: 2025-05-14 09:52:51, Posição: X=114.38, Y=142.72, Z=3.0, E=2316.03, Temperaturas: T:200.01/200.0, B:59.99/60.0
+2025-05-14 09:52:55,878 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:52:56,091 - INFO - Salvo M114: 2025-05-14 09:52:56, Posição: X=92.11, Y=126.59, Z=3.0, E=2322.31, Temperaturas: T:200.04/200.0, B:60.01/60.0
+2025-05-14 09:53:00,994 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:53:01,589 - INFO - Salvo M114: 2025-05-14 09:53:01, Posição: X=128.83, Y=107.01, Z=3.0, E=2328.49, Temperaturas: T:199.94/200.0, B:60.0/60.0
+2025-05-14 09:53:06,138 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:53:06,610 - INFO - Salvo M114: 2025-05-14 09:53:06, Posição: X=99.93, Y=93.27, Z=3.0, E=2334.57, Temperaturas: T:199.96/200.0, B:60.0/60.0
+2025-05-14 09:53:11,219 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:53:11,597 - INFO - Salvo M114: 2025-05-14 09:53:11, Posição: X=107.76, Y=79.52, Z=3.0, E=2340.8, Temperaturas: T:200.02/200.0, B:60.02/60.0
+2025-05-14 09:53:16,323 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:53:16,587 - INFO - Salvo M114: 2025-05-14 09:53:16, Posição: X=125.22, Y=66.28, Z=3.0, E=2347.04, Temperaturas: T:200.07/200.0, B:60.01/60.0
+2025-05-14 09:53:21,435 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:53:44,642 - INFO - Salvo M114: 2025-05-14 09:53:44, Posição: X=127.02, Y=156.39, Z=3.2, E=2367.77, Temperaturas: T:199.91/200.0, B:60.01/60.0
+2025-05-14 09:53:44,736 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:53:45,160 - INFO - Salvo M114: 2025-05-14 09:53:45, Posição: X=115.58, Y=157.83, Z=3.2, E=2368.24, Temperaturas: T:199.91/200.0, B:60.01/60.0
+2025-05-14 09:53:49,835 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:53:50,135 - INFO - Salvo M114: 2025-05-14 09:53:50, Posição: X=104.15, Y=141.94, Z=3.2, E=2374.15, Temperaturas: T:200.01/200.0, B:60.0/60.0
+2025-05-14 09:53:54,940 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:53:55,116 - INFO - Salvo M114: 2025-05-14 09:53:55, Posição: X=116.19, Y=128.65, Z=3.2, E=2380.07, Temperaturas: T:200.02/200.0, B:60.01/60.0
+2025-05-14 09:54:00,068 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:54:05,587 - ERROR - Erro ao verificar estado da impressora: HTTPConnectionPool(host='192.168.250.115', port=80): Max retries exceeded with url: /api/job (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f9c46a84a10>, 'Connection to 192.168.250.115 timed out. (connect timeout=10)'))
+2025-05-14 09:54:05,972 - INFO - Salvo M114: 2025-05-14 09:54:05, Posição: X=103.54, Y=112.25, Z=3.2, E=2385.97, Temperaturas: T:199.97/200.0, B:60.01/60.0
+2025-05-14 09:54:06,197 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:54:06,605 - INFO - Salvo M114: 2025-05-14 09:54:06, Posição: X=86.09, Y=94.93, Z=3.2, E=2393.17, Temperaturas: T:199.98/200.0, B:60.0/60.0
+2025-05-14 09:54:12,750 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:54:13,137 - INFO - Salvo M114: 2025-05-14 09:54:13, Posição: X=90.9, Y=77.98, Z=3.2, E=2400.86, Temperaturas: T:200.03/200.0, B:60.01/60.0
+2025-05-14 09:54:16,849 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:54:17,210 - INFO - Salvo M114: 2025-05-14 09:54:17, Posição: X=96.32, Y=66.33, Z=3.2, E=2405.44, Temperaturas: T:200.01/200.0, B:60.0/60.0
+2025-05-14 09:54:21,946 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:54:39,981 - INFO - Salvo M114: 2025-05-14 09:54:39, Posição: X=128.23, Y=154.79, Z=3.4, E=2427.38, Temperaturas: T:200.05/200.0, B:59.99/60.0
+2025-05-14 09:54:40,271 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:54:46,534 - INFO - Salvo M114: 2025-05-14 09:54:46, Posição: X=123.41, Y=158.25, Z=3.4, E=2427.59, Temperaturas: T:199.9/200.0, B:59.99/60.0
+2025-05-14 09:54:47,385 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:54:47,546 - INFO - Salvo M114: 2025-05-14 09:54:47, Posição: X=86.69, Y=153.08, Z=3.4, E=2429.25, Temperaturas: T:199.93/200.0, B:59.98/60.0
+2025-05-14 09:54:52,496 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:54:52,695 - INFO - Salvo M114: 2025-05-14 09:54:52, Posição: X=119.8, Y=141.05, Z=3.4, E=2434.84, Temperaturas: T:200.03/200.0, B:59.99/60.0
+2025-05-14 09:54:57,616 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:54:58,168 - INFO - Salvo M114: 2025-05-14 09:54:58, Posição: X=114.38, Y=129.37, Z=3.4, E=2440.46, Temperaturas: T:200.04/200.0, B:59.99/60.0
+2025-05-14 09:55:02,761 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:55:03,257 - INFO - Salvo M114: 2025-05-14 09:55:03, Posição: X=91.5, Y=111.8, Z=3.4, E=2446.09, Temperaturas: T:199.94/200.0, B:60.02/60.0
+2025-05-14 09:55:07,887 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:55:08,416 - INFO - Salvo M114: 2025-05-14 09:55:08, Posição: X=125.82, Y=105.15, Z=3.4, E=2451.73, Temperaturas: T:199.96/200.0, B:60.0/60.0
+2025-05-14 09:55:12,979 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:55:13,270 - INFO - Salvo M114: 2025-05-14 09:55:13, Posição: X=111.37, Y=88.07, Z=3.4, E=2457.24, Temperaturas: T:200.01/200.0, B:60.0/60.0
+2025-05-14 09:55:18,091 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:55:18,738 - INFO - Salvo M114: 2025-05-14 09:55:18, Posição: X=95.72, Y=75.67, Z=3.4, E=2462.91, Temperaturas: T:199.97/200.0, B:60.01/60.0
+2025-05-14 09:55:23,245 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:55:23,721 - INFO - Salvo M114: 2025-05-14 09:55:23, Posição: X=129.43, Y=63.99, Z=3.4, E=2468.53, Temperaturas: T:200.06/200.0, B:59.99/60.0
+2025-05-14 09:55:28,352 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:55:51,514 - INFO - Salvo M114: 2025-05-14 09:55:51, Posição: X=127.02, Y=155.85, Z=3.6, E=2489.29, Temperaturas: T:199.91/200.0, B:60.01/60.0
+2025-05-14 09:55:51,667 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:55:51,987 - INFO - Salvo M114: 2025-05-14 09:55:51, Posição: X=117.39, Y=155.85, Z=3.6, E=2489.75, Temperaturas: T:199.91/200.0, B:60.01/60.0
+2025-05-14 09:55:56,809 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:55:57,279 - INFO - Salvo M114: 2025-05-14 09:55:57, Posição: X=102.34, Y=146.48, Z=3.6, E=2495.12, Temperaturas: T:200.03/200.0, B:60.01/60.0
+2025-05-14 09:56:04,718 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:56:15,233 - ERROR - Erro ao verificar estado da impressora: HTTPConnectionPool(host='192.168.250.115', port=80): Max retries exceeded with url: /api/job (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f9c46857590>, 'Connection to 192.168.250.115 timed out. (connect timeout=10)'))
+2025-05-14 09:56:15,904 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:56:16,371 - INFO - Salvo M114: 2025-05-14 09:56:16, Posição: X=95.72, Y=104.59, Z=3.6, E=2514.9, Temperaturas: T:200.01/200.0, B:60.01/60.0
+2025-05-14 09:56:21,020 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:56:21,313 - INFO - Salvo M114: 2025-05-14 09:56:21, Posição: X=110.17, Y=92.87, Z=3.6, E=2520.23, Temperaturas: T:200.05/200.0, B:60.0/60.0
+2025-05-14 09:56:26,147 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:56:26,770 - INFO - Salvo M114: 2025-05-14 09:56:26, Posição: X=125.22, Y=85.74, Z=3.6, E=2525.58, Temperaturas: T:200.01/200.0, B:60.0/60.0
+2025-05-14 09:56:31,271 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:56:31,834 - INFO - Salvo M114: 2025-05-14 09:56:31, Posição: X=128.23, Y=67.65, Z=3.6, E=2530.91, Temperaturas: T:199.95/200.0, B:60.01/60.0
+2025-05-14 09:56:36,394 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:56:36,812 - INFO - Salvo M114: 2025-05-14 09:56:36, Posição: X=112.66, Y=61.08, Z=3.6, E=2535.7, Temperaturas: T:200.06/200.0, B:60.0/60.0
+2025-05-14 09:56:41,493 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:57:03,779 - INFO - Salvo M114: 2025-05-14 09:57:03, Posição: X=128.65, Y=151.7, Z=3.8, E=2555.93, Temperaturas: T:199.95/200.0, B:60.01/60.0
+2025-05-14 09:57:04,850 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:57:05,312 - INFO - Salvo M114: 2025-05-14 09:57:05, Posição: X=131.8, Y=119.2, Z=3.8, E=2557.36, Temperaturas: T:199.94/200.0, B:59.98/60.0
+2025-05-14 09:57:09,941 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:57:10,376 - INFO - Salvo M114: 2025-05-14 09:57:10, Posição: X=134.02, Y=142.89, Z=3.8, E=2561.16, Temperaturas: T:200.03/200.0, B:59.99/60.0
+2025-05-14 09:57:15,051 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:57:15,335 - INFO - Salvo M114: 2025-05-14 09:57:15, Posição: X=119.93, Y=73.44, Z=3.8, E=2566.13, Temperaturas: T:200.07/200.0, B:60.01/60.0
+2025-05-14 09:57:20,171 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:57:20,834 - INFO - Salvo M114: 2025-05-14 09:57:20, Posição: X=115.97, Y=105.35, Z=3.8, E=2572.19, Temperaturas: T:200.03/200.0, B:60.0/60.0
+2025-05-14 09:57:25,273 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:57:25,920 - INFO - Salvo M114: 2025-05-14 09:57:25, Posição: X=111.79, Y=155.92, Z=3.8, E=2578.28, Temperaturas: T:199.88/200.0, B:60.0/60.0
+2025-05-14 09:57:30,416 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:57:30,882 - INFO - Salvo M114: 2025-05-14 09:57:30, Posição: X=100.67, Y=92.71, Z=3.8, E=2584.06, Temperaturas: T:200.04/200.0, B:60.0/60.0
+2025-05-14 09:57:35,525 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:57:36,062 - INFO - Salvo M114: 2025-05-14 09:57:36, Posição: X=97.69, Y=86.69, Z=3.8, E=2590.08, Temperaturas: T:200.13/200.0, B:60.0/60.0
+2025-05-14 09:57:40,638 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:57:40,894 - INFO - Salvo M114: 2025-05-14 09:57:40, Posição: X=87.71, Y=147.49, Z=3.8, E=2595.82, Temperaturas: T:199.94/200.0, B:60.01/60.0
+2025-05-14 09:57:45,774 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:57:51,151 - INFO - Salvo M114: 2025-05-14 09:57:51, Posição: X=131.35, Y=156.52, Z=4.0, E=2617.87, Temperaturas: T:200.04/200.0, B:60.01/60.0
+2025-05-14 09:57:51,903 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:58:11,160 - INFO - Salvo M114: 2025-05-14 09:58:11, Posição: X=131.0, Y=149.3, Z=4.0, E=2618.18, Temperaturas: T:199.95/200.0, B:59.99/60.0
+2025-05-14 09:58:11,247 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:58:11,668 - INFO - Salvo M114: 2025-05-14 09:58:11, Posição: X=128.59, Y=134.25, Z=4.0, E=2618.81, Temperaturas: T:199.95/200.0, B:59.99/60.0
+2025-05-14 09:58:16,381 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:58:16,918 - INFO - Salvo M114: 2025-05-14 09:58:16, Posição: X=134.02, Y=142.92, Z=4.0, E=2622.95, Temperaturas: T:200.11/200.0, B:60.01/60.0
+2025-05-14 09:58:21,481 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:58:21,918 - INFO - Salvo M114: 2025-05-14 09:58:21, Posição: X=121.89, Y=89.7, Z=4.0, E=2628.32, Temperaturas: T:200.02/200.0, B:60.01/60.0
+2025-05-14 09:58:26,583 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:58:26,902 - INFO - Salvo M114: 2025-05-14 09:58:26, Posição: X=115.43, Y=71.64, Z=4.0, E=2634.78, Temperaturas: T:199.94/200.0, B:60.01/60.0
+2025-05-14 09:58:37,364 - ERROR - Erro ao verificar estado da impressora: HTTPConnectionPool(host='192.168.250.115', port=80): Max retries exceeded with url: /api/job (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f9c468570b0>, 'Connection to 192.168.250.115 timed out. (connect timeout=10)'))
+2025-05-14 09:58:41,650 - ERROR - Erro ao enviar M114: HTTPConnectionPool(host='192.168.250.115', port=80): Max retries exceeded with url: /api/printer/command (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f9c46855040>, 'Connection to 192.168.250.115 timed out. (connect timeout=10)'))
+2025-05-14 09:58:42,754 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:58:42,936 - INFO - Salvo M114: 2025-05-14 09:58:42, Posição: X=90.01, Y=142.67, Z=4.0, E=2654.79, Temperaturas: T:199.98/200.0, B:60.0/60.0
+2025-05-14 09:58:47,875 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:58:48,941 - INFO - Salvo M114: 2025-05-14 09:58:48, Posição: X=130.71, Y=158.92, Z=4.2, E=2677.69, Temperaturas: T:199.91/200.0, B:60.0/60.0
+2025-05-14 09:58:52,981 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:59:13,644 - INFO - Salvo M114: 2025-05-14 09:59:13, Posição: X=128.76, Y=151.7, Z=4.2, E=2677.97, Temperaturas: T:199.92/200.0, B:59.99/60.0
+2025-05-14 09:59:14,288 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:59:14,654 - INFO - Salvo M114: 2025-05-14 09:59:14, Posição: X=131.3, Y=127.62, Z=4.2, E=2678.93, Temperaturas: T:199.97/200.0, B:59.98/60.0
+2025-05-14 09:59:19,408 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:59:19,981 - INFO - Salvo M114: 2025-05-14 09:59:19, Posição: X=124.55, Y=158.7, Z=4.2, E=2682.72, Temperaturas: T:200.04/200.0, B:60.0/60.0
+2025-05-14 09:59:24,516 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:59:24,960 - INFO - Salvo M114: 2025-05-14 09:59:24, Posição: X=121.77, Y=119.2, Z=4.2, E=2688.96, Temperaturas: T:200.1/200.0, B:60.01/60.0
+2025-05-14 09:59:29,638 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:59:30,192 - INFO - Salvo M114: 2025-05-14 09:59:30, Posição: X=111.4, Y=87.89, Z=4.2, E=2695.53, Temperaturas: T:199.93/200.0, B:59.97/60.0
+2025-05-14 09:59:34,754 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:59:35,016 - INFO - Salvo M114: 2025-05-14 09:59:35, Posição: X=101.1, Y=63.21, Z=4.2, E=2702.36, Temperaturas: T:199.89/200.0, B:59.98/60.0
+2025-05-14 09:59:39,869 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:59:40,499 - INFO - Salvo M114: 2025-05-14 09:59:40, Posição: X=97.49, Y=87.29, Z=4.2, E=2709.03, Temperaturas: T:199.99/200.0, B:59.98/60.0
+2025-05-14 09:59:45,024 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 09:59:45,508 - INFO - Salvo M114: 2025-05-14 09:59:45, Posição: X=88.06, Y=126.42, Z=4.2, E=2714.91, Temperaturas: T:200.04/200.0, B:60.01/60.0
+2025-05-14 09:59:50,196 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:00:13,823 - INFO - Salvo M114: 2025-05-14 10:00:13, Posição: X=128.8, Y=151.7, Z=4.4, E=2736.47, Temperaturas: T:199.94/200.0, B:59.98/60.0
+2025-05-14 10:00:14,536 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:00:14,849 - INFO - Salvo M114: 2025-05-14 10:00:14, Posição: X=128.82, Y=124.01, Z=4.4, E=2737.56, Temperaturas: T:199.98/200.0, B:59.99/60.0
+2025-05-14 10:00:19,644 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:00:20,068 - INFO - Salvo M114: 2025-05-14 10:00:20, Posição: X=125.65, Y=154.11, Z=4.4, E=2741.25, Temperaturas: T:200.04/200.0, B:59.97/60.0
+2025-05-14 10:00:24,738 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:00:25,060 - INFO - Salvo M114: 2025-05-14 10:00:25, Posição: X=119.97, Y=144.48, Z=4.4, E=2748.14, Temperaturas: T:200.06/200.0, B:60.0/60.0
+2025-05-14 10:00:29,843 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:00:30,049 - INFO - Salvo M114: 2025-05-14 10:00:30, Posição: X=112.0, Y=127.62, Z=4.4, E=2755.13, Temperaturas: T:199.97/200.0, B:59.99/60.0
+2025-05-14 10:00:34,957 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:00:35,542 - INFO - Salvo M114: 2025-05-14 10:00:35, Posição: X=100.93, Y=111.37, Z=4.4, E=2762.14, Temperaturas: T:199.94/200.0, B:59.99/60.0
+2025-05-14 10:00:40,090 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:00:40,512 - INFO - Salvo M114: 2025-05-14 10:00:40, Posição: X=90.56, Y=95.72, Z=4.4, E=2769.16, Temperaturas: T:199.99/200.0, B:59.99/60.0
+2025-05-14 10:00:45,209 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:00:45,601 - INFO - Salvo M114: 2025-05-14 10:00:45, Posição: X=87.42, Y=71.04, Z=4.4, E=2774.0, Temperaturas: T:200.01/200.0, B:59.98/60.0
+2025-05-14 10:00:50,317 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:01:11,806 - INFO - Salvo M114: 2025-05-14 10:01:11, Posição: X=128.82, Y=151.7, Z=4.6, E=2794.1, Temperaturas: T:199.95/200.0, B:59.99/60.0
+2025-05-14 10:01:12,585 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:01:12,813 - INFO - Salvo M114: 2025-05-14 10:01:12, Posição: X=130.79, Y=119.8, Z=4.6, E=2795.33, Temperaturas: T:199.94/200.0, B:60.0/60.0
+2025-05-14 10:01:17,685 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:01:18,125 - INFO - Salvo M114: 2025-05-14 10:01:18, Posição: X=124.14, Y=150.5, Z=4.6, E=2798.91, Temperaturas: T:200.03/200.0, B:59.99/60.0
+2025-05-14 10:01:22,791 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:01:23,121 - INFO - Salvo M114: 2025-05-14 10:01:23, Posição: X=115.37, Y=158.92, Z=4.6, E=2806.14, Temperaturas: T:200.1/200.0, B:60.01/60.0
+2025-05-14 10:01:27,899 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:01:28,099 - INFO - Salvo M114: 2025-05-14 10:01:28, Posição: X=109.56, Y=152.31, Z=4.6, E=2813.43, Temperaturas: T:199.98/200.0, B:60.01/60.0
+2025-05-14 10:01:33,010 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:01:33,632 - INFO - Salvo M114: 2025-05-14 10:01:33, Posição: X=101.96, Y=145.68, Z=4.6, E=2820.72, Temperaturas: T:199.88/200.0, B:59.99/60.0
+2025-05-14 10:01:38,157 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:01:38,622 - INFO - Salvo M114: 2025-05-14 10:01:38, Posição: X=91.13, Y=140.27, Z=4.6, E=2828.06, Temperaturas: T:199.97/200.0, B:60.01/60.0
+2025-05-14 10:01:43,252 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:01:50,697 - INFO - Salvo M114: 2025-05-14 10:01:50, Posição: X=131.17, Y=155.92, Z=4.8, E=2851.07, Temperaturas: T:200.03/200.0, B:59.99/60.0
+2025-05-14 10:01:51,391 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:02:09,206 - INFO - Salvo M114: 2025-05-14 10:02:09, Posição: X=131.18, Y=147.49, Z=4.8, E=2851.4, Temperaturas: T:199.92/200.0, B:59.99/60.0
+2025-05-14 10:02:09,611 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:02:10,218 - INFO - Salvo M114: 2025-05-14 10:02:10, Posição: X=131.18, Y=108.96, Z=4.8, E=2852.87, Temperaturas: T:199.92/200.0, B:59.99/60.0
+2025-05-14 10:02:14,721 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:02:15,162 - INFO - Salvo M114: 2025-05-14 10:02:15, Posição: X=126.42, Y=146.89, Z=4.8, E=2856.14, Temperaturas: T:200.01/200.0, B:59.98/60.0
+2025-05-14 10:02:19,834 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:02:20,180 - INFO - Salvo M114: 2025-05-14 10:02:20, Posição: X=116.72, Y=147.49, Z=4.8, E=2863.63, Temperaturas: T:200.04/200.0, B:60.0/60.0
+2025-05-14 10:02:24,950 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:02:25,678 - INFO - Salvo M114: 2025-05-14 10:02:25, Posição: X=106.5, Y=148.69, Z=4.8, E=2871.09, Temperaturas: T:199.96/200.0, B:60.01/60.0
+2025-05-14 10:02:34,368 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:02:34,768 - INFO - Salvo M114: 2025-05-14 10:02:34, Posição: X=90.96, Y=130.63, Z=4.8, E=2884.63, Temperaturas: T:199.96/200.0, B:60.01/60.0
+2025-05-14 10:02:35,494 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:02:36,182 - INFO - Salvo M114: 2025-05-14 10:02:36, Posição: X=87.89, Y=146.89, Z=4.8, E=2886.06, Temperaturas: T:199.96/200.0, B:60.01/60.0
+2025-05-14 10:02:40,602 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:02:53,089 - INFO - Salvo M114: 2025-05-14 10:02:53, Posição: X=130.22, Y=154.11, Z=5.0, E=2908.09, Temperaturas: T:200.07/200.0, B:60.01/60.0
+2025-05-14 10:02:53,772 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:03:05,568 - INFO - Salvo M114: 2025-05-14 10:03:05, Posição: X=131.24, Y=146.89, Z=5.0, E=2908.37, Temperaturas: T:199.91/200.0, B:60.01/60.0
+2025-05-14 10:03:05,982 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:03:06,586 - INFO - Salvo M114: 2025-05-14 10:03:06, Posição: X=130.22, Y=115.58, Z=5.0, E=2909.58, Temperaturas: T:199.91/200.0, B:60.01/60.0
+2025-05-14 10:03:11,117 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:03:11,747 - INFO - Salvo M114: 2025-05-14 10:03:11, Posição: X=125.94, Y=148.69, Z=5.0, E=2913.07, Temperaturas: T:200.04/200.0, B:60.0/60.0
+2025-05-14 10:03:16,277 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:03:16,748 - INFO - Salvo M114: 2025-05-14 10:03:16, Posição: X=114.74, Y=150.5, Z=5.0, E=2920.52, Temperaturas: T:200.05/200.0, B:60.01/60.0
+2025-05-14 10:03:21,367 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:03:21,739 - INFO - Salvo M114: 2025-05-14 10:03:21, Posição: X=106.68, Y=158.33, Z=5.0, E=2927.77, Temperaturas: T:199.92/200.0, B:59.99/60.0
+2025-05-14 10:03:26,478 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:03:26,722 - INFO - Salvo M114: 2025-05-14 10:03:26, Posição: X=102.19, Y=155.32, Z=5.0, E=2935.14, Temperaturas: T:199.92/200.0, B:59.99/60.0
+2025-05-14 10:03:31,586 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:03:31,746 - INFO - Salvo M114: 2025-05-14 10:03:31, Posição: X=92.35, Y=148.09, Z=5.0, E=2942.38, Temperaturas: T:199.99/200.0, B:60.0/60.0
+2025-05-14 10:03:36,704 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:03:41,932 - INFO - Salvo M114: 2025-05-14 10:03:41, Posição: X=131.26, Y=156.52, Z=5.2, E=2965.09, Temperaturas: T:200.01/200.0, B:60.0/60.0
+2025-05-14 10:03:42,795 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:03:55,847 - ERROR - Erro ao verificar estado da impressora: HTTPConnectionPool(host='192.168.250.115', port=80): Max retries exceeded with url: /api/job (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f9c46854b00>, 'Connection to 192.168.250.115 timed out. (connect timeout=10)'))
+2025-05-14 10:04:02,340 - INFO - Salvo M114: 2025-05-14 10:04:02, Posição: X=129.64, Y=149.3, Z=5.2, E=2965.37, Temperaturas: T:199.92/200.0, B:60.0/60.0
+2025-05-14 10:04:03,095 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:04:03,631 - INFO - Salvo M114: 2025-05-14 10:04:03, Posição: X=128.97, Y=104.15, Z=5.2, E=2967.13, Temperaturas: T:199.94/200.0, B:59.98/60.0
+2025-05-14 10:04:11,737 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:04:12,274 - INFO - Salvo M114: 2025-05-14 10:04:12, Posição: X=119.34, Y=104.15, Z=5.2, E=2975.33, Temperaturas: T:200.07/200.0, B:59.99/60.0
+2025-05-14 10:04:13,896 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:04:14,433 - INFO - Salvo M114: 2025-05-14 10:04:14, Posição: X=116.81, Y=137.26, Z=5.2, E=2978.31, Temperaturas: T:200.03/200.0, B:60.02/60.0
+2025-05-14 10:04:19,006 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:04:19,318 - INFO - Salvo M114: 2025-05-14 10:04:19, Posição: X=106.87, Y=148.69, Z=5.2, E=2985.49, Temperaturas: T:199.9/200.0, B:60.01/60.0
+2025-05-14 10:04:29,130 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:04:29,332 - INFO - Salvo M114: 2025-05-14 10:04:29, Posição: X=91.9, Y=144.48, Z=5.2, E=2999.77, Temperaturas: T:200.03/200.0, B:59.99/60.0
+2025-05-14 10:04:34,426 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:04:45,560 - INFO - Salvo M114: 2025-05-14 10:04:45, Posição: X=131.38, Y=155.32, Z=5.4, E=3022.66, Temperaturas: T:200.13/200.0, B:59.99/60.0
+2025-05-14 10:04:46,614 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:05:00,177 - INFO - Salvo M114: 2025-05-14 10:05:00, Posição: X=130.68, Y=148.09, Z=5.4, E=3022.96, Temperaturas: T:199.91/200.0, B:59.99/60.0
+2025-05-14 10:05:00,805 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:05:01,213 - INFO - Salvo M114: 2025-05-14 10:05:01, Posição: X=130.66, Y=105.95, Z=5.4, E=3024.62, Temperaturas: T:199.95/200.0, B:60.01/60.0
+2025-05-14 10:05:05,926 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:05:06,369 - INFO - Salvo M114: 2025-05-14 10:05:06, Posição: X=119.37, Y=133.04, Z=5.4, E=3031.34, Temperaturas: T:200.08/200.0, B:60.0/60.0
+2025-05-14 10:05:11,044 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:05:11,271 - INFO - Salvo M114: 2025-05-14 10:05:11, Posição: X=111.9, Y=154.71, Z=5.4, E=3038.25, Temperaturas: T:199.99/200.0, B:60.0/60.0
+2025-05-14 10:05:16,157 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:05:16,391 - INFO - Salvo M114: 2025-05-14 10:05:16, Posição: X=106.99, Y=136.65, Z=5.4, E=3044.99, Temperaturas: T:199.81/200.0, B:60.02/60.0
+2025-05-14 10:05:21,278 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:05:21,881 - INFO - Salvo M114: 2025-05-14 10:05:21, Posição: X=96.97, Y=107.16, Z=5.4, E=3051.6, Temperaturas: T:199.92/200.0, B:60.01/60.0
+2025-05-14 10:05:26,423 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:05:26,872 - INFO - Salvo M114: 2025-05-14 10:05:26, Posição: X=87.95, Y=79.46, Z=5.4, E=3058.03, Temperaturas: T:200.13/200.0, B:60.01/60.0
+2025-05-14 10:05:31,533 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:05:32,306 - INFO - Salvo M114: 2025-05-14 10:05:32, Posição: X=133.8, Y=124.98, Z=5.4, E=3060.52, Temperaturas: T:199.99/200.0, B:59.98/60.0
+2025-05-14 10:05:36,652 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:06:00,242 - INFO - Salvo M114: 2025-05-14 10:06:00, Posição: X=133.46, Y=143.88, Z=5.6, E=3081.01, Temperaturas: T:199.94/200.0, B:60.01/60.0
+2025-05-14 10:06:00,961 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:06:01,229 - INFO - Salvo M114: 2025-05-14 10:06:01, Posição: X=134.02, Y=121.95, Z=5.6, E=3081.35, Temperaturas: T:199.94/200.0, B:60.01/60.0
+2025-05-14 10:06:06,050 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:06:06,440 - INFO - Salvo M114: 2025-05-14 10:06:06, Posição: X=128.72, Y=142.07, Z=5.6, E=3085.42, Temperaturas: T:200.0/200.0, B:60.0/60.0
+2025-05-14 10:06:11,154 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:06:11,429 - INFO - Salvo M114: 2025-05-14 10:06:11, Posição: X=120.96, Y=99.93, Z=5.6, E=3091.72, Temperaturas: T:200.12/200.0, B:60.01/60.0
+2025-05-14 10:06:16,269 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:06:16,390 - INFO - Salvo M114: 2025-05-14 10:06:16, Posição: X=109.46, Y=65.02, Z=5.6, E=3098.33, Temperaturas: T:199.87/200.0, B:60.01/60.0
+2025-05-14 10:06:21,413 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:06:21,896 - INFO - Salvo M114: 2025-05-14 10:06:21, Posição: X=104.56, Y=95.72, Z=5.6, E=3104.8, Temperaturas: T:199.8/200.0, B:60.01/60.0
+2025-05-14 10:06:26,527 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:06:26,775 - INFO - Salvo M114: 2025-05-14 10:06:26, Posição: X=97.63, Y=137.26, Z=5.6, E=3111.12, Temperaturas: T:200.08/200.0, B:59.98/60.0
+2025-05-14 10:06:31,630 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:06:31,994 - INFO - Salvo M114: 2025-05-14 10:06:31, Posição: X=92.9, Y=145.08, Z=5.6, E=3117.72, Temperaturas: T:200.15/200.0, B:60.0/60.0
+2025-05-14 10:06:36,754 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:06:38,161 - INFO - Salvo M114: 2025-05-14 10:06:38, Posição: X=133.55, Y=154.11, Z=5.8, E=3140.52, Temperaturas: T:199.99/200.0, B:60.01/60.0
+2025-05-14 10:06:41,862 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:07:02,783 - INFO - Salvo M114: 2025-05-14 10:07:02, Posição: X=133.12, Y=143.28, Z=5.8, E=3140.7, Temperaturas: T:199.94/200.0, B:60.0/60.0
+2025-05-14 10:07:03,139 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:07:03,796 - INFO - Salvo M114: 2025-05-14 10:07:03, Posição: X=134.02, Y=121.99, Z=5.8, E=3141.05, Temperaturas: T:199.94/200.0, B:60.0/60.0
+2025-05-14 10:07:08,229 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:07:08,476 - INFO - Salvo M114: 2025-05-14 10:07:08, Posição: X=128.74, Y=130.03, Z=5.8, E=3144.88, Temperaturas: T:200.09/200.0, B:59.99/60.0
+2025-05-14 10:07:13,357 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:07:13,922 - INFO - Salvo M114: 2025-05-14 10:07:13, Posição: X=120.89, Y=71.04, Z=5.8, E=3150.77, Temperaturas: T:200.14/200.0, B:60.0/60.0
+2025-05-14 10:07:18,476 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:07:19,033 - INFO - Salvo M114: 2025-05-14 10:07:19, Posição: X=116.88, Y=101.14, Z=5.8, E=3157.07, Temperaturas: T:199.9/200.0, B:60.01/60.0
+2025-05-14 10:07:23,583 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:07:23,983 - INFO - Salvo M114: 2025-05-14 10:07:23, Posição: X=107.25, Y=158.92, Z=5.8, E=3163.03, Temperaturas: T:199.79/200.0, B:60.0/60.0
+2025-05-14 10:07:28,685 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:07:29,072 - INFO - Salvo M114: 2025-05-14 10:07:29, Posição: X=99.84, Y=101.14, Z=5.8, E=3169.0, Temperaturas: T:199.99/200.0, B:59.99/60.0
+2025-05-14 10:07:33,775 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:07:34,006 - INFO - Salvo M114: 2025-05-14 10:07:34, Posição: X=95.84, Y=73.44, Z=5.8, E=3175.16, Temperaturas: T:200.14/200.0, B:60.01/60.0
+2025-05-14 10:07:38,888 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:07:39,006 - INFO - Salvo M114: 2025-05-14 10:07:39, Posição: X=87.17, Y=136.05, Z=5.8, E=3180.62, Temperaturas: T:199.99/200.0, B:59.97/60.0
+2025-05-14 10:07:44,006 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:07:56,784 - INFO - Salvo M114: 2025-05-14 10:07:56, Posição: X=133.8, Y=150.9, Z=6.0, E=3202.4, Temperaturas: T:200.04/200.0, B:60.0/60.0
+2025-05-14 10:07:57,155 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:08:08,786 - INFO - Salvo M114: 2025-05-14 10:08:08, Posição: X=132.79, Y=134.85, Z=6.0, E=3202.6, Temperaturas: T:199.98/200.0, B:60.0/60.0
+2025-05-14 10:08:11,035 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:08:11,305 - INFO - Salvo M114: 2025-05-14 10:08:11, Posição: X=134.02, Y=77.58, Z=6.0, E=3203.54, Temperaturas: T:200.03/200.0, B:59.99/60.0
+2025-05-14 10:08:15,130 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:08:15,556 - INFO - Salvo M114: 2025-05-14 10:08:15, Posição: X=132.01, Y=136.05, Z=6.0, E=3207.46, Temperaturas: T:200.1/200.0, B:60.01/60.0
+2025-05-14 10:08:20,250 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:08:20,809 - INFO - Salvo M114: 2025-05-14 10:08:20, Posição: X=118.65, Y=64.41, Z=6.0, E=3213.39, Temperaturas: T:200.03/200.0, B:60.0/60.0
+2025-05-14 10:08:25,746 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:08:26,073 - INFO - Salvo M114: 2025-05-14 10:08:26, Posição: X=114.54, Y=122.21, Z=6.0, E=3219.63, Temperaturas: T:199.91/200.0, B:60.02/60.0
+2025-05-14 10:08:30,857 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:08:31,046 - INFO - Salvo M114: 2025-05-14 10:08:31, Posição: X=108.61, Y=121.0, Z=6.0, E=3225.45, Temperaturas: T:199.87/200.0, B:59.99/60.0
+2025-05-14 10:08:35,976 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:08:36,564 - INFO - Salvo M114: 2025-05-14 10:08:36, Posição: X=107.93, Y=71.04, Z=6.0, E=3231.44, Temperaturas: T:199.97/200.0, B:59.99/60.0
+2025-05-14 10:08:41,105 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:08:41,664 - INFO - Salvo M114: 2025-05-14 10:08:41, Posição: X=98.07, Y=147.49, Z=6.0, E=3237.14, Temperaturas: T:200.15/200.0, B:60.01/60.0
+2025-05-14 10:08:46,201 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:08:46,609 - INFO - Salvo M114: 2025-05-14 10:08:46, Posição: X=92.16, Y=95.72, Z=6.0, E=3242.93, Temperaturas: T:199.91/200.0, B:59.99/60.0
+2025-05-14 10:08:51,321 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:08:51,590 - INFO - Salvo M114: 2025-05-14 10:08:51, Posição: X=88.85, Y=100.53, Z=6.0, E=3247.7, Temperaturas: T:199.96/200.0, B:60.0/60.0
+2025-05-14 10:08:56,427 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:09:19,520 - INFO - Salvo M114: 2025-05-14 10:09:19, Posição: X=127.02, Y=156.92, Z=6.2, E=3268.74, Temperaturas: T:199.96/200.0, B:60.01/60.0
+2025-05-14 10:09:19,709 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:09:20,024 - INFO - Salvo M114: 2025-05-14 10:09:20, Posição: X=119.2, Y=158.3, Z=6.2, E=3269.08, Temperaturas: T:199.96/200.0, B:60.01/60.0
+2025-05-14 10:09:24,823 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:09:25,165 - INFO - Salvo M114: 2025-05-14 10:09:25, Posição: X=86.2, Y=141.14, Z=6.2, E=3274.74, Temperaturas: T:199.99/200.0, B:60.01/60.0
+2025-05-14 10:09:29,924 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:09:30,153 - INFO - Salvo M114: 2025-05-14 10:09:30, Posição: X=116.19, Y=130.81, Z=6.2, E=3280.26, Temperaturas: T:199.99/200.0, B:60.0/60.0
+2025-05-14 10:09:35,042 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:09:35,680 - INFO - Salvo M114: 2025-05-14 10:09:35, Posição: X=122.81, Y=116.6, Z=6.2, E=3285.73, Temperaturas: T:199.99/200.0, B:60.0/60.0
+2025-05-14 10:09:40,177 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:09:40,611 - INFO - Salvo M114: 2025-05-14 10:09:40, Posição: X=86.69, Y=106.97, Z=6.2, E=3291.53, Temperaturas: T:200.0/200.0, B:59.98/60.0
+2025-05-14 10:09:45,276 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:09:45,728 - INFO - Salvo M114: 2025-05-14 10:09:45, Posição: X=114.98, Y=92.89, Z=6.2, E=3297.03, Temperaturas: T:199.99/200.0, B:60.0/60.0
+2025-05-14 10:09:50,377 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:09:50,668 - INFO - Salvo M114: 2025-05-14 10:09:50, Posição: X=124.01, Y=77.68, Z=6.2, E=3302.5, Temperaturas: T:200.0/200.0, B:59.99/60.0
+2025-05-14 10:09:55,487 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:09:56,182 - INFO - Salvo M114: 2025-05-14 10:09:56, Posição: X=89.1, Y=71.22, Z=6.2, E=3308.22, Temperaturas: T:199.99/200.0, B:60.01/60.0
+2025-05-14 10:10:00,603 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:10:13,391 - INFO - Salvo M114: 2025-05-14 10:10:13, Posição: X=129.43, Y=158.02, Z=6.4, E=3330.9, Temperaturas: T:200.04/200.0, B:59.99/60.0
+2025-05-14 10:10:13,816 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:10:25,877 - INFO - Salvo M114: 2025-05-14 10:10:25, Posição: X=122.21, Y=156.35, Z=6.4, E=3331.2, Temperaturas: T:199.88/200.0, B:60.01/60.0
+2025-05-14 10:10:25,963 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:10:26,384 - INFO - Salvo M114: 2025-05-14 10:10:26, Posição: X=107.16, Y=155.97, Z=6.4, E=3331.83, Temperaturas: T:199.88/200.0, B:60.01/60.0
+2025-05-14 10:10:31,076 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:10:31,227 - INFO - Salvo M114: 2025-05-14 10:10:31, Posição: X=110.17, Y=143.09, Z=6.4, E=3337.68, Temperaturas: T:200.0/200.0, B:59.99/60.0
+2025-05-14 10:10:36,237 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:10:36,733 - INFO - Salvo M114: 2025-05-14 10:10:36, Posição: X=111.97, Y=128.17, Z=6.4, E=3343.56, Temperaturas: T:200.0/200.0, B:60.01/60.0
+2025-05-14 10:10:51,296 - ERROR - Erro ao enviar M114: HTTPConnectionPool(host='192.168.250.115', port=80): Max retries exceeded with url: /api/printer/command (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f9c46855a00>, 'Connection to 192.168.250.115 timed out. (connect timeout=10)'))
+2025-05-14 10:10:52,395 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:10:54,219 - ERROR - Erro ao verificar estado da impressora: HTTPConnectionPool(host='192.168.250.115', port=80): Max retries exceeded with url: /api/job (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f9c46857ef0>, 'Connection to 192.168.250.115 timed out. (connect timeout=10)'))
+2025-05-14 10:10:54,879 - INFO - Salvo M114: 2025-05-14 10:10:54, Posição: X=125.22, Y=82.96, Z=6.4, E=3362.17, Temperaturas: T:200.02/200.0, B:60.01/60.0
+2025-05-14 10:10:57,513 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:10:58,395 - INFO - Salvo M114: 2025-05-14 10:10:58, Posição: X=98.13, Y=70.0, Z=6.4, E=3368.0, Temperaturas: T:200.02/200.0, B:60.0/60.0
+2025-05-14 10:11:02,626 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:11:07,442 - INFO - Salvo M114: 2025-05-14 10:11:07, Posição: X=131.84, Y=156.55, Z=6.6, E=3390.74, Temperaturas: T:199.99/200.0, B:60.0/60.0
+2025-05-14 10:11:07,741 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:11:27,851 - INFO - Salvo M114: 2025-05-14 10:11:27, Posição: X=124.61, Y=155.13, Z=6.6, E=3391.03, Temperaturas: T:199.91/200.0, B:60.01/60.0
+2025-05-14 10:11:27,980 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:11:28,371 - INFO - Salvo M114: 2025-05-14 10:11:28, Posição: X=104.15, Y=155.34, Z=6.6, E=3391.84, Temperaturas: T:199.91/200.0, B:60.01/60.0
+2025-05-14 10:11:33,079 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:11:33,293 - INFO - Salvo M114: 2025-05-14 10:11:33, Posição: X=127.02, Y=140.89, Z=6.6, E=3398.04, Temperaturas: T:200.04/200.0, B:60.0/60.0
+2025-05-14 10:11:38,192 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:11:38,769 - INFO - Salvo M114: 2025-05-14 10:11:38, Posição: X=87.29, Y=121.42, Z=6.6, E=3404.13, Temperaturas: T:200.05/200.0, B:60.02/60.0
+2025-05-14 10:11:43,344 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:11:43,778 - INFO - Salvo M114: 2025-05-14 10:11:43, Posição: X=124.01, Y=106.98, Z=6.6, E=3410.24, Temperaturas: T:199.96/200.0, B:60.01/60.0
+2025-05-14 10:11:48,876 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:11:49,253 - INFO - Salvo M114: 2025-05-14 10:11:49, Posição: X=119.2, Y=94.54, Z=6.6, E=3416.93, Temperaturas: T:199.96/200.0, B:59.99/60.0
+2025-05-14 10:11:53,945 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:11:54,248 - INFO - Salvo M114: 2025-05-14 10:11:54, Posição: X=90.3, Y=80.84, Z=6.6, E=3423.11, Temperaturas: T:199.96/200.0, B:59.99/60.0
+2025-05-14 10:11:59,055 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:11:59,352 - INFO - Salvo M114: 2025-05-14 10:11:59, Posição: X=121.23, Y=61.3, Z=6.6, E=3429.15, Temperaturas: T:200.05/200.0, B:60.0/60.0
+2025-05-14 10:12:04,154 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:12:16,292 - ERROR - Erro ao verificar estado da impressora: HTTPConnectionPool(host='192.168.250.115', port=80): Max retries exceeded with url: /api/job (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f9c46856ed0>, 'Connection to 192.168.250.115 timed out. (connect timeout=10)'))
+2025-05-14 10:12:26,870 - INFO - Salvo M114: 2025-05-14 10:12:26, Posição: X=127.02, Y=156.32, Z=6.8, E=3449.42, Temperaturas: T:199.91/200.0, B:60.0/60.0
+2025-05-14 10:12:27,458 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:12:28,019 - INFO - Salvo M114: 2025-05-14 10:12:28, Posição: X=89.7, Y=157.48, Z=6.8, E=3450.87, Temperaturas: T:199.91/200.0, B:60.0/60.0
+2025-05-14 10:12:32,570 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:12:32,857 - INFO - Salvo M114: 2025-05-14 10:12:32, Posição: X=122.21, Y=137.46, Z=6.8, E=3457.11, Temperaturas: T:199.99/200.0, B:59.98/60.0
+2025-05-14 10:12:37,676 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:12:37,865 - INFO - Salvo M114: 2025-05-14 10:12:37, Posição: X=122.81, Y=123.25, Z=6.8, E=3463.7, Temperaturas: T:200.03/200.0, B:60.01/60.0
+2025-05-14 10:12:42,786 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:12:43,341 - INFO - Salvo M114: 2025-05-14 10:12:43, Posição: X=96.92, Y=102.25, Z=6.8, E=3470.2, Temperaturas: T:199.91/200.0, B:60.01/60.0
+2025-05-14 10:12:47,906 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:12:48,356 - INFO - Salvo M114: 2025-05-14 10:12:48, Posição: X=104.75, Y=87.87, Z=6.8, E=3476.55, Temperaturas: T:199.91/200.0, B:60.01/60.0
+2025-05-14 10:12:53,000 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:12:53,339 - INFO - Salvo M114: 2025-05-14 10:12:53, Posição: X=130.03, Y=71.07, Z=6.8, E=3483.07, Temperaturas: T:200.0/200.0, B:60.01/60.0
+2025-05-14 10:12:58,107 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:12:59,497 - INFO - Salvo M114: 2025-05-14 10:12:59, Posição: X=132.44, Y=156.29, Z=7.0, E=3506.77, Temperaturas: T:200.08/200.0, B:60.0/60.0
+2025-05-14 10:13:03,224 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:13:23,547 - INFO - Salvo M114: 2025-05-14 10:13:23, Posição: X=125.22, Y=155.31, Z=7.0, E=3507.06, Temperaturas: T:199.91/200.0, B:60.01/60.0
+2025-05-14 10:13:24,615 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:13:25,051 - INFO - Salvo M114: 2025-05-14 10:13:25, Posição: X=91.5, Y=152.92, Z=7.0, E=3508.77, Temperaturas: T:199.91/200.0, B:59.97/60.0
+2025-05-14 10:13:29,733 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:13:29,914 - INFO - Salvo M114: 2025-05-14 10:13:29, Posição: X=102.34, Y=138.08, Z=7.0, E=3515.35, Temperaturas: T:200.03/200.0, B:60.0/60.0
+2025-05-14 10:13:34,844 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:13:35,417 - INFO - Salvo M114: 2025-05-14 10:13:35, Posição: X=121.6, Y=118.81, Z=7.0, E=3522.01, Temperaturas: T:200.05/200.0, B:60.0/60.0
+2025-05-14 10:13:39,961 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:13:40,401 - INFO - Salvo M114: 2025-05-14 10:13:40, Posição: X=127.02, Y=102.78, Z=7.0, E=3528.65, Temperaturas: T:199.91/200.0, B:60.0/60.0
+2025-05-14 10:13:45,070 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:13:45,397 - INFO - Salvo M114: 2025-05-14 10:13:45, Posição: X=102.34, Y=85.36, Z=7.0, E=3535.1, Temperaturas: T:199.91/200.0, B:60.0/60.0
+2025-05-14 10:13:50,173 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:13:50,376 - INFO - Salvo M114: 2025-05-14 10:13:50, Posição: X=86.2, Y=63.97, Z=7.0, E=3541.89, Temperaturas: T:199.96/200.0, B:60.01/60.0
+2025-05-14 10:13:55,279 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:14:16,055 - INFO - Salvo M114: 2025-05-14 10:14:16, Posição: X=127.02, Y=155.98, Z=7.2, E=3564.03, Temperaturas: T:200.01/200.0, B:59.99/60.0
+2025-05-14 10:14:16,653 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:14:19,765 - INFO - Salvo M114: 2025-05-14 10:14:19, Posição: X=119.2, Y=157.48, Z=7.2, E=3564.32, Temperaturas: T:199.93/200.0, B:60.01/60.0
+2025-05-14 10:14:21,783 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:14:22,353 - INFO - Salvo M114: 2025-05-14 10:14:22, Posição: X=125.22, Y=145.68, Z=7.2, E=3567.78, Temperaturas: T:199.91/200.0, B:59.99/60.0
+2025-05-14 10:14:26,887 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:14:27,481 - INFO - Salvo M114: 2025-05-14 10:14:27, Posição: X=125.22, Y=131.24, Z=7.2, E=3574.47, Temperaturas: T:200.0/200.0, B:60.0/60.0
+2025-05-14 10:14:32,017 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:14:32,435 - INFO - Salvo M114: 2025-05-14 10:14:32, Posição: X=102.34, Y=114.13, Z=7.2, E=3580.95, Temperaturas: T:199.94/200.0, B:60.0/60.0
+2025-05-14 10:14:37,114 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:14:37,451 - INFO - Salvo M114: 2025-05-14 10:14:37, Posição: X=87.29, Y=92.76, Z=7.2, E=3587.75, Temperaturas: T:199.91/200.0, B:60.01/60.0
+2025-05-14 10:14:43,330 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:14:43,466 - INFO - Salvo M114: 2025-05-14 10:14:43, Posição: X=104.15, Y=74.11, Z=7.2, E=3595.77, Temperaturas: T:199.96/200.0, B:59.99/60.0
+2025-05-14 10:14:47,428 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:14:48,045 - INFO - Salvo M114: 2025-05-14 10:14:48, Posição: X=109.56, Y=61.16, Z=7.2, E=3600.86, Temperaturas: T:200.02/200.0, B:60.0/60.0
+2025-05-14 10:14:52,524 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:15:14,895 - INFO - Salvo M114: 2025-05-14 10:15:14, Posição: X=126.42, Y=155.47, Z=7.4, E=3620.91, Temperaturas: T:199.93/200.0, B:60.0/60.0
+2025-05-14 10:15:15,791 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:15:16,413 - INFO - Salvo M114: 2025-05-14 10:15:16, Posição: X=95.72, Y=150.51, Z=7.4, E=3622.83, Temperaturas: T:199.93/200.0, B:60.0/60.0
+2025-05-14 10:15:21,480 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:15:22,067 - INFO - Salvo M114: 2025-05-14 10:15:22, Posição: X=95.72, Y=131.24, Z=7.4, E=3630.22, Temperaturas: T:200.0/200.0, B:60.0/60.0
+2025-05-14 10:15:26,541 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:15:27,001 - INFO - Salvo M114: 2025-05-14 10:15:27, Posição: X=96.92, Y=116.79, Z=7.4, E=3636.82, Temperaturas: T:199.97/200.0, B:60.04/60.0
+2025-05-14 10:15:31,644 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:15:32,178 - INFO - Salvo M114: 2025-05-14 10:15:32, Posição: X=121.0, Y=99.93, Z=7.4, E=3643.29, Temperaturas: T:199.92/200.0, B:60.01/60.0
+2025-05-14 10:15:36,760 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:15:37,034 - INFO - Salvo M114: 2025-05-14 10:15:37, Posição: X=134.02, Y=83.14, Z=7.4, E=3650.17, Temperaturas: T:199.98/200.0, B:59.98/60.0
+2025-05-14 10:15:41,867 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:15:42,014 - INFO - Salvo M114: 2025-05-14 10:15:42, Posição: X=110.77, Y=66.22, Z=7.4, E=3656.66, Temperaturas: T:199.99/200.0, B:60.01/60.0
+2025-05-14 10:15:46,976 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:16:09,081 - ERROR - Erro ao verificar estado da impressora: HTTPConnectionPool(host='192.168.250.115', port=80): Max retries exceeded with url: /api/job (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f9c47662900>, 'Connection to 192.168.250.115 timed out. (connect timeout=10)'))
+2025-05-14 10:16:09,082 - INFO - Impressora não está imprimindo. Estado: Unknown
+2025-05-14 10:16:09,137 - INFO - Nome do arquivo obtido via API: zd2c72~1
+2025-05-14 10:16:10,201 - INFO - Impressora está imprimindo! Estado: Printing from SD
+2025-05-14 10:16:10,250 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:16:10,295 - INFO - Comando M503 enviado com sucesso!
+2025-05-14 10:16:12,427 - ERROR - Erro ao verificar estado da impressora: HTTPConnectionPool(host='192.168.250.115', port=80): Max retries exceeded with url: /api/job (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f9c46855490>, 'Connection to 192.168.250.115 timed out. (connect timeout=10)'))
+2025-05-14 10:16:12,729 - INFO - Salvo M114: 2025-05-14 10:16:12, Posição: X=127.02, Y=155.61, Z=7.6, E=3677.86, Temperaturas: T:199.97/200.0, B:60.01/60.0
+2025-05-14 10:16:12,801 - INFO - Aceleração: P=500.0, R=500.0, T=1000.0
+2025-05-14 10:16:12,802 - INFO - Jerk: X=10.0, Y=10.0
+2025-05-14 10:16:12,804 - INFO - Salvo M503: 2025-05-14 10:16:12, Accel P=500.0, R=500.0, T=1000.0, Jerk X=10.0, Y=10.0, Temperaturas: T:199.96/200.0, B:60.01/60.0
+2025-05-14 10:16:15,408 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:16:15,564 - INFO - Salvo M114: 2025-05-14 10:16:15, Posição: X=133.64, Y=140.89, Z=7.6, E=3685.04, Temperaturas: T:199.99/200.0, B:59.99/60.0
+2025-05-14 10:16:20,537 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:16:21,072 - INFO - Salvo M114: 2025-05-14 10:16:21, Posição: X=104.75, Y=121.62, Z=7.6, E=3691.39, Temperaturas: T:200.01/200.0, B:60.0/60.0
+2025-05-14 10:16:25,647 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:16:26,056 - INFO - Salvo M114: 2025-05-14 10:16:26, Posição: X=87.29, Y=107.09, Z=7.6, E=3698.08, Temperaturas: T:199.94/200.0, B:60.01/60.0
+2025-05-14 10:16:30,747 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:16:31,164 - INFO - Salvo M114: 2025-05-14 10:16:31, Posição: X=118.59, Y=89.34, Z=7.6, E=3704.34, Temperaturas: T:199.95/200.0, B:60.02/60.0
+2025-05-14 10:16:35,875 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:16:36,115 - INFO - Salvo M114: 2025-05-14 10:16:36, Posição: X=131.84, Y=74.89, Z=7.6, E=3711.12, Temperaturas: T:199.99/200.0, B:59.99/60.0
+2025-05-14 10:16:43,391 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:17:06,926 - INFO - Salvo M114: 2025-05-14 10:17:06, Posição: X=125.82, Y=155.16, Z=7.8, E=3735.32, Temperaturas: T:199.92/200.0, B:60.01/60.0
+2025-05-14 10:17:07,739 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:17:07,933 - INFO - Salvo M114: 2025-05-14 10:17:07, Posição: X=89.7, Y=152.83, Z=7.8, E=3737.05, Temperaturas: T:199.92/200.0, B:60.01/60.0
+2025-05-14 10:17:12,856 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:17:13,146 - INFO - Salvo M114: 2025-05-14 10:17:13, Posição: X=121.6, Y=138.6, Z=7.8, E=3743.12, Temperaturas: T:200.04/200.0, B:59.99/60.0
+2025-05-14 10:17:19,422 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:17:19,679 - INFO - Salvo M114: 2025-05-14 10:17:19, Posição: X=110.77, Y=119.25, Z=7.8, E=3751.18, Temperaturas: T:200.03/200.0, B:60.01/60.0
+2025-05-14 10:17:23,537 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:17:24,138 - INFO - Salvo M114: 2025-05-14 10:17:24, Posição: X=94.51, Y=102.42, Z=7.8, E=3756.32, Temperaturas: T:199.98/200.0, B:59.99/60.0
+2025-05-14 10:17:30,233 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:17:30,649 - INFO - Salvo M114: 2025-05-14 10:17:30, Posição: X=104.15, Y=83.15, Z=7.8, E=3764.33, Temperaturas: T:199.93/200.0, B:59.99/60.0
+2025-05-14 10:17:35,339 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:17:35,742 - INFO - Salvo M114: 2025-05-14 10:17:35, Posição: X=101.14, Y=71.09, Z=7.8, E=3770.63, Temperaturas: T:200.03/200.0, B:59.99/60.0
+2025-05-14 10:17:40,447 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:17:52,929 - INFO - Salvo M114: 2025-05-14 10:17:52, Posição: X=129.43, Y=157.54, Z=8.0, E=3793.41, Temperaturas: T:200.11/200.0, B:59.98/60.0
+2025-05-14 10:17:53,658 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:18:05,442 - INFO - Salvo M114: 2025-05-14 10:18:05, Posição: X=122.21, Y=157.9, Z=8.0, E=3793.72, Temperaturas: T:199.96/200.0, B:60.0/60.0
+2025-05-14 10:18:05,804 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:18:05,921 - INFO - Salvo M114: 2025-05-14 10:18:05, Posição: X=96.92, Y=155.05, Z=8.0, E=3794.75, Temperaturas: T:199.96/200.0, B:60.0/60.0
+2025-05-14 10:18:10,923 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:18:11,211 - INFO - Salvo M114: 2025-05-14 10:18:11, Posição: X=124.01, Y=140.55, Z=8.0, E=3800.69, Temperaturas: T:200.04/200.0, B:60.0/60.0
+2025-05-14 10:18:16,041 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:18:16,706 - INFO - Salvo M114: 2025-05-14 10:18:16, Posição: X=93.91, Y=128.52, Z=8.0, E=3806.7, Temperaturas: T:200.07/200.0, B:60.02/60.0
+2025-05-14 10:18:21,213 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:18:21,700 - INFO - Salvo M114: 2025-05-14 10:18:21, Posição: X=128.83, Y=114.69, Z=8.0, E=3812.71, Temperaturas: T:199.99/200.0, B:60.01/60.0
+2025-05-14 10:18:26,380 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:18:26,777 - INFO - Salvo M114: 2025-05-14 10:18:26, Posição: X=88.49, Y=97.35, Z=8.0, E=3818.74, Temperaturas: T:199.94/200.0, B:60.01/60.0
+2025-05-14 10:18:31,499 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:18:31,734 - INFO - Salvo M114: 2025-05-14 10:18:31, Posição: X=133.64, Y=82.76, Z=8.0, E=3824.72, Temperaturas: T:199.97/200.0, B:60.01/60.0
+2025-05-14 10:18:36,608 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:18:37,200 - INFO - Salvo M114: 2025-05-14 10:18:37, Posição: X=86.2, Y=68.89, Z=8.0, E=3830.64, Temperaturas: T:200.06/200.0, B:60.0/60.0
+2025-05-14 10:18:41,719 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:18:53,956 - INFO - Salvo M114: 2025-05-14 10:18:53, Posição: X=129.43, Y=157.54, Z=8.2, E=3852.96, Temperaturas: T:200.02/200.0, B:59.98/60.0
+2025-05-14 10:18:54,952 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:19:06,444 - INFO - Salvo M114: 2025-05-14 10:19:06, Posição: X=122.21, Y=158.22, Z=8.2, E=3853.29, Temperaturas: T:199.94/200.0, B:60.0/60.0
+2025-05-14 10:19:07,129 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:19:07,450 - INFO - Salvo M114: 2025-05-14 10:19:07, Posição: X=91.5, Y=157.89, Z=8.2, E=3854.59, Temperaturas: T:199.88/200.0, B:59.99/60.0
+2025-05-14 10:19:12,265 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:19:12,811 - INFO - Salvo M114: 2025-05-14 10:19:12, Posição: X=113.78, Y=140.37, Z=8.2, E=3860.17, Temperaturas: T:199.99/200.0, B:60.0/60.0
+2025-05-14 10:19:17,353 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:19:17,773 - INFO - Salvo M114: 2025-05-14 10:19:17, Posição: X=121.6, Y=129.35, Z=8.2, E=3865.72, Temperaturas: T:200.09/200.0, B:60.0/60.0
+2025-05-14 10:19:22,464 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:19:22,734 - INFO - Salvo M114: 2025-05-14 10:19:22, Posição: X=86.09, Y=111.58, Z=8.2, E=3871.38, Temperaturas: T:199.93/200.0, B:59.99/60.0
+2025-05-14 10:19:27,921 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:19:28,460 - INFO - Salvo M114: 2025-05-14 10:19:28, Posição: X=130.63, Y=104.57, Z=8.2, E=3877.43, Temperaturas: T:199.94/200.0, B:59.99/60.0
+2025-05-14 10:19:33,029 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:19:33,302 - INFO - Salvo M114: 2025-05-14 10:19:33, Posição: X=104.15, Y=89.43, Z=8.2, E=3883.02, Temperaturas: T:200.03/200.0, B:60.01/60.0
+2025-05-14 10:19:38,140 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:19:38,781 - INFO - Salvo M114: 2025-05-14 10:19:38, Posição: X=99.93, Y=76.37, Z=8.2, E=3888.53, Temperaturas: T:199.99/200.0, B:60.0/60.0
+2025-05-14 10:19:43,292 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:19:43,772 - INFO - Salvo M114: 2025-05-14 10:19:43, Posição: X=129.27, Y=61.3, Z=8.2, E=3894.27, Temperaturas: T:199.98/200.0, B:60.0/60.0
+2025-05-14 10:19:48,479 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:20:10,964 - INFO - Salvo M114: 2025-05-14 10:20:10, Posição: X=127.02, Y=154.38, Z=8.4, E=3914.71, Temperaturas: T:199.94/200.0, B:60.0/60.0
+2025-05-14 10:20:11,802 - INFO - Comando M114 enviado com sucesso!
+2025-05-14 10:20:11,976 - INFO - Salvo M114: 2025-05-14 10:20:11, Posição: X=102.34, Y=158.49, Z=8.4, E=3915.87, Temperaturas: T:199.94/200.0, B:60.0/60.0
