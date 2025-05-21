@@ -1,0 +1,22 @@
+{
+  "PrinterOperationalData": [
+    {
+      "Timestamp": "2025-05-16 10:41:00",
+      "NozzleTemp": 210.5,
+      "NozzleTarget": 215.0,
+      "BedTemp": 60.0,
+      "BedTarget": 60.0,
+      "PositionX": 100.0,
+      "PositionY": 50.0,
+      "PositionZ": 10.0,
+      "ExtrusionLevel": 0.0,
+      "PrinterState": "Printing from SD",
+      "Filename": "test_print",
+      "AccelPrint": 500.0,
+      "AccelRetract": 500.0,
+      "AccelTravel": 500.0,
+      "JerkX": 10.0,
+      "JerkY": 10.0
+    }
+  ]
+}
