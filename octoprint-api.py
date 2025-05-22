@@ -473,4 +473,3 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         logging.info("Programa encerrado pelo usuário.")
 
-O que achas?
