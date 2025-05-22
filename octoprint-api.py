@@ -17,19 +17,19 @@ PASSWORD = "ricsricsjabjab"
 UPDATE_INTERVAL_M114 = 5
 TIMEOUT_LIMIT = 90
 CSV_FILE = "/app/data/printer_data3.csv"
-LOG_FILE = "/app/data/octoprint_monitor3.log"  # Corrigido de /data para /app/data
+LOG_FILE = "/app/data/octoprint_monitor3.log"
 CHECK_INTERVAL = 5
-# Definindo constantes que estavam faltando
-MAX_RETRIES = 3
-RETRY_WAIT = 5
-HTTP_TIMEOUT = 10
-OFFLINE_CHECK_INTERVAL = 60
-INACTIVITY_THRESHOLD = 3600
 
 HEADERS = {
     "X-Api-Key": API_KEY,
     "Content-Type": "application/json"
 }
+
+# Criar o diretório para logs e dados, se não existir
+log_dir = "/app/data"
+if not os.path.exists(log_dir):
+    os.makedirs(log_dir, exist_ok=True)
+    logger.info("Diretório %s criado no contêiner", log_dir)
 
 # Configurar logging para stdout e arquivo
 logging.basicConfig(
@@ -41,12 +41,6 @@ logging.basicConfig(
     ]
 )
 logger = logging.getLogger(__name__)
-
-# Criar o diretório para logs e dados, se não existir
-log_dir = "/app/data"
-if not os.path.exists(log_dir):
-    os.makedirs(log_dir, exist_ok=True)
-    logger.info("Diretório %s criado no contêiner", log_dir)
 
 class PrinterData:
     def __init__(self):
@@ -478,3 +472,5 @@ if __name__ == "__main__":
         main()
     except KeyboardInterrupt:
         logging.info("Programa encerrado pelo usuário.")
+
+O que achas?
