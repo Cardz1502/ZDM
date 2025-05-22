@@ -16,8 +16,8 @@ USERNAME = "rics"
 PASSWORD = "ricsricsjabjab"
 UPDATE_INTERVAL_M114 = 5
 TIMEOUT_LIMIT = 90
-CSV_FILE = "/data/printer_data3.csv"
-LOG_FILE = "/data/octoprint_monitor3.log"
+CSV_FILE = "app/data/printer_data3.csv"
+LOG_FILE = "app/data/octoprint_monitor3.log"
 CHECK_INTERVAL = 5
 # Definindo constantes que estavam faltando
 MAX_RETRIES = 3
