@@ -67,10 +67,10 @@ def process_printer_data(input_file, output_file):
         print(df[date_column].head())
         return
 
-    # Identificar impressões com base em gaps de 10 minutos ou mais
+    # Identificar impressões com base em gaps de 5 minutos ou mais
     df = df.sort_values('timestamp')  # Garantir que os dados estão ordenados por timestamp
     df['time_diff'] = df['timestamp'].diff().dt.total_seconds() / 60  # Diferença em minutos
-    df['print_group'] = (df['time_diff'] >= 10).cumsum()  # Novo grupo para gaps >= 10 minutos
+    df['print_group'] = (df['time_diff'] >= 5).cumsum()  # Novo grupo para gaps >= 10 minutos
 
     # Ler o processed_data.csv para determinar as impressões já processadas
     processed_prints = set()
