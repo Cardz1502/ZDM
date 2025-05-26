@@ -16,11 +16,7 @@ USERNAME = "rics"
 PASSWORD = "ricsricsjabjab"
 UPDATE_INTERVAL_M114 = 5
 TIMEOUT_LIMIT = 90
-<<<<<<< HEAD
 CSV_FILE = "/app/data/printer_data2.csv"
-=======
-CSV_FILE = "/app/data/printer_data3.csv"
->>>>>>> 1d143da24122bb8af91d49ed348f1bae8a4d001a
 LOG_FILE = "/app/data/octoprint_monitor2.log"
 CHECK_INTERVAL = 5
 HTTP_TIMEOUT = 30
