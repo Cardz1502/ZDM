@@ -213,7 +213,6 @@ def send_m503():
                 control.m503_last_time = None
 
 def save_data(timestamp, is_m114=True):
-<<<<<<< HEAD
     # Lista de nomes de ficheiros permitidos
     allowed_filenames = {"zdm4ms~4", "zd5b20~1", "zd2c72~1"}
     
@@ -221,8 +220,6 @@ def save_data(timestamp, is_m114=True):
         logger.info("Nome de ficheiro %s não está na lista permitida. Dados não salvos.", control.filename)
         return
 
-=======
->>>>>>> 1d143da24122bb8af91d49ed348f1bae8a4d001a
     if not os.path.exists(CSV_FILE):
         with open(CSV_FILE, "w", newline="", encoding="utf-8") as file:
             writer = csv.writer(file)
@@ -237,28 +234,16 @@ def save_data(timestamp, is_m114=True):
         row = [timestamp_str, data.nozzle_temp, data.nozzle_target, data.nozzle_delta,
                data.nozzle_pwm, data.bed_temp, data.bed_target, data.bed_delta, data.bed_pwm,
                data.x, data.y, data.z, data.extrusion_level, None, None, None, None, None, control.filename]
-<<<<<<< HEAD
         logger.info("Salvo M114: %s, Posição: X=%s, Y=%s, Z=%s, E=%s, Temperaturas: T:%s/%s, B:%s/%s, Filename: %s",
                      timestamp_str, data.x, data.y, data.z, data.extrusion_level,
                      data.nozzle_temp, data.nozzle_target, data.bed_temp, data.bed_target, control.filename)
-=======
-        logger.info("Salvo M114: %s, Posição: X=%s, Y=%s, Z=%s, E=%s, Temperaturas: T:%s/%s, B:%s/%s",
-                     timestamp_str, data.x, data.y, data.z, data.extrusion_level,
-                     data.nozzle_temp, data.nozzle_target, data.bed_temp, data.bed_target)
->>>>>>> 1d143da24122bb8af91d49ed348f1bae8a4d001a
     else:
         row = [timestamp_str, data.nozzle_temp, data.nozzle_target, data.nozzle_delta,
                data.nozzle_pwm, data.bed_temp, data.bed_target, data.bed_delta, data.bed_pwm,
                None, None, None, None, data.accel_print, data.accel_retract, data.accel_travel, data.jerk_x, data.jerk_y, control.filename]
-<<<<<<< HEAD
         logger.info("Salvo M503: %s, Accel P=%s, R=%s, T=%s, Jerk X=%s, Y=%s, Temperaturas: T:%s/%s, B:%s/%s, Filename: %s",
                      timestamp_str, data.accel_print, data.accel_retract, data.accel_travel,
                      data.jerk_x, data.jerk_y, data.nozzle_temp, data.nozzle_target, data.bed_temp, data.bed_target, control.filename)
-=======
-        logger.info("Salvo M503: %s, Accel P=%s, R=%s, T=%s, Jerk X=%s, Y=%s, Temperaturas: T:%s/%s, B:%s/%s",
-                     timestamp_str, data.accel_print, data.accel_retract, data.accel_travel,
-                     data.jerk_x, data.jerk_y, data.nozzle_temp, data.nozzle_target, data.bed_temp, data.bed_target)
->>>>>>> 1d143da24122bb8af91d49ed348f1bae8a4d001a
 
     with open(CSV_FILE, "a", newline="", encoding="utf-8") as file:
         writer = csv.writer(file)
@@ -375,10 +360,7 @@ def main():
     first_m114 = True
     first_m503 = True
     last_logged_state = None
-<<<<<<< HEAD
     last_printing_state = False  # Para rastrear mudanças no estado de impressão
-=======
->>>>>>> 1d143da24122bb8af91d49ed348f1bae8a4d001a
 
     try:
         while True:
@@ -410,19 +392,8 @@ def main():
                     if not control.m503_waiting and first_m503:
                         send_m503()
                         first_m503 = False
-<<<<<<< HEAD
 
                 last_printing_state = is_printing  # Atualizar o estado anterior
-=======
-                elif not is_printing and control.printerState != last_logged_state:
-                    logger.info("Impressora não está imprimindo. Estado: %s", control.printerState)
-                    last_logged_state = control.printerState
-                    control.m114_waiting = False
-                    control.m503_waiting = False
-                    first_m503 = True
-                    first_m114 = True
-                    control.filename_obtained = False
->>>>>>> 1d143da24122bb8af91d49ed348f1bae8a4d001a
                 last_check_time = current_time
 
             if is_printing and not control.m114_waiting and (current_time - last_m114_time >= UPDATE_INTERVAL_M114):
