@@ -20,6 +20,7 @@ CSV_FILE = "/app/data/printer_data2.csv"
 LOG_FILE = "/app/data/octoprint_monitor2.log"
 CHECK_INTERVAL = 5
 CHECK_STATE_INTERVAL = 300
+CHECK_WAIT_IMPRESSION_INTERVAL = 150
 HTTP_TIMEOUT = 30
 
 # Configurações de Retry
@@ -368,6 +369,7 @@ def main():
     first_m114 = True
     first_m503 = True
     was_printing = False
+    last_wait_impression = 0
 
     try:
         while True:
@@ -384,8 +386,9 @@ def main():
                     is_operational = state == "Operational"
 
                     if is_operational and not was_printing:
-                        if not was_printing:  # Evitar log repetitivo
+                        if current_time - last_wait_impression >= CHECK_WAIT_IMPRESSION_INTERVAL:
                             logger.info("Impressora em estado Operational, aguardando impressão")
+                            last_wait_impression = current_time
 
                     if is_printing and not was_printing:
                         logger.info("Impressora iniciando impressão: %s", state)
