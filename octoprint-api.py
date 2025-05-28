@@ -15,13 +15,13 @@ API_KEY = "Yfvanr37vlCxeQCFi8_pdyrz-GrqYFIYh2RpYKYtQ0I"
 USERNAME = "rics"
 PASSWORD = "ricsricsjabjab"
 UPDATE_INTERVAL_M114 = 5
-UPDATE_INTERVAL_M220 = 30  # Novo intervalo para o M220 (30 segundos)
+UPDATE_INTERVAL_M220 = 30
 TIMEOUT_LIMIT = 90
 CSV_FILE = "/app/data/printer_data2.csv"
 LOG_FILE = "/app/data/octoprint_monitor2.log"
 CHECK_INTERVAL = 5
-CHECK_STATE_INTERVAL = 30  # Intervalo para log do estado da impressora
-CHECK_WAIT_IMPRESSION_INTERVAL = 60  # Intervalo para log de espera de impressão
+CHECK_STATE_INTERVAL = 30
+CHECK_WAIT_IMPRESSION_INTERVAL = 60
 HTTP_TIMEOUT = 30
 
 # Configurações de Retry
@@ -66,7 +66,7 @@ class PrinterData:
         self.y = None
         self.z = None
         self.extrusion_level = None
-        self.speed_factor = None  # Fator de velocidade (obtido via M220)
+        self.speed_factor = None
 
     def to_dict(self):
         return {
@@ -224,12 +224,35 @@ def save_data(timestamp, is_m114=True):
             row = [timestamp_str, data.nozzle_temp, data.nozzle_target, data.nozzle_delta,
                    data.nozzle_pwm, data.bed_temp, data.bed_target, data.bed_delta, data.bed_pwm,
                    data.x, data.y, data.z, data.extrusion_level, data.speed_factor, control.filename]
-            logger.info("Dados M114 salvos: %s, Filename: %s, SpeedFactor: %s%%", timestamp_str, control.filename, data.speed_factor)
+            # Usar valores padrão se algum dado for None
+            nozzle_temp = data.nozzle_temp if data.nozzle_temp is not None else 0.0
+            nozzle_target = data.nozzle_target if data.nozzle_target is not None else 0.0
+            bed_temp = data.bed_temp if data.bed_temp is not None else 0.0
+            bed_target = data.bed_target if data.bed_target is not None else 0.0
+            nozzle_pwm = data.nozzle_pwm if data.nozzle_pwm is not None else 0
+            bed_pwm = data.bed_pwm if data.bed_pwm is not None else 0
+            x = data.x if data.x is not None else 0.0
+            y = data.y if data.y is not None else 0.0
+            z = data.z if data.z is not None else 0.0
+            extrusion_level = data.extrusion_level if data.extrusion_level is not None else 0.0
+            speed_factor = data.speed_factor if data.speed_factor is not None else 0.0
+            logger.info("Dados M114 salvos: %s, X=%.2f, Y=%.2f, Z=%.2f, E=%.2f, SpeedFactor=%.0f%%, Nozzle=%.2f/%.2f, Bed=%.2f/%.2f, PWM(Nozzle:Bed)=(%d:%d), Filename=%s",
+                        timestamp_str, x, y, z, extrusion_level, speed_factor,
+                        nozzle_temp, nozzle_target, bed_temp, bed_target, nozzle_pwm, bed_pwm, control.filename)
         else:
             row = [timestamp_str, data.nozzle_temp, data.nozzle_target, data.nozzle_delta,
                    data.nozzle_pwm, data.bed_temp, data.bed_target, data.bed_delta, data.bed_pwm,
                    None, None, None, None, data.speed_factor, control.filename]
-            logger.info("Dados M220 salvos: %s, Filename: %s, SpeedFactor: %s%%", timestamp_str, control.filename, data.speed_factor)
+            # Usar valores padrão se algum dado for None
+            nozzle_temp = data.nozzle_temp if data.nozzle_temp is not None else 0.0
+            nozzle_target = data.nozzle_target if data.nozzle_target is not None else 0.0
+            bed_temp = data.bed_temp if data.bed_temp is not None else 0.0
+            bed_target = data.bed_target if data.bed_target is not None else 0.0
+            nozzle_pwm = data.nozzle_pwm if data.nozzle_pwm is not None else 0
+            bed_pwm = data.bed_pwm if data.bed_pwm is not None else 0
+            speed_factor = data.speed_factor if data.speed_factor is not None else 0.0
+            logger.info("Dados M220 salvos: %s, SpeedFactor=%.0f%%, Nozzle=%.2f/%.2f, Bed=%.2f/%.2f, PWM(Nozzle:Bed)=(%d:%d), Filename=%s",
+                        timestamp_str, speed_factor, nozzle_temp, nozzle_target, bed_temp, bed_target, nozzle_pwm, bed_pwm, control.filename)
 
         with open(CSV_FILE, "a", newline="", encoding="utf-8") as file:
             writer = csv.writer(file)
@@ -249,7 +272,6 @@ def on_message(ws, message):
             current = message_data["current"]
             logs = current.get("logs", [])
             logger.debug("Logs recebidos: %s", logs)
-            is_printing = control.printer_state in ["Printing from SD", "Starting print from SD"]
 
             for log in logs:
                 logger.debug("Processando log: %s", log)
@@ -271,20 +293,28 @@ def on_message(ws, message):
                     data.y = float(pos_match.group(2))
                     data.z = float(pos_match.group(3))
                     data.extrusion_level = float(pos_match.group(4))
-                    if is_printing:
+                    # Verificar se os valores de temperatura estão disponíveis e não são 0
+                    nozzle_target = data.nozzle_target if data.nozzle_target is not None else 0.0
+                    bed_target = data.bed_target if data.bed_target is not None else 0.0
+                    if nozzle_target != 0 and bed_target != 0:
                         timestamp = datetime.now()
                         save_data(timestamp, is_m114=True)
+                    else:
+                        logger.info("M114 ignorado após fim da impressão: X=%.2f, Y=%.2f, Z=%.2f, E=%.2f", data.x, data.y, data.z, data.extrusion_level)
                     control.m114_waiting = False
-                    logger.info("Resposta M114 recebida: X=%s, Y=%s, Z=%s, E=%s", data.x, data.y, data.z, data.extrusion_level)
 
                 speed_match = re.search(r"FR:([\d.]+)%", log)
                 if speed_match and control.m220_waiting:
                     data.speed_factor = float(speed_match.group(1))
-                    if is_printing:
+                    # Verificar se os valores de temperatura estão disponíveis e não são 0
+                    nozzle_target = data.nozzle_target if data.nozzle_target is not None else 0.0
+                    bed_target = data.bed_target if data.bed_target is not None else 0.0
+                    if nozzle_target != 0 and bed_target != 0:
                         timestamp = datetime.now()
                         save_data(timestamp, is_m114=False)
+                    else:
+                        logger.info("M220 ignorado após fim da impressão: SpeedFactor=%.0f%%", data.speed_factor)
                     control.m220_waiting = False
-                    logger.info("Resposta M220 recebida: SpeedFactor=%s%%", data.speed_factor)
 
     except json.JSONDecodeError as e:
         logger.error("Erro ao decodificar mensagem WebSocket: %s", e)
@@ -339,7 +369,7 @@ def main():
     last_check_time = 0
     last_check_time_state = 0
     last_m114_time = 0
-    last_m220_time = 0  # Novo timer para o M220
+    last_m220_time = 0
     first_m114 = True
     first_m220 = True
     was_printing = False
@@ -379,7 +409,10 @@ def main():
                         first_m114 = True
                         control.filename_obtained = False
 
-                    if is_printing:
+                    allowed_filenames = {"zdm4ms~4", "zd5b20~1", "zd2c72~1"}
+                    filename_allowed = control.filename in allowed_filenames
+
+                    if is_printing and filename_allowed:
                         if not control.m114_waiting and first_m114:
                             send_m114()
                             first_m114 = False
@@ -396,11 +429,14 @@ def main():
                     time.sleep(RETRY_WAIT)
                     continue
 
-            if was_printing and not control.m114_waiting and (current_time - last_m114_time >= UPDATE_INTERVAL_M114):
+            allowed_filenames = {"zdm4ms~4", "zd5b20~1", "zd2c72~1"}
+            filename_allowed = control.filename in allowed_filenames
+
+            if was_printing and filename_allowed and not control.m114_waiting and (current_time - last_m114_time >= UPDATE_INTERVAL_M114):
                 send_m114()
                 last_m114_time = current_time
 
-            if was_printing and not control.m220_waiting and (current_time - last_m220_time >= UPDATE_INTERVAL_M220):
+            if was_printing and filename_allowed and not control.m220_waiting and (current_time - last_m220_time >= UPDATE_INTERVAL_M220):
                 send_m220()
                 last_m220_time = current_time
 
