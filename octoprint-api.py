@@ -160,6 +160,7 @@ def get_current_filename_from_api():
             if retries < MAX_RETRIES:
                 time.sleep(RETRY_WAIT)
             else:
+                logger.warning("Falha ao obter nome do arquivo após %d tentativas, retornando valor padrão", MAX_RETRIES)
                 return "(no file)"
 
 def send_m114():
@@ -207,8 +208,9 @@ def send_m220():
 def save_data(timestamp, is_m114=True):
     allowed_filenames = {"zdm4ms~4", "zd5b20~1", "zd2c72~1"}
     
-    if control.filename not in allowed_filenames:
-        logger.info("Nome de ficheiro %s não está na lista permitida. Dados não salvos", control.filename)
+    # Verificar se control.filename é None
+    if control.filename is None or control.filename not in allowed_filenames:
+        logger.info("Nome de ficheiro %s não está na lista permitida ou é None. Dados não salvos", control.filename)
         return
 
     try:
@@ -408,19 +410,23 @@ def main():
                         first_m220 = True
                         first_m114 = True
                         control.filename_obtained = False
+                        control.filename = None  # Resetar filename para aguardar nova impressão
 
                     allowed_filenames = {"zdm4ms~4", "zd5b20~1", "zd2c72~1"}
-                    filename_allowed = control.filename in allowed_filenames
+                    filename_allowed = control.filename is not None and control.filename in allowed_filenames
 
-                    if is_printing and filename_allowed:
-                        if not control.m114_waiting and first_m114:
-                            send_m114()
-                            first_m114 = False
-                            last_m114_time = current_time
-                        if not control.m220_waiting and first_m220:
-                            send_m220()
-                            first_m220 = False
-                            last_m220_time = current_time
+                    if is_printing:
+                        if filename_allowed:
+                            if not control.m114_waiting and first_m114:
+                                send_m114()
+                                first_m114 = False
+                                last_m114_time = current_time
+                            if not control.m220_waiting and first_m220:
+                                send_m220()
+                                first_m220 = False
+                                last_m220_time = current_time
+                        else:
+                            logger.info("Nome de ficheiro %s não está na lista permitida ou é None. Comandos M114 e M220 não serão enviados", control.filename)
 
                     was_printing = is_printing
                     last_check_time = current_time
@@ -430,20 +436,18 @@ def main():
                     continue
 
             allowed_filenames = {"zdm4ms~4", "zd5b20~1", "zd2c72~1"}
+            filename_allowed = control.filename is not None and control.filename in allowed_filenames
 
-            if control.filename not in allowed_filenames:
-                logger.info("Nome de ficheiro %s não está na lista permitida. Dados não serão salvos", control.filename)
-                return
-            filename_allowed = control.filename in allowed_filenames
-
-
-            if was_printing and filename_allowed and not control.m114_waiting and (current_time - last_m114_time >= UPDATE_INTERVAL_M114):
-                send_m114()
-                last_m114_time = current_time
-
-            if was_printing and filename_allowed and not control.m220_waiting and (current_time - last_m220_time >= UPDATE_INTERVAL_M220):
-                send_m220()
-                last_m220_time = current_time
+            if was_printing:
+                if filename_allowed:
+                    if not control.m114_waiting and (current_time - last_m114_time >= UPDATE_INTERVAL_M114):
+                        send_m114()
+                        last_m114_time = current_time
+                    if not control.m220_waiting and (current_time - last_m220_time >= UPDATE_INTERVAL_M220):
+                        send_m220()
+                        last_m220_time = current_time
+                else:
+                    logger.info("Nome de ficheiro %s não está na lista permitida ou é None. Comandos M114 e M220 não serão enviados", control.filename)
 
             if control.m114_waiting and control.m114_last_time and (current_time - control.m114_last_time > TIMEOUT_LIMIT) and was_printing:
                 logger.warning("Timeout de %ds para M114. Reenviando", TIMEOUT_LIMIT)
