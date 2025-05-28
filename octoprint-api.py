@@ -23,6 +23,7 @@ CHECK_INTERVAL = 5
 CHECK_STATE_INTERVAL = 30
 CHECK_WAIT_IMPRESSION_INTERVAL = 60
 HTTP_TIMEOUT = 30
+FILENAME_WARNING_INTERVAL = 300  # Intervalo de 5 minutos (em segundos) para log periódico
 
 # Configurações de Retry
 MAX_RETRIES = 5
@@ -96,6 +97,8 @@ class Control:
         self.filename = None
         self.filename_obtained = False
         self.ws = None
+        self.filename_warning_logged = False  # Novo: para rastrear se o log já foi registrado
+        self.last_filename_warning = 0  # Novo: para rastrear o último log periódico
 
 data = PrinterData()
 control = Control()
@@ -400,6 +403,8 @@ def main():
                         logger.info("Impressora iniciando impressão: %s", state)
                         control.filename = get_current_filename_from_api()
                         control.filename_obtained = True
+                        control.filename_warning_logged = False  # Resetar o controle de log para nova impressão
+                        control.last_filename_warning = 0  # Resetar o tempo do último log
                         first_m114 = True
                         first_m220 = True
 
@@ -410,7 +415,9 @@ def main():
                         first_m220 = True
                         first_m114 = True
                         control.filename_obtained = False
-                        control.filename = None  # Resetar filename para aguardar nova impressão
+                        control.filename = None
+                        control.filename_warning_logged = False  # Resetar o controle de log
+                        control.last_filename_warning = 0  # Resetar o tempo do último log
 
                     allowed_filenames = {"zdm4ms~4", "zd5b20~1", "zd2c72~1"}
                     filename_allowed = control.filename is not None and control.filename in allowed_filenames
@@ -426,7 +433,14 @@ def main():
                                 first_m220 = False
                                 last_m220_time = current_time
                         else:
-                            logger.info("Nome de ficheiro %s não está na lista permitida ou é None. Comandos M114 e M220 não serão enviados", control.filename)
+                            # Registrar o log apenas na primeira vez ou a cada 5 minutos
+                            if not control.filename_warning_logged:
+                                logger.info("Nome de ficheiro %s não está na lista permitida ou é None. Comandos M114 e M220 não serão enviados", control.filename)
+                                control.filename_warning_logged = True
+                                control.last_filename_warning = current_time
+                            elif current_time - control.last_filename_warning >= FILENAME_WARNING_INTERVAL:
+                                logger.info("Nome de ficheiro %s ainda não está na lista permitida ou é None. Comandos M114 e M220 não serão enviados (log periódico)", control.filename)
+                                control.last_filename_warning = current_time
 
                     was_printing = is_printing
                     last_check_time = current_time
@@ -447,7 +461,14 @@ def main():
                         send_m220()
                         last_m220_time = current_time
                 else:
-                    logger.info("Nome de ficheiro %s não está na lista permitida ou é None. Comandos M114 e M220 não serão enviados", control.filename)
+                    # Registrar o log apenas na primeira vez ou a cada 5 minutos
+                    if not control.filename_warning_logged:
+                        logger.info("Nome de ficheiro %s não está na lista permitida ou é None. Comandos M114 e M220 não serão enviados", control.filename)
+                        control.filename_warning_logged = True
+                        control.last_filename_warning = current_time
+                    elif current_time - control.last_filename_warning >= FILENAME_WARNING_INTERVAL:
+                        logger.info("Nome de ficheiro %s ainda não está na lista permitida ou é None. Comandos M114 e M220 não serão enviados (log periódico)", control.filename)
+                        control.last_filename_warning = current_time
 
             if control.m114_waiting and control.m114_last_time and (current_time - control.m114_last_time > TIMEOUT_LIMIT) and was_printing:
                 logger.warning("Timeout de %ds para M114. Reenviando", TIMEOUT_LIMIT)
