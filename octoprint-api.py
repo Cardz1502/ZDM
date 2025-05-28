@@ -15,12 +15,13 @@ API_KEY = "Yfvanr37vlCxeQCFi8_pdyrz-GrqYFIYh2RpYKYtQ0I"
 USERNAME = "rics"
 PASSWORD = "ricsricsjabjab"
 UPDATE_INTERVAL_M114 = 5
+UPDATE_INTERVAL_M220 = 30  # Novo intervalo para o M220 (30 segundos)
 TIMEOUT_LIMIT = 90
 CSV_FILE = "/app/data/printer_data2.csv"
 LOG_FILE = "/app/data/octoprint_monitor2.log"
 CHECK_INTERVAL = 5
-CHECK_STATE_INTERVAL = 300
-CHECK_WAIT_IMPRESSION_INTERVAL = 150
+CHECK_STATE_INTERVAL = 30  # Intervalo para log do estado da impressora
+CHECK_WAIT_IMPRESSION_INTERVAL = 60  # Intervalo para log de espera de impressão
 HTTP_TIMEOUT = 30
 
 # Configurações de Retry
@@ -65,11 +66,7 @@ class PrinterData:
         self.y = None
         self.z = None
         self.extrusion_level = None
-        self.accel_print = None
-        self.accel_retract = None
-        self.accel_travel = None
-        self.jerk_x = None
-        self.jerk_y = None 
+        self.speed_factor = None  # Fator de velocidade (obtido via M220)
 
     def to_dict(self):
         return {
@@ -85,19 +82,15 @@ class PrinterData:
             "Y": self.y,
             "Z": self.z,
             "ExtrusionLevel": self.extrusion_level,
-            "AccelPrint": self.accel_print,
-            "AccelRetract": self.accel_retract,
-            "AccelTravel": self.accel_travel,
-            "JerkX": self.jerk_x,
-            "JerkY": self.jerk_y
+            "SpeedFactor": self.speed_factor
         }
 
 class Control:
     def __init__(self):
         self.m114_waiting = False 
-        self.m503_waiting = False
+        self.m220_waiting = False
         self.m114_last_time = None
-        self.m503_last_time = None
+        self.m220_last_time = None
         self.session_key = None
         self.printer_state = None
         self.filename = None
@@ -190,26 +183,26 @@ def send_m114():
                 control.m114_waiting = False
                 control.m114_last_time = None
 
-def send_m503():
+def send_m220():
     url = f"{BASE_URL}/api/printer/command"
-    payload = {"command": "M503"}
+    payload = {"command": "M220"}
     retries = 0
     while retries < MAX_RETRIES:
         try:
             response = requests.post(url, json=payload, headers=HEADERS, timeout=HTTP_TIMEOUT)
             response.raise_for_status()
-            logger.info("Comando M503 enviado")
-            control.m503_waiting = True
-            control.m503_last_time = time.time()
+            logger.info("Comando M220 enviado")
+            control.m220_waiting = True
+            control.m220_last_time = time.time()
             return
         except requests.exceptions.RequestException as e:
             retries += 1
-            logger.error("Erro ao enviar M503 (tentativa %d/%d): %s", retries, MAX_RETRIES, e)
+            logger.error("Erro ao enviar M220 (tentativa %d/%d): %s", retries, MAX_RETRIES, e)
             if retries < MAX_RETRIES:
                 time.sleep(RETRY_WAIT)
             else:
-                control.m503_waiting = False
-                control.m503_last_time = None
+                control.m220_waiting = False
+                control.m220_last_time = None
 
 def save_data(timestamp, is_m114=True):
     allowed_filenames = {"zdm4ms~4", "zd5b20~1", "zd2c72~1"}
@@ -224,21 +217,19 @@ def save_data(timestamp, is_m114=True):
                 writer = csv.writer(file)
                 writer.writerow(["timestamp", "temp_nozzle", "temp_target_nozzle", "temp_delta_nozzle",
                                  "pwm_nozzle", "temp_bed", "temp_target_bed", "temp_delta_bed", "pwm_bed",
-                                 "X", "Y", "Z", "E", "accel_print",
-                                 "accel_retract", "accel_travel",
-                                 "jerk_x", "jerk_y", "filename"])
+                                 "X", "Y", "Z", "E", "speed_factor", "filename"])
 
         timestamp_str = timestamp.strftime("%Y-%m-%d %H:%M:%S")
         if is_m114:
             row = [timestamp_str, data.nozzle_temp, data.nozzle_target, data.nozzle_delta,
                    data.nozzle_pwm, data.bed_temp, data.bed_target, data.bed_delta, data.bed_pwm,
-                   data.x, data.y, data.z, data.extrusion_level, None, None, None, None, None, control.filename]
-            logger.info("Dados M114 salvos: %s, Filename: %s", timestamp_str, control.filename)
+                   data.x, data.y, data.z, data.extrusion_level, data.speed_factor, control.filename]
+            logger.info("Dados M114 salvos: %s, Filename: %s, SpeedFactor: %s%%", timestamp_str, control.filename, data.speed_factor)
         else:
             row = [timestamp_str, data.nozzle_temp, data.nozzle_target, data.nozzle_delta,
                    data.nozzle_pwm, data.bed_temp, data.bed_target, data.bed_delta, data.bed_pwm,
-                   None, None, None, None, data.accel_print, data.accel_retract, data.accel_travel, data.jerk_x, data.jerk_y, control.filename]
-            logger.info("Dados M503 salvos: %s, Filename: %s", timestamp_str, control.filename)
+                   None, None, None, None, data.speed_factor, control.filename]
+            logger.info("Dados M220 salvos: %s, Filename: %s, SpeedFactor: %s%%", timestamp_str, control.filename, data.speed_factor)
 
         with open(CSV_FILE, "a", newline="", encoding="utf-8") as file:
             writer = csv.writer(file)
@@ -259,8 +250,6 @@ def on_message(ws, message):
             logs = current.get("logs", [])
             logger.debug("Logs recebidos: %s", logs)
             is_printing = control.printer_state in ["Printing from SD", "Starting print from SD"]
-            m204_received = False
-            m205_received = False
 
             for log in logs:
                 logger.debug("Processando log: %s", log)
@@ -288,30 +277,14 @@ def on_message(ws, message):
                     control.m114_waiting = False
                     logger.info("Resposta M114 recebida: X=%s, Y=%s, Z=%s, E=%s", data.x, data.y, data.z, data.extrusion_level)
 
-                accel_match = re.search(r"M204\s+(?:S([\d.]+)|P([\d.]+)\s+R([\d.]+)\s+T([\d.]+))", log)
-                if accel_match and control.m503_waiting:
-                    if accel_match.group(1):
-                        data.accel_print = float(accel_match.group(1))
-                        data.accel_retract = data.accel_print
-                        data.accel_travel = data.accel_print
-                    else:
-                        data.accel_print = float(accel_match.group(2))
-                        data.accel_retract = float(accel_match.group(3))
-                        data.accel_travel = float(accel_match.group(4))
-                    m204_received = True
-                    logger.info("Resposta M204 recebida: P=%s, R=%s, T=%s", data.accel_print, data.accel_retract, data.accel_travel)
-
-                jerk_match = re.search(r"M205.*X([\d.]+).*Y([\d.]+)", log)
-                if jerk_match and control.m503_waiting:
-                    data.jerk_x = float(jerk_match.group(1))
-                    data.jerk_y = float(jerk_match.group(2))
-                    m205_received = True
-                    logger.info("Resposta M205 recebida: X=%s, Y=%s", data.jerk_x, data.jerk_y)
-
-                if control.m503_waiting and m204_received and m205_received and is_printing:
-                    timestamp = datetime.now()
-                    save_data(timestamp, is_m114=False)
-                    control.m503_waiting = False
+                speed_match = re.search(r"FR:([\d.]+)%", log)
+                if speed_match and control.m220_waiting:
+                    data.speed_factor = float(speed_match.group(1))
+                    if is_printing:
+                        timestamp = datetime.now()
+                        save_data(timestamp, is_m114=False)
+                    control.m220_waiting = False
+                    logger.info("Resposta M220 recebida: SpeedFactor=%s%%", data.speed_factor)
 
     except json.JSONDecodeError as e:
         logger.error("Erro ao decodificar mensagem WebSocket: %s", e)
@@ -366,8 +339,9 @@ def main():
     last_check_time = 0
     last_check_time_state = 0
     last_m114_time = 0
+    last_m220_time = 0  # Novo timer para o M220
     first_m114 = True
-    first_m503 = True
+    first_m220 = True
     was_printing = False
     last_wait_impression = 0
 
@@ -395,13 +369,13 @@ def main():
                         control.filename = get_current_filename_from_api()
                         control.filename_obtained = True
                         first_m114 = True
-                        first_m503 = True
+                        first_m220 = True
 
                     if not is_printing and was_printing and is_operational:
                         logger.info("Impressora voltou ao estado Operational após impressão")
                         control.m114_waiting = False
-                        control.m503_waiting = False
-                        first_m503 = True
+                        control.m220_waiting = False
+                        first_m220 = True
                         first_m114 = True
                         control.filename_obtained = False
 
@@ -410,9 +384,10 @@ def main():
                             send_m114()
                             first_m114 = False
                             last_m114_time = current_time
-                        if not control.m503_waiting and first_m503:
-                            send_m503()
-                            first_m503 = False
+                        if not control.m220_waiting and first_m220:
+                            send_m220()
+                            first_m220 = False
+                            last_m220_time = current_time
 
                     was_printing = is_printing
                     last_check_time = current_time
@@ -425,14 +400,19 @@ def main():
                 send_m114()
                 last_m114_time = current_time
 
+            if was_printing and not control.m220_waiting and (current_time - last_m220_time >= UPDATE_INTERVAL_M220):
+                send_m220()
+                last_m220_time = current_time
+
             if control.m114_waiting and control.m114_last_time and (current_time - control.m114_last_time > TIMEOUT_LIMIT) and was_printing:
                 logger.warning("Timeout de %ds para M114. Reenviando", TIMEOUT_LIMIT)
                 send_m114()
                 last_m114_time = current_time
 
-            if control.m503_waiting and control.m503_last_time and (current_time - control.m503_last_time > TIMEOUT_LIMIT) and was_printing:
-                logger.warning("Timeout de %ds para M503. Reenviando", TIMEOUT_LIMIT)
-                send_m503()
+            if control.m220_waiting and control.m220_last_time and (current_time - control.m220_last_time > TIMEOUT_LIMIT) and was_printing:
+                logger.warning("Timeout de %ds para M220. Reenviando", TIMEOUT_LIMIT)
+                send_m220()
+                last_m220_time = current_time
 
             time.sleep(1)
 
