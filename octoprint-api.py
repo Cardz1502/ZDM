@@ -362,7 +362,7 @@ def main():
             if current_time - last_check_time >= CHECK_INTERVAL:
                 try:
                     state = check_printing_status()
-                    logger.info("Estado da impressora verificado: %s", state)
+                    #logger.info("Estado da impressora verificado: %s", state)
                     is_printing = state in ["Printing from SD", "Starting print from SD"]
                     is_operational = state == "Operational"
 
