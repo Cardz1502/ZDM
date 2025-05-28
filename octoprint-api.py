@@ -430,7 +430,12 @@ def main():
                     continue
 
             allowed_filenames = {"zdm4ms~4", "zd5b20~1", "zd2c72~1"}
+
+            if control.filename not in allowed_filenames:
+                logger.info("Nome de ficheiro %s não está na lista permitida. Dados não serão salvos", control.filename)
+                return
             filename_allowed = control.filename in allowed_filenames
+
 
             if was_printing and filename_allowed and not control.m114_waiting and (current_time - last_m114_time >= UPDATE_INTERVAL_M114):
                 send_m114()
