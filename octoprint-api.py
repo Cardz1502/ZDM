@@ -20,7 +20,6 @@ CSV_FILE = "/app/data/printer_data2.csv"
 LOG_FILE = "/app/data/octoprint_monitor2.log"
 CHECK_INTERVAL = 5
 HTTP_TIMEOUT = 30
-OPERATIONAL_TIMEOUT = 600  # 10 minutos
 
 # Configurações de Retry
 MAX_RETRIES = 5
@@ -101,6 +100,7 @@ class Control:
         self.printer_state = None
         self.filename = None
         self.filename_obtained = False
+        self.ws = None
 
 data = PrinterData()
 control = Control()
@@ -246,18 +246,23 @@ def save_data(timestamp, is_m114=True):
 
 def on_message(ws, message):
     try:
+        logger.debug("Mensagem WebSocket recebida: %s", message)
         message_data = json.loads(message)
         if "connected" in message_data:
+            logger.info("Conexão WebSocket confirmada")
             return
 
         if "current" in message_data:
             current = message_data["current"]
             logs = current.get("logs", [])
+            logger.debug("Logs recebidos: %s", logs)
             is_printing = control.printer_state in ["Printing from SD", "Starting print from SD"]
             m204_received = False
             m205_received = False
 
             for log in logs:
+                logger.debug("Processando log: %s", log)
+
                 temp_match = re.search(r"T:([\d.]+)\s*/([\d.]+)\s*B:([\d.]+)\s*/([\d.]+)\s*@:(\d+)\s*B@:(\d+)", log)
                 if temp_match:
                     data.nozzle_temp = float(temp_match.group(1))
@@ -279,6 +284,7 @@ def on_message(ws, message):
                         timestamp = datetime.now()
                         save_data(timestamp, is_m114=True)
                     control.m114_waiting = False
+                    logger.info("Resposta M114 recebida: X=%s, Y=%s, Z=%s, E=%s", data.x, data.y, data.z, data.extrusion_level)
 
                 accel_match = re.search(r"M204\s+(?:S([\d.]+)|P([\d.]+)\s+R([\d.]+)\s+T([\d.]+))", log)
                 if accel_match and control.m503_waiting:
@@ -291,12 +297,14 @@ def on_message(ws, message):
                         data.accel_retract = float(accel_match.group(3))
                         data.accel_travel = float(accel_match.group(4))
                     m204_received = True
+                    logger.info("Resposta M204 recebida: P=%s, R=%s, T=%s", data.accel_print, data.accel_retract, data.accel_travel)
 
                 jerk_match = re.search(r"M205.*X([\d.]+).*Y([\d.]+)", log)
                 if jerk_match and control.m503_waiting:
                     data.jerk_x = float(jerk_match.group(1))
                     data.jerk_y = float(jerk_match.group(2))
                     m205_received = True
+                    logger.info("Resposta M205 recebida: X=%s, Y=%s", data.jerk_x, data.jerk_y)
 
                 if control.m503_waiting and m204_received and m205_received and is_printing:
                     timestamp = datetime.now()
@@ -314,11 +322,14 @@ def on_error(ws, error):
     logger.error("Erro no WebSocket: %s", error)
 
 def on_close(ws, close_status_code, close_msg):
-    logger.info("Conexão WebSocket fechada")
+    logger.info("Conexão WebSocket fechada. Tentando reconectar...")
+    control.ws = None
+    time.sleep(RETRY_WAIT)
+    control.ws = start_websocket()
 
 def on_open(ws):
+    logger.info("Conexão WebSocket aberta")
     ws.send(json.dumps({"auth": f"{USERNAME}:{control.session_key}"}))
-    ws.send(json.dumps({"throttle": 0.5}))
 
 def start_websocket():
     ws_url = f"ws://{BASE_URL.split('http://')[1]}/sockjs/websocket"
@@ -346,8 +357,10 @@ def main():
         logger.warning("Falha no login, esperando %ds antes de tentar novamente", RETRY_WAIT)
         time.sleep(RETRY_WAIT)
 
-    ws = None
-    operational_start_time = None
+    # Abrir a conexão WebSocket logo no início e mantê-la aberta
+    control.ws = start_websocket()
+    time.sleep(2)  # Aguardar a conexão WebSocket ser estabelecida
+
     last_check_time = 0
     last_m114_time = 0
     first_m114 = True
@@ -362,31 +375,18 @@ def main():
             if current_time - last_check_time >= CHECK_INTERVAL:
                 try:
                     state = check_printing_status()
-                    #logger.info("Estado da impressora verificado: %s", state)
+                    logger.info("Estado da impressora verificado: %s", state)
                     is_printing = state in ["Printing from SD", "Starting print from SD"]
                     is_operational = state == "Operational"
 
                     if is_operational and not was_printing:
-                        if operational_start_time is None:
+                        if not was_printing:  # Evitar log repetitivo
                             logger.info("Impressora em estado Operational, aguardando impressão")
-                            operational_start_time = current_time
-                        else:
-                            elapsed_time = current_time - operational_start_time
-                            logger.debug("Tempo em Operational: %d segundos", int(elapsed_time))
-                            if elapsed_time >= OPERATIONAL_TIMEOUT:
-                                if ws is not None:
-                                    ws.close()
-                                    ws = None
-                                    logger.info("Timeout de %ds em estado Operational, conexão WebSocket fechada", OPERATIONAL_TIMEOUT)
-                                operational_start_time = current_time
 
                     if is_printing and not was_printing:
                         logger.info("Impressora iniciando impressão: %s", state)
                         control.filename = get_current_filename_from_api()
                         control.filename_obtained = True
-                        if ws is None:
-                            ws = start_websocket()
-                            time.sleep(2)
                         first_m114 = True
                         first_m503 = True
 
@@ -397,7 +397,6 @@ def main():
                         first_m503 = True
                         first_m114 = True
                         control.filename_obtained = False
-                        operational_start_time = current_time
 
                     if is_printing:
                         if not control.m114_waiting and first_m114:
@@ -432,8 +431,8 @@ def main():
 
     except KeyboardInterrupt:
         logger.info("Programa encerrado pelo usuário")
-        if ws is not None:
-            ws.close()
+        if control.ws is not None:
+            control.ws.close()
     except Exception as e:
         logger.error("Erro no loop principal: %s", e)
         time.sleep(RETRY_WAIT)
