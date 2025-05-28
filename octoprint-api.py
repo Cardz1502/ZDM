@@ -19,6 +19,7 @@ TIMEOUT_LIMIT = 90
 CSV_FILE = "/app/data/printer_data2.csv"
 LOG_FILE = "/app/data/octoprint_monitor2.log"
 CHECK_INTERVAL = 5
+CHECK_STATE_INTERVAL = 300
 HTTP_TIMEOUT = 30
 
 # Configurações de Retry
@@ -362,6 +363,7 @@ def main():
     time.sleep(2)  # Aguardar a conexão WebSocket ser estabelecida
 
     last_check_time = 0
+    last_check_time_state = 0
     last_m114_time = 0
     first_m114 = True
     first_m503 = True
@@ -375,7 +377,9 @@ def main():
             if current_time - last_check_time >= CHECK_INTERVAL:
                 try:
                     state = check_printing_status()
-                    logger.info("Estado da impressora verificado: %s", state)
+                    if current_time - last_check_time_state >= CHECK_STATE_INTERVAL:
+                        logger.info("Estado da impressora verificado: %s", state)
+                        last_check_time_state = current_time
                     is_printing = state in ["Printing from SD", "Starting print from SD"]
                     is_operational = state == "Operational"
 
