@@ -33,8 +33,11 @@ HEADERS = {
 
 # Criar o diretório para logs e dados, se não existir
 log_dir = "/app/data"
-if not os.path.exists(log_dir):
+try:
     os.makedirs(log_dir, exist_ok=True)
+except Exception as e:
+    print(f"Erro ao criar diretório {log_dir}: {e}")
+    exit(1)
 
 # Configurar logging
 logging.basicConfig(
@@ -213,30 +216,33 @@ def save_data(timestamp, is_m114=True):
         logger.info("Nome de ficheiro %s não está na lista permitida. Dados não salvos", control.filename)
         return
 
-    if not os.path.exists(CSV_FILE):
-        with open(CSV_FILE, "w", newline="", encoding="utf-8") as file:
+    try:
+        if not os.path.exists(CSV_FILE):
+            with open(CSV_FILE, "w", newline="", encoding="utf-8") as file:
+                writer = csv.writer(file)
+                writer.writerow(["timestamp", "temp_nozzle", "temp_target_nozzle", "temp_delta_nozzle",
+                                 "pwm_nozzle", "temp_bed", "temp_target_bed", "temp_delta_bed", "pwm_bed",
+                                 "X", "Y", "Z", "E", "accel_print",
+                                 "accel_retract", "accel_travel",
+                                 "jerk_x", "jerk_y", "filename"])
+
+        timestamp_str = timestamp.strftime("%Y-%m-%d %H:%M:%S")
+        if is_m114:
+            row = [timestamp_str, data.nozzle_temp, data.nozzle_target, data.nozzle_delta,
+                   data.nozzle_pwm, data.bed_temp, data.bed_target, data.bed_delta, data.bed_pwm,
+                   data.x, data.y, data.z, data.extrusion_level, None, None, None, None, None, control.filename]
+            logger.info("Dados M114 salvos: %s, Filename: %s", timestamp_str, control.filename)
+        else:
+            row = [timestamp_str, data.nozzle_temp, data.nozzle_target, data.nozzle_delta,
+                   data.nozzle_pwm, data.bed_temp, data.bed_target, data.bed_delta, data.bed_pwm,
+                   None, None, None, None, data.accel_print, data.accel_retract, data.accel_travel, data.jerk_x, data.jerk_y, control.filename]
+            logger.info("Dados M503 salvos: %s, Filename: %s", timestamp_str, control.filename)
+
+        with open(CSV_FILE, "a", newline="", encoding="utf-8") as file:
             writer = csv.writer(file)
-            writer.writerow(["timestamp", "temp_nozzle", "temp_target_nozzle", "temp_delta_nozzle",
-                             "pwm_nozzle", "temp_bed", "temp_target_bed", "temp_delta_bed", "pwm_bed",
-                             "X", "Y", "Z", "E", "accel_print",
-                             "accel_retract", "accel_travel",
-                             "jerk_x", "jerk_y", "filename"])
-
-    timestamp_str = timestamp.strftime("%Y-%m-%d %H:%M:%S")
-    if is_m114:
-        row = [timestamp_str, data.nozzle_temp, data.nozzle_target, data.nozzle_delta,
-               data.nozzle_pwm, data.bed_temp, data.bed_target, data.bed_delta, data.bed_pwm,
-               data.x, data.y, data.z, data.extrusion_level, None, None, None, None, None, control.filename]
-        logger.info("Dados M114 salvos: %s, Filename: %s", timestamp_str, control.filename)
-    else:
-        row = [timestamp_str, data.nozzle_temp, data.nozzle_target, data.nozzle_delta,
-               data.nozzle_pwm, data.bed_temp, data.bed_target, data.bed_delta, data.bed_pwm,
-               None, None, None, None, data.accel_print, data.accel_retract, data.accel_travel, data.jerk_x, data.jerk_y, control.filename]
-        logger.info("Dados M503 salvos: %s, Filename: %s", timestamp_str, control.filename)
-
-    with open(CSV_FILE, "a", newline="", encoding="utf-8") as file:
-        writer = csv.writer(file)
-        writer.writerow(row)
+            writer.writerow(row)
+    except Exception as e:
+        logger.error("Erro ao salvar dados no CSV %s: %s", CSV_FILE, e)
 
 def on_message(ws, message):
     try:
@@ -351,53 +357,63 @@ def main():
     try:
         while True:
             current_time = time.time()
+            logger.debug("Loop principal rodando, current_time: %s", datetime.fromtimestamp(current_time).strftime("%Y-%m-%d %H:%M:%S"))
 
             if current_time - last_check_time >= CHECK_INTERVAL:
-                state = check_printing_status()
-                is_printing = state in ["Printing from SD", "Starting print from SD"]
-                is_operational = state == "Operational"
+                try:
+                    state = check_printing_status()
+                    logger.info("Estado da impressora verificado: %s", state)
+                    is_printing = state in ["Printing from SD", "Starting print from SD"]
+                    is_operational = state == "Operational"
 
-                if is_operational and not was_printing:
-                    if operational_start_time is None:
-                        logger.info("Impressora em estado Operational, aguardando impressão")
+                    if is_operational and not was_printing:
+                        if operational_start_time is None:
+                            logger.info("Impressora em estado Operational, aguardando impressão")
+                            operational_start_time = current_time
+                        else:
+                            elapsed_time = current_time - operational_start_time
+                            logger.debug("Tempo em Operational: %d segundos", int(elapsed_time))
+                            if elapsed_time >= OPERATIONAL_TIMEOUT:
+                                if ws is not None:
+                                    ws.close()
+                                    ws = None
+                                    logger.info("Timeout de %ds em estado Operational, conexão WebSocket fechada", OPERATIONAL_TIMEOUT)
+                                operational_start_time = current_time
+
+                    if is_printing and not was_printing:
+                        logger.info("Impressora iniciando impressão: %s", state)
+                        control.filename = get_current_filename_from_api()
+                        control.filename_obtained = True
+                        if ws is None:
+                            ws = start_websocket()
+                            time.sleep(2)
+                        first_m114 = True
+                        first_m503 = True
+
+                    if not is_printing and was_printing and is_operational:
+                        logger.info("Impressora voltou ao estado Operational após impressão")
+                        control.m114_waiting = False
+                        control.m503_waiting = False
+                        first_m503 = True
+                        first_m114 = True
+                        control.filename_obtained = False
                         operational_start_time = current_time
-                    elif current_time - operational_start_time >= OPERATIONAL_TIMEOUT:
-                        if ws is not None:
-                            ws.close()
-                            ws = None
-                            logger.info("Timeout de %ds em estado Operational, conexão WebSocket fechada", OPERATIONAL_TIMEOUT)
-                        operational_start_time = current_time
 
-                if is_printing and not was_printing:
-                    logger.info("Impressora iniciando impressão: %s", state)
-                    control.filename = get_current_filename_from_api()
-                    control.filename_obtained = True
-                    if ws is None:
-                        ws = start_websocket()
-                        time.sleep(2)
-                    first_m114 = True
-                    first_m503 = True
+                    if is_printing:
+                        if not control.m114_waiting and first_m114:
+                            send_m114()
+                            first_m114 = False
+                            last_m114_time = current_time
+                        if not control.m503_waiting and first_m503:
+                            send_m503()
+                            first_m503 = False
 
-                if not is_printing and was_printing and is_operational:
-                    logger.info("Impressora voltou ao estado Operational após impressão")
-                    control.m114_waiting = False
-                    control.m503_waiting = False
-                    first_m503 = True
-                    first_m114 = True
-                    control.filename_obtained = False
-                    operational_start_time = current_time
-
-                if is_printing:
-                    if not control.m114_waiting and first_m114:
-                        send_m114()
-                        first_m114 = False
-                        last_m114_time = current_time
-                    if not control.m503_waiting and first_m503:
-                        send_m503()
-                        first_m503 = False
-
-                was_printing = is_printing
-                last_check_time = current_time
+                    was_printing = is_printing
+                    last_check_time = current_time
+                except Exception as e:
+                    logger.error("Erro ao verificar estado da impressora: %s", e)
+                    time.sleep(RETRY_WAIT)
+                    continue
 
             if was_printing and not control.m114_waiting and (current_time - last_m114_time >= UPDATE_INTERVAL_M114):
                 send_m114()
