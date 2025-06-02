@@ -122,15 +122,16 @@ if len(retangulos) >= min_samples:
     retangulos_regressor = RandomForestRegressor(n_estimators=100, random_state=42)
     retangulos_regressor.fit(retangulos_X_train, retangulos_y_train)
 
-# Treinar o modelo de classificação
+# Treinar o modelo de classificação com balanceamento de classes
 if len(data) >= min_samples:
-    classifier = RandomForestClassifier(n_estimators=100, random_state=42)
+    classifier = RandomForestClassifier(n_estimators=100, random_state=42, class_weight='balanced')
     classifier.fit(X_result_train, y_result_train)
 
 # Fazer previsões e avaliar os modelos
 # Para QUADRADO
 if len(quadrados) >= min_samples and quadrados_X_test is not None:
     quadrados_pred = quadrados_regressor.predict(quadrados_X_test)
+    quadrados_pred = np.round(quadrados_pred, decimals=1)  # Arredondar para 1 casa decimal
     print("Erro Quadrático Médio (MSE) para Quadrados:", mean_squared_error(quadrados_y_test, quadrados_pred))
     print("\nPrevisões para Quadrados (d1, d2, d3):")
     for i in range(len(quadrados_y_test)):
@@ -141,6 +142,7 @@ else:
 # Para L
 if len(ls) >= min_samples and ls_X_test is not None:
     ls_pred = ls_regressor.predict(ls_X_test)
+    ls_pred = np.round(ls_pred, decimals=1)  # Arredondar para 1 casa decimal
     print("Erro Quadrático Médio (MSE) para L:", mean_squared_error(ls_y_test, ls_pred))
     print("\nPrevisões para L (d1 a d7):")
     for i in range(len(ls_y_test)):
@@ -151,6 +153,7 @@ else:
 # Para RETANGULO
 if len(retangulos) >= min_samples and retangulos_X_test is not None:
     retangulos_pred = retangulos_regressor.predict(retangulos_X_test)
+    retangulos_pred = np.round(retangulos_pred, decimals=1)  # Arredondar para 1 casa decimal
     print("Erro Quadrático Médio (MSE) para Retângulos:", mean_squared_error(retangulos_y_test, retangulos_pred))
     print("\nPrevisões para Retângulos (d1, d2, d3):")
     for i in range(len(retangulos_y_test)):
@@ -160,18 +163,32 @@ else:
 
 # Avaliar o modelo de classificação
 if len(data) >= min_samples and X_result_test is not None:
-    y_result_pred = classifier.predict(X_result_test)
+    # Obter as probabilidades para ajustar o threshold
+    y_result_proba = classifier.predict_proba(X_result_test)
+    # Ajustar o threshold para favorecer a classe minoritária (NOK)
+    threshold = 0.4  # Abaixamos o threshold para prever mais NOK
+    y_result_pred = (y_result_proba[:, 1] >= threshold).astype(int)
+
     accuracy = accuracy_score(y_result_test, y_result_pred)
     print(f"\nAcurácia para o resultado (OK/NOK): {accuracy}")
 
+    # Exibir previsões detalhadas para análise
+    print("\nDetalhes das previsões (OK/NOK):")
+    for i in range(len(y_result_test)):
+        real_label = result_encoder.inverse_transform([y_result_test[i]])[0]
+        pred_label = result_encoder.inverse_transform([y_result_pred[i]])[0]
+        print(f"Real: {real_label}, Previsto: {pred_label}, Probabilidade OK: {y_result_proba[i][1]:.2f}")
+
     # Verificar as classes presentes no conjunto de teste
     unique_classes = np.unique(y_result_test)
-    print(f"Classes presentes no conjunto de teste: {unique_classes}")
+    print(f"\nClasses presentes no conjunto de teste: {unique_classes}")
     if len(unique_classes) == 1:
         print("Aviso: Apenas uma classe presente no conjunto de teste. O relatório de classificação pode não ser significativo.")
     else:
-        # Usar 'labels' para especificar as classes esperadas
+        # Usar 'labels' para especificar as classes esperadas e evitar o aviso
         print("\nRelatório de Classificação:")
-        print(classification_report(y_result_test, y_result_pred, labels=unique_classes, target_names=[result_encoder.inverse_transform([c])[0] for c in unique_classes]))
+        print(classification_report(y_result_test, y_result_pred, labels=unique_classes, 
+                                   target_names=[result_encoder.inverse_transform([c])[0] for c in unique_classes], 
+                                   zero_division=0))
 else:
     print("Não há dados suficientes para avaliar o modelo de classificação.")
