@@ -4,7 +4,8 @@ import numpy as np
 BOX_LENGTH = 100
 BOX_WIDTH = 99.5  
 SLOT_SIZE = 50  
-MIN_GAP = 0.3  # Diferença mínima para caber (0.3 mm)
+MIN_GAP = 0.3  # Diferença mínima para caber nas dimensões do slot
+FIT_GAP = 0.5  # Folga mínima necessária para caber na caixa (0.5 mm)
 
 def load_database(file_path='processed_data2.csv'):
     try:
@@ -171,7 +172,7 @@ def check_assembly(data, piece_dimensions):
 
     print("Montagem bem-sucedida! Todas as peças foram alocadas.")
 
-    # Calcular dimensões totais da montagem com base nas peças
+    # Calcular dimensões dos 4 lados da montagem com base nas peças
     row_lengths = [[0.0, 0.0], [0.0, 0.0]]  # Comprimento por linha e coluna
     col_widths = [[0.0, 0.0], [0.0, 0.0]]   # Largura por linha e coluna
 
@@ -210,11 +211,32 @@ def check_assembly(data, piece_dimensions):
                 row_lengths[1][1] = dims[2]  # d3 (~50)
                 col_widths[1][1] = dims[1] - dims[2]  # d2 - d3 para a parte vertical
 
-    # Calcular dimensões totais
-    total_length = max(row_lengths[0][0] + row_lengths[0][1], row_lengths[1][0] + row_lengths[1][1])
-    total_width = max(col_widths[0][0] + col_widths[1][0], col_widths[0][1] + col_widths[1][1])
+    # Calcular os 4 lados da montagem
+    top_side = row_lengths[0][0] + row_lengths[0][1]  # Lado superior (linha 0)
+    bottom_side = row_lengths[1][0] + row_lengths[1][1]  # Lado inferior (linha 1)
+    left_side = col_widths[0][0] + col_widths[1][0]  # Lado esquerdo (coluna 0)
+    right_side = col_widths[0][1] + col_widths[1][1]  # Lado direito (coluna 1)
 
-    print(f"\nDimensões finais da montagem: {total_length:.1f}x{total_width:.1f}")
+    print("\nDimensões dos 4 lados da montagem:")
+    print(f"Lado superior: {top_side:.1f}")
+    print(f"Lado inferior: {bottom_side:.1f}")
+    print(f"Lado esquerdo: {left_side:.1f}")
+    print(f"Lado direito: {right_side:.1f}")
+
+    # Verificar se a montagem cabe na caixa com folga mínima de 0.5 mm
+    max_length_allowed = BOX_LENGTH - FIT_GAP  # 100 - 0.5 = 99.5
+    max_width_allowed = BOX_WIDTH - FIT_GAP   # 99.5 - 0.5 = 99.0
+
+    if (top_side >= max_length_allowed or
+        bottom_side >= max_length_allowed or
+        left_side >= max_width_allowed or
+        right_side >= max_width_allowed):
+        print(f"\nErro: A montagem não cabe na caixa de {BOX_LENGTH}x{BOX_WIDTH}.")
+        print(f"As dimensões da montagem devem ser pelo menos {FIT_GAP} mm menores que as da caixa em cada lado.")
+        print(f"Limites: Comprimento < {max_length_allowed}, Largura < {max_width_allowed}")
+        return False, None
+
+    print(f"\nA montagem cabe na caixa de {BOX_LENGTH}x{BOX_WIDTH} com folga mínima de {FIT_GAP} mm.")
 
     # Mostrar a matriz 2x2
     print("\nMatriz 2x2 da montagem (IDs das peças):")
