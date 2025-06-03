@@ -2,7 +2,7 @@ import requests
 import time
 
 # Configurações do AASX Server
-AAS_URL = "http://192.168.250.224:5001/submodels/aHR0cHM6Ly9leGFtcGxlLmNvbS9pZHMvc20vODA3MF81MTYyXzUwNTJfMDYzMg/submodel-elements/"
+AAS_URL = "http://192.168.250.224:5001/submodels/aHR0cHM6Ly9leGFtcGxlLmNvbS9pZHMvc20vNjA1MF8zMTMwXzYwNTJfODY2MA/submodel-elements"
 AAS_HEADERS = {"Content-Type": "application/json"}
 
 # Dados base para o corpo da requisição ao AAS
