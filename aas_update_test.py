@@ -9,13 +9,14 @@ AAS_HEADERS = {"Content-Type": "application/json"}
 AAS_BASE_DATA = {
     "category": "",
     "idShort": "value",
-    "semanticId": {"type": "ModelReference", "keys": [{"type": "ConceptDescription", "value": "https://example.com/ids/cd/1162_4162_5052_4762"}]},
+    "semanticId": {"type": "ModelReference", "keys": [{"type": "ConceptDescription", "value": "https://example.com/ids/sm/6050_3130_6052_8660"}]},
     "valueType": "xs:string",
     "modelType": "Property"
 }
 
 # Mapeamento de variáveis para variablesXX
 AAS_VARIABLES = {
+    "timestamp": {"variable_id": 1},  # TimeStamp
     "nozzle_temp": {"variable_id": 2},  # NozzleTemp
     "nozzle_target": {"variable_id": 3},  # NozzleTarget
     "bed_temp": {"variable_id": 4},  # BedTemp
@@ -24,12 +25,12 @@ AAS_VARIABLES = {
     "y": {"variable_id": 7},  # Y
     "z": {"variable_id": 8},  # Z
     "extrusion_level": {"variable_id": 9},  # ExtrusionLevel
-    "filename": {"variable_id": 11},  # Filename
-    "nozzle_delta": {"variable_id": 12},  # NozzleDelta
-    "bed_delta": {"variable_id": 13},  # BedDelta
-    "nozzle_pwm": {"variable_id": 14},  # NozzlePWM
-    "bed_pwm": {"variable_id": 15},  # BedPWM
-    "speed_factor": {"variable_id": 17} # SpeedFactor
+    "filename": {"variable_id": 10},  # Filename
+    "nozzle_delta": {"variable_id": 11},  # NozzleDelta
+    "bed_delta": {"variable_id": 12},  # BedDelta
+    "nozzle_pwm": {"variable_id": 13},  # NozzlePWM
+    "bed_pwm": {"variable_id": 14},  # BedPWM
+    "speed_factor": {"variable_id": 15} # SpeedFactor
 }
 
 # Função para atualizar uma variável no AAS
