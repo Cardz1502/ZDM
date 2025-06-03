@@ -9,7 +9,7 @@ AAS_HEADERS = {"Content-Type": "application/json"}
 AAS_BASE_DATA = {
     "category": "",
     "idShort": "value",
-    "semanticId": {"type": "ModelReference", "keys": [{"type": "ConceptDescription", "value": "https://example.com/ids/sm/6050_3130_6052_8660"}]},
+    "semanticId": {"type": "ModelReference", "keys": [{"type": "ConceptDescription", "value": "https://example.com/ids/cd/1162_4162_5052_4762"}]},
     "valueType": "xs:string",
     "modelType": "Property"
 }
