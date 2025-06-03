@@ -318,7 +318,7 @@ def save_data(timestamp, is_m114=True):
                 update_aas_variable("filename", control.filename)
             ]
             if all(updates):
-                logger.info("Todos os nós foram atualizados na Asset Administration Shell às %s", time.strftime('%H:%M:%S'))
+                logger.info("M114 | Todos os nós foram atualizados na Asset Administration Shell às %s", time.strftime('%H:%M:%S'))
         else:
             row = [timestamp_str, data.nozzle_temp, data.nozzle_target, data.nozzle_delta,
                    data.nozzle_pwm, data.bed_temp, data.bed_target, data.bed_delta, data.bed_pwm,
@@ -348,7 +348,7 @@ def save_data(timestamp, is_m114=True):
                 update_aas_variable("filename", control.filename)
             ]
             if all(updates2):
-                logger.info("Todos os nós foram atualizados na Asset Administration Shell às %s", time.strftime('%H:%M:%S'))
+                logger.info("M220 | Todos os nós foram atualizados na Asset Administration Shell às %s", time.strftime('%H:%M:%S'))
         with open(CSV_FILE, "a", newline="", encoding="utf-8") as file:
             writer = csv.writer(file)
             writer.writerow(row)
