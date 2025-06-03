@@ -34,6 +34,38 @@ HEADERS = {
     "Content-Type": "application/json"
 }
 
+# Configurações do AASX Server
+AAS_URL = "http://192.168.250.224:5001/submodels/aHR0cHM6Ly9leGFtcGxlLmNvbS9pZHMvc20vODA3MF81MTYyXzUwNTJfMDYzMg/submodel-elements/"
+AAS_HEADERS = {"Content-Type": "application/json"}
+
+# Dados base para o corpo da requisição ao AAS
+AAS_BASE_DATA = {
+    "category": "",
+    "idShort": "value",
+    "semanticId": {"type": "ModelReference", "keys": [{"type": "ConceptDescription", "value": "https://example.com/ids/cd/1162_4162_5052_4762"}]},
+    "valueType": "xs:string",
+    "modelType": "Property"
+}
+
+# Mapeamento de variáveis para variablesXX
+AAS_VARIABLES = {
+    "timestamp": {"variable_id": 1},  # TimeStamp
+    "nozzle_temp": {"variable_id": 2},  # NozzleTemp
+    "nozzle_target": {"variable_id": 3},  # NozzleTarget
+    "bed_temp": {"variable_id": 4},  # BedTemp
+    "bed_target": {"variable_id": 5},  # BedTarget
+    "x": {"variable_id": 6},  # X
+    "y": {"variable_id": 7},  # Y
+    "z": {"variable_id": 8},  # Z
+    "extrusion_level": {"variable_id": 9},  # ExtrusionLevel
+    "filename": {"variable_id": 11},  # Filename
+    "nozzle_delta": {"variable_id": 12},  # NozzleDelta
+    "bed_delta": {"variable_id": 13},  # BedDelta
+    "nozzle_pwm": {"variable_id": 14},  # NozzlePWM
+    "bed_pwm": {"variable_id": 15},  # BedPWM
+    "speed_factor": {"variable_id": 17} # SpeedFactor
+}
+
 # Criar o diretório para logs e dados, se não existir
 log_dir = "/app/data"
 try:
@@ -208,6 +240,33 @@ def send_m220():
                 control.m220_waiting = False
                 control.m220_last_time = None
 
+def update_aas_variable(variable_key, value):
+    if value is None:
+        return  # Não atualizar se o valor for None
+    config = AAS_VARIABLES.get(variable_key)
+    if not config:
+        logger.error(f"Variável {variable_key} não encontrada no mapeamento AAS_VARIABLES")
+        return
+    variable_id = config["variable_id"]
+    url = f"{AAS_URL}variables{variable_id:02d}.value"
+    data = AAS_BASE_DATA.copy()
+    data["value"] = str(value)
+    retries = 0
+    while retries < MAX_RETRIES:
+        try:
+            response = requests.put(url, headers=AAS_HEADERS, json=data, timeout=HTTP_TIMEOUT)
+            if response.status_code in [200, 204]:  # Aceitar 200 e 204 como sucesso
+                logger.info(f"Atualizado variables{variable_id:02d} ({variable_key}) para {value} às {time.strftime('%H:%M:%S')}")
+                return
+            else:
+                logger.error(f"Erro ao atualizar variables{variable_id:02d} ({variable_key}): {response.status_code} - {response.text}")
+        except Exception as e:
+            logger.error(f"Erro na requisição ao AAS para {variable_key} (tentativa {retries+1}/{MAX_RETRIES}): {e}")
+        retries += 1
+        if retries < MAX_RETRIES:
+            time.sleep(RETRY_WAIT)
+    logger.error(f"Falha ao atualizar variables{variable_id:02d} ({variable_key}) após {MAX_RETRIES} tentativas")
+
 def save_data(timestamp, is_m114=True):
     allowed_filenames = {"zdm4ms~4", "zd5b20~1", "zd2c72~1"}
     
@@ -244,6 +303,22 @@ def save_data(timestamp, is_m114=True):
             logger.info("Dados M114 salvos: %s, X=%.2f, Y=%.2f, Z=%.2f, E=%.2f, SpeedFactor=%.0f%%, Nozzle=%.2f/%.2f, Bed=%.2f/%.2f, PWM(Nozzle:Bed)=(%d:%d), Filename=%s",
                         timestamp_str, x, y, z, extrusion_level, speed_factor,
                         nozzle_temp, nozzle_target, bed_temp, bed_target, nozzle_pwm, bed_pwm, control.filename)
+            # Atualizar AAS
+            update_aas_variable("timestamp", timestamp_str)
+            update_aas_variable("nozzle_temp", data.nozzle_temp)
+            update_aas_variable("nozzle_target", data.nozzle_target)
+            update_aas_variable("nozzle_delta", data.nozzle_delta)
+            update_aas_variable("bed_temp", data.bed_temp)
+            update_aas_variable("bed_target", data.bed_target)
+            update_aas_variable("bed_delta", data.bed_delta)
+            update_aas_variable("nozzle_pwm", data.nozzle_pwm)
+            update_aas_variable("bed_pwm", data.bed_pwm)
+            update_aas_variable("x", data.x)
+            update_aas_variable("y", data.y)
+            update_aas_variable("z", data.z)
+            update_aas_variable("extrusion_level", data.extrusion_level)
+            update_aas_variable("speed_factor", data.speed_factor)
+            update_aas_variable("filename", control.filename)
         else:
             row = [timestamp_str, data.nozzle_temp, data.nozzle_target, data.nozzle_delta,
                    data.nozzle_pwm, data.bed_temp, data.bed_target, data.bed_delta, data.bed_pwm,
@@ -258,6 +333,18 @@ def save_data(timestamp, is_m114=True):
             speed_factor = data.speed_factor if data.speed_factor is not None else 0.0
             logger.info("Dados M220 salvos: %s, SpeedFactor=%.0f%%, Nozzle=%.2f/%.2f, Bed=%.2f/%.2f, PWM(Nozzle:Bed)=(%d:%d), Filename=%s",
                         timestamp_str, speed_factor, nozzle_temp, nozzle_target, bed_temp, bed_target, nozzle_pwm, bed_pwm, control.filename)
+            # Atualizar AAS (sem X, Y, Z, E)
+            update_aas_variable("timestamp", timestamp_str)
+            update_aas_variable("nozzle_temp", data.nozzle_temp)
+            update_aas_variable("nozzle_target", data.nozzle_target)
+            update_aas_variable("nozzle_delta", data.nozzle_delta)
+            update_aas_variable("bed_temp", data.bed_temp)
+            update_aas_variable("bed_target", data.bed_target)
+            update_aas_variable("bed_delta", data.bed_delta)
+            update_aas_variable("nozzle_pwm", data.nozzle_pwm)
+            update_aas_variable("bed_pwm", data.bed_pwm)
+            update_aas_variable("speed_factor", data.speed_factor)
+            update_aas_variable("filename", control.filename)
 
         with open(CSV_FILE, "a", newline="", encoding="utf-8") as file:
             writer = csv.writer(file)
