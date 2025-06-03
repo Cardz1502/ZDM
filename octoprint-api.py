@@ -252,20 +252,15 @@ def update_aas_variable(variable_key, value):
     data = AAS_BASE_DATA.copy()
     data["value"] = str(value)
     retries = 0
-    while retries < MAX_RETRIES:
-        try:
-            response = requests.put(url, headers=AAS_HEADERS, json=data, timeout=HTTP_TIMEOUT)
-            if response.status_code in [200, 204]:  # Aceitar 200 e 204 como sucesso
-                logger.info(f"Atualizado variables{variable_id:02d} ({variable_key}) para {value} às {time.strftime('%H:%M:%S')}")
-                return
-            else:
-                logger.error(f"Erro ao atualizar variables{variable_id:02d} ({variable_key}): {response.status_code} - {response.text}")
-        except Exception as e:
-            logger.error(f"Erro na requisição ao AAS para {variable_key} (tentativa {retries+1}/{MAX_RETRIES}): {e}")
-        retries += 1
-        if retries < MAX_RETRIES:
-            time.sleep(RETRY_WAIT)
-    logger.error(f"Falha ao atualizar variables{variable_id:02d} ({variable_key}) após {MAX_RETRIES} tentativas")
+    try:
+        response = requests.put(url, headers=AAS_HEADERS, json=data, timeout=HTTP_TIMEOUT)
+        if response.status_code in [200, 204]:  # Aceitar 200 e 204 como sucesso
+            logger.info(f"Atualizado variables{variable_id:02d} ({variable_key}) para {value} às {time.strftime('%H:%M:%S')}")
+            return
+        else:
+            logger.error(f"Erro ao atualizar variables{variable_id:02d} ({variable_key}): {response.status_code} - {response.text}")
+    except Exception as e:
+        logger.error(f"Erro na requisição ao AAS para {variable_key}: {e}")
 
 def save_data(timestamp, is_m114=True):
     allowed_filenames = {"zdm4ms~4", "zd5b20~1", "zd2c72~1"}
