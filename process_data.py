@@ -70,9 +70,9 @@ def process_printer_data(input_file, output_file):
     # Identificar impressões com base em gaps de 5 minutos ou mais
     df = df.sort_values('timestamp')  # Garantir que os dados estão ordenados por timestamp
     df['time_diff'] = df['timestamp'].diff().dt.total_seconds() / 60  # Diferença em minutos
-    df['print_group'] = (df['time_diff'] >= 5).cumsum()  # Novo grupo para gaps >= 10 minutos
+    df['print_group'] = (df['time_diff'] >= 5).cumsum()  # Novo grupo para gaps >= 5 minutos
 
-    # Ler o processed_data.csv para determinar as impressões já processadas
+    # Ler o processed_data2.csv para determinar as impressões já processadas
     processed_prints = set()
     try:
         processed_df = pd.read_csv(output_file, encoding='utf-8')
@@ -110,7 +110,7 @@ def process_printer_data(input_file, output_file):
         metrics = {}
         metrics['id_peça'] = piece_id
 
-        # Adicionar a data da impressão (data do primeiro registo do grupo)
+        # Adicionar a data da impressão (data do primeiro registro do grupo)
         start_time = group['timestamp'].iloc[0]
         end_time = group['timestamp'].iloc[-1]
         start_str = start_time.strftime('%Y-%m-%d %H:%M:%S')
@@ -159,6 +159,10 @@ def process_printer_data(input_file, output_file):
 
         metrics['Média PWM Extrusora'] = group['pwm_nozzle'].mean() if group['pwm_nozzle'].notna().any() else 0.0
         metrics['Desvio Padrão PWM Extrusora'] = group['pwm_nozzle'].std() if group['pwm_nozzle'].notna().any() else 0.0
+
+        # Calcular média e desvio padrão do PWM da cama
+        metrics['Média PWM Bed'] = group['pwm_bed'].mean() if group['pwm_bed'].notna().any() else 0.0
+        metrics['Desvio Padrão PWM Bed'] = group['pwm_bed'].std() if group['pwm_bed'].notna().any() else 0.0
 
         # Extrair o valor único de filename do grupo
         if group['filename'].notna().any():
@@ -227,7 +231,6 @@ def process_printer_data(input_file, output_file):
                 break
             print("Por favor, insira 'OK' ou 'NOK'.")
 
-
         processed_data.append(metrics)
         piece_id += 1
 
@@ -244,14 +247,15 @@ def process_printer_data(input_file, output_file):
         'Média Delta temp_nozzle', 'Máximo Delta temp_nozzle', 'Média Delta Mesa (°C)', 
         'Tempo Fora do Intervalo Extrusora (%)', 'Taxa de Extrusão (mm/min)', 'Tempo Ativo de Extrusão (%)',
         'Variação X', 'Variação Y', 'Variação Z',
-        'X_max', 'X_min', 'Y_max', 'Y_min',  # Novas métricas adicionadas
+        'X_max', 'X_min', 'Y_max', 'Y_min',
         'Accel_print', 'Accel_retract', 'Accel_travel', 'Média jerk_x', 'Média jerk_y',
         'Média PWM Extrusora', 'Desvio Padrão PWM Extrusora',
+        'Média PWM Bed', 'Desvio Padrão PWM Bed',  # Novas colunas adicionadas
         'd1', 'd2', 'd3', 'd4', 'd5', 'd6', 'd7', 'Resultado'
     ]
     new_processed_df = new_processed_df[columns]
 
-    # Salvar os novos dados no processed_data.csv
+    # Salvar os novos dados no processed_data2.csv
     print(f"\nAdicionando os dados processados em {output_file}...")
     if last_id == 0:
         # Se é a primeira vez, criar o arquivo

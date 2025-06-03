@@ -71,39 +71,45 @@ def process_printer_data(input_file, output_file):
     df['time_diff'] = df['timestamp'].diff().dt.total_seconds() / 60  # Diferença em minutos
     df['print_group'] = (df['time_diff'] >= 5).cumsum()  # Novo grupo para gaps >= 5 minutos
 
-    # Ler o processed_data.csv para obter o último id_peça
+    # Ler o processed_data2.csv para obter impressões já processadas
+    processed_timestamps = set()
     try:
         processed_df = pd.read_csv(output_file, encoding='utf-8')
         if not processed_df.empty:
-            existing_ids = processed_df['id_peça'].tolist()
-            last_id = max(existing_ids) if existing_ids else 0
+            # Extrair os timestamps iniciais das impressões já processadas
+            processed_timestamps = set(processed_df['Data'].str.split('/').str[0])
+            last_id = max(processed_df['id_peça']) if not processed_df['id_peça'].empty else 0
         else:
             last_id = 0
     except FileNotFoundError:
         last_id = 0
-        processed_df = pd.DataFrame()
 
     # Agrupar os dados por print_group (cada grupo é uma impressão distinta)
     grouped = df.groupby('print_group')
     all_prints = sorted(grouped.groups.keys())  # Lista de impressões ordenadas
 
-    # Processar todas as impressões no printer_data3.csv
-    prints_to_process = all_prints  # Processa todos os grupos, já que é um novo arquivo
-    piece_id = last_id + 1
+    # Filtrar apenas as impressões não processadas
+    prints_to_process = []
+    for print_group in all_prints:
+        group = grouped.get_group(print_group)
+        start_time = group['timestamp'].iloc[0].strftime('%Y-%m-%d %H:%M:%S')
+        if start_time not in processed_timestamps:
+            prints_to_process.append(print_group)
 
     if not prints_to_process:
-        print("Não há impressões para processar no printer_data3.csv.")
+        print("Não há novas impressões para processar no printer_data3.csv.")
         return
 
-    print(f"Processando {len(prints_to_process)} impressões do printer_data3.csv...")
+    print(f"Processando {len(prints_to_process)} novas impressões do printer_data3.csv...")
     processed_data = []
+    piece_id = last_id + 1
 
     for print_group in prints_to_process:
         group = grouped.get_group(print_group)
         metrics = {}
         metrics['id_peça'] = piece_id
 
-        # Adicionar a data da impressão (data do primeiro registo do grupo)
+        # Adicionar a data da impressão (data do primeiro registro do grupo)
         start_time = group['timestamp'].iloc[0]
         end_time = group['timestamp'].iloc[-1]
         start_str = start_time.strftime('%Y-%m-%d %H:%M:%S')
@@ -147,8 +153,11 @@ def process_printer_data(input_file, output_file):
         metrics['Y_max'] = group['Y'].max() if group['Y'].notna().any() else 0.0
         metrics['Y_min'] = group['Y'].min() if group['Y'].notna().any() else 0.0
 
+        # Calcular média e desvio padrão do PWM da extrusora e da cama
         metrics['Média PWM Extrusora'] = group['pwm_nozzle'].mean() if group['pwm_nozzle'].notna().any() else 0.0
         metrics['Desvio Padrão PWM Extrusora'] = group['pwm_nozzle'].std() if group['pwm_nozzle'].notna().any() else 0.0
+        metrics['Média PWM Bed'] = group['pwm_bed'].mean() if group['pwm_bed'].notna().any() else 0.0
+        metrics['Desvio Padrão PWM Bed'] = group['pwm_bed'].std() if group['pwm_bed'].notna().any() else 0.0
 
         # Extrair o valor único de filename do grupo
         if group['filename'].notna().any():
@@ -197,14 +206,6 @@ def process_printer_data(input_file, output_file):
                     metrics['d5'] = float(input(f"Peça {piece_id} - Largura Interna 1 do L (mm): "))
                     metrics['d6'] = float(input(f"Peça {piece_id} - Largura Interna 2 do L (mm): "))
                     metrics['d7'] = float(input(f"Peça {piece_id} - Altura do L (mm): "))
-                elif metrics['Tipo de Peça'] == 'CAIXA':
-                    metrics['d1'] = float(input(f"Peça {piece_id} - Comprimento Externo da Caixa (mm): "))
-                    metrics['d2'] = float(input(f"Peça {piece_id} - Largura Externa da Caixa (mm): "))
-                    metrics['d3'] = float(input(f"Peça {piece_id} - Altura da Caixa (mm): "))
-                elif metrics['Tipo de Peça'] == 'TAMPA':
-                    metrics['d1'] = float(input(f"Peça {piece_id} - Comprimento da Tampa (mm): "))
-                    metrics['d2'] = float(input(f"Peça {piece_id} - Largura da Tampa (mm): "))
-                    metrics['d3'] = float(input(f"Peça {piece_id} - Espessura da Tampa (mm): "))
                 break
             except ValueError:
                 print("Por favor, insira um número válido.")
@@ -235,11 +236,12 @@ def process_printer_data(input_file, output_file):
         'Variação X', 'Variação Y', 'Variação Z',
         'X_max', 'X_min', 'Y_max', 'Y_min',
         'Média PWM Extrusora', 'Desvio Padrão PWM Extrusora',
+        'Média PWM Bed', 'Desvio Padrão PWM Bed',  # Adicionando as novas colunas
         'd1', 'd2', 'd3', 'd4', 'd5', 'd6', 'd7', 'Resultado'
     ]
     new_processed_df = new_processed_df[columns]
 
-    # Salvar os novos dados no processed_data.csv
+    # Salvar os novos dados no processed_data2.csv
     print(f"\nAdicionando os dados processados em {output_file}...")
     if last_id == 0:
         # Se é a primeira vez, criar o arquivo
