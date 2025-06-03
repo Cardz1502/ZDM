@@ -35,35 +35,35 @@ HEADERS = {
 }
 
 # Configurações do AASX Server
-AAS_URL = "http://192.168.250.224:5001/submodels/aHR0cHM6Ly9leGFtcGxlLmNvbS9pZHMvc20vNjA1MF8zMTMwXzYwNTJfODY2MA/submodel-elements"
+AAS_URL = "http://192.168.250.224:5001/submodels/aHR0cHM6Ly9leGFtcGxlLmNvbS9pZHMvc20vNjA1MF8zMTMwXzYwNTJfODY2MA==/submodel-elements/"
 AAS_HEADERS = {"Content-Type": "application/json"}
 
 # Dados base para o corpo da requisição ao AAS
 AAS_BASE_DATA = {
     "category": "",
     "idShort": "value",
-    "semanticId": {"type": "ModelReference", "keys": [{"type": "ConceptDescription", "value": "https://example.com/ids/sm/6050_3130_6052_8660"}]},
+    "semanticId": {"type": "ModelReference", "keys": [{"type": "ConceptDescription", "value": "https://example.com/ids/cd/1162_4162_5052_4762"}]},
     "valueType": "xs:string",
     "modelType": "Property"
 }
 
-# Mapeamento de variáveis para variablesXX
+# Mapeamento de variáveis para idShort
 AAS_VARIABLES = {
-    "timestamp": {"variable_id": 1},  # TimeStamp
-    "nozzle_temp": {"variable_id": 2},  # NozzleTemp
-    "nozzle_target": {"variable_id": 3},  # NozzleTarget
-    "bed_temp": {"variable_id": 4},  # BedTemp
-    "bed_target": {"variable_id": 5},  # BedTarget
-    "x": {"variable_id": 6},  # X
-    "y": {"variable_id": 7},  # Y
-    "z": {"variable_id": 8},  # Z
-    "extrusion_level": {"variable_id": 9},  # ExtrusionLevel
-    "filename": {"variable_id": 10},  # Filename
-    "nozzle_delta": {"variable_id": 11},  # NozzleDelta
-    "bed_delta": {"variable_id": 12},  # BedDelta
-    "nozzle_pwm": {"variable_id": 13},  # NozzlePWM
-    "bed_pwm": {"variable_id": 14},  # BedPWM
-    "speed_factor": {"variable_id": 15} # SpeedFactor
+    "timestamp": {"id_short": "timestamp"},       # Timestamp
+    "nozzle_temp": {"id_short": "nozzle_temp"},   # NozzleTemp
+    "nozzle_target": {"id_short": "nozzle_target"}, # NozzleTarget
+    "bed_temp": {"id_short": "bed_temp"},         # BedTemp
+    "bed_target": {"id_short": "bed_target"},     # BedTarget
+    "x": {"id_short": "x"},                       # X
+    "y": {"id_short": "y"},                       # Y
+    "z": {"id_short": "z"},                       # Z
+    "extrusion_level": {"id_short": "extrusion_level"}, # ExtrusionLevel
+    "filename": {"id_short": "filename"},         # Filename
+    "nozzle_delta": {"id_short": "nozzle_delta"}, # NozzleDelta
+    "bed_delta": {"id_short": "bed_delta"},       # BedDelta
+    "nozzle_pwm": {"id_short": "nozzle_pwm"},     # NozzlePWM
+    "bed_pwm": {"id_short": "bed_pwm"},           # BedPWM
+    "speed_factor": {"id_short": "speed_factor"}  # SpeedFactor
 }
 
 # Criar o diretório para logs e dados, se não existir
@@ -247,20 +247,21 @@ def update_aas_variable(variable_key, value):
     if not config:
         logger.error(f"Variável {variable_key} não encontrada no mapeamento AAS_VARIABLES")
         return
-    variable_id = config["variable_id"]
-    url = f"{AAS_URL}variables{variable_id:02d}.value"
+    id_short = config["id_short"]
+    url = f"{AAS_URL}{id_short}.value"
     data = AAS_BASE_DATA.copy()
     data["value"] = str(value)
     retries = 0
-    try:
-        response = requests.put(url, headers=AAS_HEADERS, json=data, timeout=HTTP_TIMEOUT)
-        if response.status_code in [200, 204]:  # Aceitar 200 e 204 como sucesso
-            logger.info(f"Atualizado variables{variable_id:02d} ({variable_key}) para {value} às {time.strftime('%H:%M:%S')}")
-            return
-        else:
-            logger.error(f"Erro ao atualizar variables{variable_id:02d} ({variable_key}): {response.status_code} - {response.text}")
-    except Exception as e:
-        logger.error(f"Erro na requisição ao AAS para {variable_key}: {e}")
+    while retries < MAX_RETRIES:
+        try:
+            response = requests.put(url, headers=AAS_HEADERS, json=data, timeout=HTTP_TIMEOUT)
+            if response.status_code in [200, 204]:  # Aceitar 200 e 204 como sucesso
+                logger.info(f"Atualizado {id_short}.value ({variable_key}) para {value} às {time.strftime('%H:%M:%S')}")
+                return
+            else:
+                logger.error(f"Erro ao atualizar {id_short}.value ({variable_key}): {response.status_code} - {response.text}")
+        except Exception as e:
+            logger.error(f"Erro na requisição ao AAS para {variable_key} (tentativa {retries+1}/{MAX_RETRIES}): {e}")
 
 def save_data(timestamp, is_m114=True):
     allowed_filenames = {"zdm4ms~4", "zd5b20~1", "zd2c72~1"}
