@@ -256,8 +256,8 @@ def update_aas_variable(variable_key, value):
         try:
             response = requests.put(url, headers=AAS_HEADERS, json=data, timeout=HTTP_TIMEOUT)
             if response.status_code in [200, 204]:  # Aceitar 200 e 204 como sucesso
-                logger.info(f"Atualizado {id_short}.value ({variable_key}) para {value} às {time.strftime('%H:%M:%S')}")
-                return
+                logger.debug(f"Atualizado {id_short}.value ({variable_key}) para {value} às {time.strftime('%H:%M:%S')}")
+                return True
             else:
                 logger.error(f"Erro ao atualizar {id_short}.value ({variable_key}): {response.status_code} - {response.text}")
         except Exception as e:
@@ -299,22 +299,26 @@ def save_data(timestamp, is_m114=True):
             logger.info("Dados M114 salvos: %s, X=%.2f, Y=%.2f, Z=%.2f, E=%.2f, SpeedFactor=%.0f%%, Nozzle=%.2f/%.2f, Bed=%.2f/%.2f, PWM(Nozzle:Bed)=(%d:%d), Filename=%s",
                         timestamp_str, x, y, z, extrusion_level, speed_factor,
                         nozzle_temp, nozzle_target, bed_temp, bed_target, nozzle_pwm, bed_pwm, control.filename)
-            # Atualizar AAS
-            update_aas_variable("timestamp", timestamp_str)
-            update_aas_variable("nozzle_temp", data.nozzle_temp)
-            update_aas_variable("nozzle_target", data.nozzle_target)
-            update_aas_variable("nozzle_delta", data.nozzle_delta)
-            update_aas_variable("bed_temp", data.bed_temp)
-            update_aas_variable("bed_target", data.bed_target)
-            update_aas_variable("bed_delta", data.bed_delta)
-            update_aas_variable("nozzle_pwm", data.nozzle_pwm)
-            update_aas_variable("bed_pwm", data.bed_pwm)
-            update_aas_variable("x", data.x)
-            update_aas_variable("y", data.y)
-            update_aas_variable("z", data.z)
-            update_aas_variable("extrusion_level", data.extrusion_level)
-            update_aas_variable("speed_factor", data.speed_factor)
-            update_aas_variable("filename", control.filename)
+            # Atualizar AAS e verificar sucesso
+            updates = [
+                update_aas_variable("timestamp", timestamp_str),
+                update_aas_variable("nozzle_temp", data.nozzle_temp),
+                update_aas_variable("nozzle_target", data.nozzle_target),
+                update_aas_variable("nozzle_delta", data.nozzle_delta),
+                update_aas_variable("bed_temp", data.bed_temp),
+                update_aas_variable("bed_target", data.bed_target),
+                update_aas_variable("bed_delta", data.bed_delta),
+                update_aas_variable("nozzle_pwm", data.nozzle_pwm),
+                update_aas_variable("bed_pwm", data.bed_pwm),
+                update_aas_variable("x", data.x),
+                update_aas_variable("y", data.y),
+                update_aas_variable("z", data.z),
+                update_aas_variable("extrusion_level", data.extrusion_level),
+                update_aas_variable("speed_factor", data.speed_factor),
+                update_aas_variable("filename", control.filename)
+            ]
+            if all(updates):
+                logger.info("Todos os nós foram atualizados na Asset Administration Shell às %s", time.strftime('%H:%M:%S'))
         else:
             row = [timestamp_str, data.nozzle_temp, data.nozzle_target, data.nozzle_delta,
                    data.nozzle_pwm, data.bed_temp, data.bed_target, data.bed_delta, data.bed_pwm,
@@ -330,18 +334,21 @@ def save_data(timestamp, is_m114=True):
             logger.info("Dados M220 salvos: %s, SpeedFactor=%.0f%%, Nozzle=%.2f/%.2f, Bed=%.2f/%.2f, PWM(Nozzle:Bed)=(%d:%d), Filename=%s",
                         timestamp_str, speed_factor, nozzle_temp, nozzle_target, bed_temp, bed_target, nozzle_pwm, bed_pwm, control.filename)
             # Atualizar AAS (sem X, Y, Z, E)
-            update_aas_variable("timestamp", timestamp_str)
-            update_aas_variable("nozzle_temp", data.nozzle_temp)
-            update_aas_variable("nozzle_target", data.nozzle_target)
-            update_aas_variable("nozzle_delta", data.nozzle_delta)
-            update_aas_variable("bed_temp", data.bed_temp)
-            update_aas_variable("bed_target", data.bed_target)
-            update_aas_variable("bed_delta", data.bed_delta)
-            update_aas_variable("nozzle_pwm", data.nozzle_pwm)
-            update_aas_variable("bed_pwm", data.bed_pwm)
-            update_aas_variable("speed_factor", data.speed_factor)
-            update_aas_variable("filename", control.filename)
-
+            updates2 = [
+                update_aas_variable("timestamp", timestamp_str),
+                update_aas_variable("nozzle_temp", data.nozzle_temp),
+                update_aas_variable("nozzle_target", data.nozzle_target),
+                update_aas_variable("nozzle_delta", data.nozzle_delta),
+                update_aas_variable("bed_temp", data.bed_temp),
+                update_aas_variable("bed_target", data.bed_target),
+                update_aas_variable("bed_delta", data.bed_delta),
+                update_aas_variable("nozzle_pwm", data.nozzle_pwm),
+                update_aas_variable("bed_pwm", data.bed_pwm),
+                update_aas_variable("speed_factor", data.speed_factor),
+                update_aas_variable("filename", control.filename)
+            ]
+            if all(updates2):
+                logger.info("Todos os nós foram atualizados na Asset Administration Shell às %s", time.strftime('%H:%M:%S'))
         with open(CSV_FILE, "a", newline="", encoding="utf-8") as file:
             writer = csv.writer(file)
             writer.writerow(row)
