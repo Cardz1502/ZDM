@@ -1,125 +1,96 @@
-import logging
-import sys
-from opcua import Server, ua
-from threading import Thread
+from opcua import Server
 import time
-import os
+import requests
+import threading
+import logging
 
-# Configurar logging para stdout e arquivo
-log_dir = "/app/data"
-if not os.path.exists(log_dir):
-    os.makedirs(log_dir)
-logging.basicConfig(
-    level=logging.DEBUG,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.StreamHandler(sys.stdout),
-        logging.FileHandler(os.path.join(log_dir, "octoprint_monitor2.log"))
-    ]
-)
-logger = logging.getLogger(__name__)
+# # Configuração de logging
+# logging.basicConfig(level=logging.INFO)
+# logger = logging.getLogger(__name__)
 
-# Reduzir a verbosidade do logging da biblioteca opcua
-logging.getLogger("opcua").setLevel(logging.ERROR)
+# # Reduzir o ruído dos logs da biblioteca opcua
+# logging.getLogger("opcua.server.subscription_service").setLevel(logging.WARNING)
+# logging.getLogger("opcua.server.internal_subscription").setLevel(logging.WARNING)
+# logging.getLogger("opcua.server.uaprocessor").setLevel(logging.WARNING)
+# logging.getLogger("opcua.server.address_space").setLevel(logging.WARNING)
 
-logger.info("Iniciando opcua_server.py...")
+# Configurações do AASX Server
+AAS_URL = "http://192.168.250.224:5001/submodels/aHR0cHM6Ly9leGFtcGxlLmNvbS9pZHMvc20vNjA1MF8zMTMwXzYwNTJfODY2MA==/submodel-elements/"
+AAS_HEADERS = {"Content-Type": "application/json"}
+HTTP_TIMEOUT = 30
 
-# Inicializar o servidor OPC UA
+# Configuração do servidor OPC UA
+server = Server()
+url = "opc.tcp://0.0.0.0:4840"  # Porta padrão OPC UA
+server.set_endpoint(url)
+server.set_server_name("Impressora3D_AAS_OPCUA_Server")
+
+# Registrar namespace
+namespace = "Impressora3D"
+idx = server.register_namespace(namespace)
+
+# Criar objeto principal no espaço de endereçamento
+objects = server.get_objects_node()
+printer_obj = objects.add_object(idx, "Printer3D")
+
+# Criar submodelo OperationalData como objeto
+operational_data = printer_obj.add_object(idx, "OperationalData")
+
+# Dicionário para armazenar as variáveis OPC UA
+opcua_vars = {}
+
+# Lista de métricas do OperationalData
+metrics = [
+    "nozzle_temp", "nozzle_target", "nozzle_delta", "nozzle_pwm",
+    "bed_temp", "bed_target", "bed_delta", "bed_pwm",
+    "x", "y", "z", "extrusion_level", "speed_factor", "filename", "timestamp"
+]
+
+# Inicializar variáveis no OPC UA
+for metric in metrics:
+    opcua_vars[metric] = operational_data.add_variable(idx, metric, 0.0 if metric != "filename" and metric != "timestamp" else "")
+    opcua_vars[metric].set_writable(False)  # Somente leitura para clientes
+
+# Função para atualizar os valores do OPC UA a partir do AAS
+def update_opcua_from_aas():
+    while True:
+        try:
+            for metric in metrics:
+                url = f"{AAS_URL}{metric}.value"
+                response = requests.get(url, headers=AAS_HEADERS, timeout=HTTP_TIMEOUT)
+                if response.status_code == 200:
+                    value = response.json().get("value", "")
+                    if metric in ["filename", "timestamp"]:
+                        opcua_vars[metric].set_value(value)
+                        print(f"Atualizado {metric} no OPC UA: {value}")
+                    else:
+                        try:
+                            opcua_vars[metric].set_value(float(value))
+                        except ValueError:
+                            print(f"Valor inválido para {metric}: {value}")
+                            opcua_vars[metric].set_value(0.0)
+                else:
+                    print(f"Erro ao ler {metric} do AAS: {response.status_code} - {response.text}")
+        except Exception as e:
+            print(f"Erro ao atualizar OPC UA: {e}")
+        time.sleep(5)  # Atualiza a cada 5 segundos, alinhado com M114
+
+# Iniciar o servidor OPC UA
 try:
-    server = Server()
-    logger.info("Servidor OPC UA criado com sucesso")
-    server.set_endpoint("opc.tcp://0.0.0.0:4840")
-    logger.info("Endpoint configurado com sucesso: opc.tcp://0.0.0.0:4840")
+    server.start()
+    print(f"Servidor OPC UA iniciado em {url}")
+
+    # Iniciar thread para atualizar os valores
+    update_thread = threading.Thread(target=update_opcua_from_aas, daemon=True)
+    update_thread.start()
+
+    # Manter o servidor rodando
+    while True:
+        time.sleep(1)
+
+except KeyboardInterrupt:
+    print("Servidor OPC UA encerrado pelo usuário")
+    server.stop()
 except Exception as e:
-    logger.error(f"Erro ao inicializar o servidor: {e}")
-    sys.exit(1)
-
-# Definir um namespace personalizado
-try:
-    uri = "http://examples.com/impressora"
-    idx = server.register_namespace(uri)
-    logger.info(f"Namespace registrado com índice: {idx}")
-except Exception as e:
-    logger.error(f"Erro ao registrar namespace: {e}")
-    sys.exit(1)
-
-# Definir a estrutura de nós
-root = server.get_objects_node()
-try:
-    impressora_node = root.add_object(idx, "Impressora")
-    logger.info("Nó 'Impressora' criado com sucesso")
-except Exception as e:
-    logger.error(f"Erro ao criar nó 'Impressora': {e}")
-    impressora_node = root.add_object(idx, "Impressora")
-    logger.info("Nó 'Impressora' criado sem configuração de eventos")
-
-# Definir nós para cada variável da classe PrinterData
-nodes = {}
-variables = ["NozzleTemp", "NozzleTarget", "NozzleDelta", "BedTemp", "BedTarget", "BedDelta",
-             "NozzlePWM", "BedPWM", "X", "Y", "Z", "ExtrusionLevel", "AccelPrint",
-             "AccelRetract", "AccelTravel", "JerkX", "JerkY"]
-for var in variables:
-    try:
-        nodes[var] = impressora_node.add_variable(idx, var, 0.0)
-        nodes[var].set_writable()  # Tornar gravável
-        logger.info(f"Nó '{var}' criado com sucesso")
-    except Exception as e:
-        logger.error(f"Erro ao criar nó '{var}': {e}")
-
-# Dicionário para armazenar os dados atualizados
-data_store = {var: 0.0 for var in variables}
-
-# Função para atualizar os nós com os dados do data_store
-def update_nodes():
-    try:
-        for var in variables:
-            if(nodes[var].set_value(data_store[var])):
-                logger.info(f"Atualizado nó {var} com valor {data_store[var]}")  # Atualiza o valor
-            else:
-                logger.info(f"MERDA {data_store[var]}")  
-            #logger.info(f"DATA STORE VAR: {data_store[var]}")
-            #logger.info(f"Atualizado nó {var} com valor {data_store[var]}")
-        logger.info(f"Atualizado nós com dados: NozzleTemp={data_store['NozzleTemp']}, X={data_store['X']}, AccelPrint={data_store['AccelPrint']}")
-    except Exception as e:
-        logger.error(f"Erro ao atualizar nós: {e}")
-
-# Função para o octoprint-api.py atualizar os dados
-def update_data(data):
-    global data_store
-    try:
-        updated = False
-        for key, value in data.items():
-            if key in data_store and value is not None:
-                data_store[key] = float(value)
-                updated = True
-        if updated:
-            update_nodes()  # Atualizar os nós imediatamente
-            logger.info(f"Dados recebidos para atualização: {data}")
-    except Exception as e:
-        logger.error(f"Erro ao atualizar data_store: {e}")
-
-# Iniciar o servidor em uma thread separada
-def start_server():
-    try:
-        logger.info("Iniciando servidor OPC UA na porta 4840...")
-        server.start()
-        logger.info("Servidor OPC UA iniciado com sucesso.")
-        # Verificar se os nós foram criados corretamente
-        logger.info(f"Nós criados sob Impressora: {[node.get_browse_name().Name for node in impressora_node.get_children()]}")
-    except Exception as e:
-        logger.error(f"Erro ao iniciar o servidor: {e}")
-        sys.exit(1)
-
-if __name__ == "__main__":
-    # Iniciar o servidor em uma thread
-    server_thread = Thread(target=start_server)
-    server_thread.daemon = True
-    server_thread.start()
-
-    # Manter o script rodando
-    try:
-        while True:
-            time.sleep(1)
-    except KeyboardInterrupt:
-        logger.info("Encerrando servidor OPC UA...")
-        server.stop()
+    print(f"Erro ao iniciar o servidor OPC UA: {e}")
+    server.stop()
