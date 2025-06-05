@@ -253,6 +253,6 @@ def process_printer_data(input_file, output_file):
 
 # Executar o script
 if __name__ == "__main__":
-    input_file = "printer_data3.csv"
+    input_file = "printer_data5.csv"
     output_file = "processed_data2.csv"
     process_printer_data(input_file, output_file)
