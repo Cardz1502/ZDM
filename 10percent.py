@@ -1,73 +1,70 @@
 import pandas as pd
-import numpy as np
+from datetime import datetime
 
-# Load the CSV file
-input_file = "printer_data2.csv"  # Replace with your actual CSV file name
-df = pd.read_csv(input_file)
+# Função para converter timestamp em objeto datetime
+def parse_timestamp(ts):
+    try:
+        return datetime.strptime(ts, '%Y-%m-%d %H:%M:%S')
+    except ValueError as e:
+        print(f"Erro ao converter timestamp: {ts}, erro: {e}")
+        return None
 
-# Convert timestamp to datetime
-df['timestamp'] = pd.to_datetime(df['timestamp'])
+# Carrega o dataset bruto
+input_file = 'printer_data5.csv'  # Substitua pelo nome do seu arquivo de entrada
+output_file = '10percent.csv'  # Nome do arquivo de saída
 
-# Sort by filename and timestamp to ensure chronological order
-df = df.sort_values(['filename', 'timestamp'])
+# Lê o arquivo CSV
+try:
+    df = pd.read_csv(input_file)
+except FileNotFoundError:
+    print(f"Arquivo {input_file} não encontrado.")
+    exit(1)
 
-# Initialize a list to store the data for each group
-data_20min = []
+# Verifica se a coluna timestamp existe
+if 'timestamp' not in df.columns:
+    print("Coluna 'timestamp' não encontrada no dataset.")
+    exit(1)
 
-# Function to process a group of data and split by 15-minute gaps
-def process_group(group):
-    # Get the start time of the group
-    start_time = group['timestamp'].iloc[0]
+# Converte a coluna timestamp para datetime
+df['timestamp'] = df['timestamp'].apply(parse_timestamp)
+
+# Verifica se há timestamps inválidos
+if df['timestamp'].isnull().any():
+    print("Alguns timestamps são inválidos e serão ignorados.")
+    df = df.dropna(subset=['timestamp'])
+
+# Identifica grupos de impressão com base em intervalos > 10 minutos (600 segundos)
+df['time_diff'] = df['timestamp'].diff().dt.total_seconds().fillna(0)
+df['group'] = (df['time_diff'] > 600).cumsum()
+
+# Lista para armazenar as linhas até Z <= 4.0 mm de cada grupo
+result_dfs = []
+
+# Itera sobre os grupos únicos
+for group_id in df['group'].unique():
+    group_df = df[df['group'] == group_id].copy()
     
-    # Initialize variables for splitting into subgroups based on 15-minute gaps
-    current_start = start_time
-    subgroup_data = []
-    current_subgroup = []
+    # Seleciona linhas onde Z <= 4.0 mm
+    z_4_df = group_df[group_df['Z'] < 4.0].copy()
     
-    for index, row in group.iterrows():
-        current_time = row['timestamp']
-        
-        # Check if there's a gap of 15 minutes or more
-        if (current_time - current_start).total_seconds() >= 15 * 60:  # 15 minutes in seconds
-            # If there's a gap, start a new subgroup
-            if current_subgroup:
-                subgroup_df = pd.DataFrame(current_subgroup)
-                # Select only the first 20 minutes of this subgroup
-                cutoff_time = current_start + pd.Timedelta(minutes=20)
-                subgroup_df = subgroup_df[subgroup_df['timestamp'] <= cutoff_time]
-                subgroup_data.append(subgroup_df)
-            # Reset for the new subgroup
-            current_subgroup = [row]
-            current_start = current_time
-        else:
-            # Add row to the current subgroup
-            current_subgroup.append(row)
-            
-    # Process the last subgroup if it exists
-    if current_subgroup:
-        subgroup_df = pd.DataFrame(current_subgroup)
-        cutoff_time = current_start + pd.Timedelta(minutes=20)
-        subgroup_df = subgroup_df[subgroup_df['timestamp'] <= cutoff_time]
-        subgroup_data.append(subgroup_df)
+    if z_4_df.empty:
+        print(f"Grupo {group_id + 1}: Nenhum dado com Z <= 4.0 mm. Ignorando.")
+        continue
     
-    return subgroup_data
+    # Adiciona ao resultado
+    result_dfs.append(z_4_df)
+    
+    print(f"Grupo {group_id + 1}: {len(group_df)} linhas, selecionadas {len(z_4_df)} linhas (Z <= 4.0 mm)")
 
-# Group by filename and process each group
-grouped = df.groupby('filename')
-for filename, group in grouped:
-    # Process the group to split into subgroups based on 15-minute gaps
-    subgroups = process_group(group)
-    # Extend the list with all subgroups
-    data_20min.extend(subgroups)
-
-# Concatenate all subgroups into a single DataFrame
-if data_20min:
-    final_df = pd.concat(data_20min, ignore_index=True)
+# Combina os dados selecionados em um único dataframe
+if result_dfs:
+    result_df = pd.concat(result_dfs, ignore_index=True)
+    
+    # Remove as colunas auxiliares
+    result_df = result_df.drop(columns=['time_diff', 'group'])
+    
+    # Salva o dataset resultante
+    result_df.to_csv(output_file, index=False)
+    print(f"\nDataset com linhas até Z <= 4.0 mm salvo como {output_file}")
 else:
-    final_df = pd.DataFrame(columns=df.columns)
-
-# Save to a new CSV file
-output_file = "10percent.csv"
-final_df.to_csv(output_file, index=False)
-
-print(f"Data for the first 20 minutes of each impression, split by 15-minute gaps, has been saved to {output_file}")
+    print("\nNenhum dado com Z <= 4.0 mm encontrado em qualquer grupo.")

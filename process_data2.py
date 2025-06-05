@@ -22,7 +22,7 @@ def calculate_e_active_time(group):
 
 # Função principal para processar o CSV
 def process_printer_data(input_file, output_file):
-    print("Lendo o printer_data3.csv...")
+    print("Lendo o printer_data5.csv...")
     try:
         df = pd.read_csv(input_file, encoding='latin-1', sep=',', index_col=False, on_bad_lines='warn')
         print("Arquivo lido com separador vírgula (,).")
@@ -100,7 +100,7 @@ def process_printer_data(input_file, output_file):
         print("Não há novas impressões para processar no printer_data3.csv.")
         return
 
-    print(f"Processando {len(prints_to_process)} novas impressões do printer_data3.csv...")
+    print(f"Processando {len(prints_to_process)} novas impressões do printer_data5.csv...")
     processed_data = []
     piece_id = last_id + 1
 
@@ -253,6 +253,6 @@ def process_printer_data(input_file, output_file):
 
 # Executar o script
 if __name__ == "__main__":
-    input_file = "printer_data5.csv"
-    output_file = "processed_data2.csv"
+    input_file = "10percent.csv"
+    output_file = "processed_10percent.csv"
     process_printer_data(input_file, output_file)
