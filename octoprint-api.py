@@ -17,8 +17,8 @@ PASSWORD = "ricsricsjabjab"
 UPDATE_INTERVAL_M114 = 5
 UPDATE_INTERVAL_M220 = 30
 TIMEOUT_LIMIT = 90
-CSV_FILE = "/app/data/printer_data4.csv"
-LOG_FILE = "/app/data/octoprint_monitor4.log"
+CSV_FILE = "/app/data/printer_dataZDM.csv"
+LOG_FILE = "/app/data/octoprint_monitor5.log"
 CHECK_INTERVAL = 5
 CHECK_STATE_INTERVAL = 30
 CHECK_WAIT_IMPRESSION_INTERVAL = 60
@@ -28,6 +28,9 @@ FILENAME_WARNING_INTERVAL = 300  # Intervalo de 5 minutos (em segundos) para log
 # Configurações de Retry
 MAX_RETRIES = 5
 RETRY_WAIT = 10
+
+# Configurações do Serviço de Previsão
+PREDICTION_SERVICE_URL = "http://prediction-service:5000/predict"
 
 HEADERS = {
     "X-Api-Key": API_KEY,
@@ -129,8 +132,11 @@ class Control:
         self.filename = None
         self.filename_obtained = False
         self.ws = None
-        self.filename_warning_logged = False  # Novo: para rastrear se o log já foi registrado
-        self.last_filename_warning = 0  # Novo: para rastrear o último log periódico
+        self.filename_warning_logged = False  
+        self.last_filename_warning = 0  
+        self.first_save_done = False
+        self.start_time = None
+        self.prediction_called = False
 
 data = PrinterData()
 control = Control()
@@ -240,6 +246,29 @@ def send_m220():
                 control.m220_waiting = False
                 control.m220_last_time = None
 
+def call_prediction_service(start_time, filename):
+    """Chama o serviço de previsão e retorna as dimensões previstas."""
+    payload = {
+        "start_time": start_time.strftime("%Y-%m-%d %H:%M:%S"),
+        "filename": filename
+    }
+    retries = 0
+    while retries < MAX_RETRIES:
+        try:
+            response = requests.post(PREDICTION_SERVICE_URL, json=payload, headers={"Content-Type": "application/json"}, timeout=HTTP_TIMEOUT)
+            response.raise_for_status()
+            result = response.json()
+            logger.debug("Resposta do serviço de previsão: %s", json.dumps(result, indent=2))
+            return result
+        except requests.exceptions.RequestException as e:
+            retries += 1
+            logger.error("Erro ao chamar serviço de previsão (tentativa %d/%d): %s", retries, MAX_RETRIES, e)
+            if retries < MAX_RETRIES:
+                time.sleep(RETRY_WAIT)
+            else:
+                logger.error("Falha ao chamar serviço de previsão após %d tentativas", MAX_RETRIES)
+                return None
+
 def update_aas_variable(variable_key, value):
     if value is None:
         return  # Não atualizar se o valor for None
@@ -271,6 +300,7 @@ def save_data(timestamp, is_m114=True):
         logger.info("Nome de ficheiro %s não está na lista permitida ou é None. Dados não salvos", control.filename)
         return
 
+
     try:
         if not os.path.exists(CSV_FILE):
             with open(CSV_FILE, "w", newline="", encoding="utf-8") as file:
@@ -280,6 +310,8 @@ def save_data(timestamp, is_m114=True):
                                  "X", "Y", "Z", "E", "speed_factor", "filename"])
 
         timestamp_str = timestamp.strftime("%Y-%m-%d %H:%M:%S")
+            
+
         if is_m114:
             row = [timestamp_str, data.nozzle_temp, data.nozzle_target, data.nozzle_delta,
                    data.nozzle_pwm, data.bed_temp, data.bed_target, data.bed_delta, data.bed_pwm,
@@ -296,6 +328,11 @@ def save_data(timestamp, is_m114=True):
             z = data.z if data.z is not None else 0.0
             extrusion_level = data.extrusion_level if data.extrusion_level is not None else 0.0
             speed_factor = data.speed_factor if data.speed_factor is not None else 0.0
+            if not control.first_save_done:
+                control.start_time = timestamp_str
+                control.first_save_done = True
+                logger.info("Primeiro save_data registrado. Start_time definido como: %s", timestamp.strftime("%Y-%m-%d %H:%M:%S"))
+
             logger.info("Dados M114 salvos: %s, X=%.2f, Y=%.2f, Z=%.2f, E=%.2f, SpeedFactor=%.0f%%, Nozzle=%.2f/%.2f, Bed=%.2f/%.2f, PWM(Nozzle:Bed)=(%d:%d), Filename=%s",
                         timestamp_str, x, y, z, extrusion_level, speed_factor,
                         nozzle_temp, nozzle_target, bed_temp, bed_target, nozzle_pwm, bed_pwm, control.filename)
@@ -394,6 +431,32 @@ def on_message(ws, message):
                     if nozzle_target != 0 and bed_target != 0:
                         timestamp = datetime.now()
                         save_data(timestamp, is_m114=True)
+                        # Verificar se Z >= 4.0 mm e previsão ainda não foi chamada
+                        if data.z >= 4.0 and not control.prediction_called and control.start_time and control.filename:
+                            prediction_result = call_prediction_service(control.start_time, control.filename)
+                            control.prediction_called = True
+                            if prediction_result:
+                                piece_type = prediction_result.get("piece_type")
+                                predictions = prediction_result.get("predictions", [])
+                                if piece_type in ["QUADRADO", "RETANGULO"]:
+                                    log_message = (
+                                        f"Previsão para {piece_type}: "
+                                        f"Comprimento={predictions[0]:.2f}mm, "
+                                        f"Largura={predictions[1]:.2f}mm, "
+                                        f"Altura={predictions[2]:.2f}mm"
+                                    )
+                                elif piece_type == "L":
+                                    log_message = (
+                                        f"Previsão para {piece_type}: "
+                                        f"Comprimento Externo={predictions[0]:.2f}mm, "
+                                        f"Largura Externa={predictions[1]:.2f}mm, "
+                                        f"Comprimento Interno 1={predictions[2]:.2f}mm, "
+                                        f"Comprimento Interno 2={predictions[3]:.2f}mm, "
+                                        f"Largura Interna 1={predictions[4]:.2f}mm, "
+                                        f"Largura Interna 2={predictions[5]:.2f}mm, "
+                                        f"Altura={predictions[6]:.2f}mm"
+                                    )
+                                logger.info(log_message)
                     else:
                         logger.info("M114 ignorado após fim da impressão: X=%.2f, Y=%.2f, Z=%.2f, E=%.2f", data.x, data.y, data.z, data.extrusion_level)
                     control.m114_waiting = False
@@ -469,7 +532,6 @@ def main():
     first_m220 = True
     was_printing = False
     last_wait_impression = 0
-
     try:
         while True:
             current_time = time.time()
@@ -497,6 +559,8 @@ def main():
                         control.last_filename_warning = 0  # Resetar o tempo do último log
                         first_m114 = True
                         first_m220 = True
+                        control.first_save_done = False
+                        control.prediction_called = False
 
                     if not is_printing and was_printing and is_operational:
                         logger.info("Impressora voltou ao estado Operational após impressão")
@@ -508,6 +572,9 @@ def main():
                         control.filename = None
                         control.filename_warning_logged = False  # Resetar o controle de log
                         control.last_filename_warning = 0  # Resetar o tempo do último log
+                        control.first_save_done = False
+                        control.start_time = None
+                        control.prediction_called = False
 
                     allowed_filenames = {"zdm4ms~4", "zd5b20~1", "zd2c72~1"}
                     filename_allowed = control.filename is not None and control.filename in allowed_filenames
