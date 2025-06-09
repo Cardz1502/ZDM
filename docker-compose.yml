@@ -1,0 +1,35 @@
+version: '3.8'
+services:
+  octoprint-monitor:
+    build:
+      context: ./octoprint-api
+      dockerfile: Dockerfile.octo
+    volumes:
+      - ./data:/app/data
+      - ./models:/app/models:ro
+    networks:
+      - app-network
+    depends_on:
+      - prediction-service
+    restart: unless-stopped
+
+  prediction-service:
+    build:
+      context: ./prediction-service
+      dockerfile: Dockerfile.pred
+    volumes:
+      - ./data:/app/data
+      - ./models:/app/models:ro
+    networks:
+      - app-network
+    ports:
+      - "5000:5000"
+    restart: unless-stopped
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  data:
+  models:
