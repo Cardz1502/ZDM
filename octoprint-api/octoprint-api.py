@@ -10,26 +10,26 @@ import re
 import logging
 
 # Configurações do OctoPrint
-BASE_URL = "http://192.168.250.100"
-API_KEY = "Yfvanr37vlCxeQCFi8_pdyrz-GrqYFIYh2RpYKYtQ0I"
-USERNAME = "rics"
+BASE_URL = "http://192.168.250.100" 
+API_KEY = "Yfvanr37vlCxeQCFi8_pdyrz-GrqYFIYh2RpYKYtQ0I" 
+USERNAME = "rics" 
 PASSWORD = "ricsricsjabjab"
 UPDATE_INTERVAL_M114 = 5
 UPDATE_INTERVAL_M220 = 30
 TIMEOUT_LIMIT = 90
-CSV_FILE = "/app/data/printer_dataZDM.csv"
+CSV_FILE = "/app/data/printer_dataZDM.csv" 
 LOG_FILE = "/app/data/octoprint_monitor5.log"
 CHECK_INTERVAL = 5
 CHECK_STATE_INTERVAL = 30
 CHECK_WAIT_IMPRESSION_INTERVAL = 60
 HTTP_TIMEOUT = 30
-FILENAME_WARNING_INTERVAL = 300  # Intervalo de 5 minutos (em segundos) para log periódico
+FILENAME_WARNING_INTERVAL = 300  
 
 # Configurações de Retry
 MAX_RETRIES = 5
 RETRY_WAIT = 10
 
-# Configurações do Serviço de Previsão
+# Configurações do Serviço de Predict
 PREDICTION_SERVICE_URL = "http://prediction-service:5000/predict"
 
 HEADERS = {
@@ -41,7 +41,7 @@ HEADERS = {
 AAS_URL = "http://192.168.250.224:5001/submodels/aHR0cHM6Ly9leGFtcGxlLmNvbS9pZHMvc20vNjA1MF8zMTMwXzYwNTJfODY2MA==/submodel-elements/"
 AAS_HEADERS = {"Content-Type": "application/json"}
 
-# Dados base para o corpo da requisição ao AAS
+# Dados base para o corpo da requisição da AAS
 AAS_BASE_DATA = {
     "category": "",
     "idShort": "value",
@@ -50,7 +50,7 @@ AAS_BASE_DATA = {
     "modelType": "Property"
 }
 
-# Mapeamento de variáveis para idShort
+# Variaveis a serem atualizadas na AAS
 AAS_VARIABLES = {
     "timestamp": {"id_short": "timestamp"},       # Timestamp
     "nozzle_temp": {"id_short": "nozzle_temp"},   # NozzleTemp
@@ -69,7 +69,7 @@ AAS_VARIABLES = {
     "speed_factor": {"id_short": "speed_factor"}  # SpeedFactor
 }
 
-# Criar o diretório para logs e dados, se não existir
+# Criar a pasta para os logs e o dataset, cria se não existir
 log_dir = "/app/data"
 try:
     os.makedirs(log_dir, exist_ok=True)
@@ -77,7 +77,7 @@ except Exception as e:
     print(f"Erro ao criar diretório {log_dir}: {e}")
     exit(1)
 
-# Configurar logging
+# Configurar ficheiros de log
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s",
@@ -88,6 +88,8 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+
+#Classes 
 class PrinterData:
     def __init__(self):
         self.nozzle_temp = None
@@ -247,7 +249,6 @@ def send_m220():
                 control.m220_last_time = None
 
 def call_prediction_service(start_time, filename):
-    """Chama o serviço de previsão e retorna as dimensões previstas."""
     payload = {
         "start_time": start_time.strftime("%Y-%m-%d %H:%M:%S"),
         "filename": filename
@@ -258,20 +259,20 @@ def call_prediction_service(start_time, filename):
             response = requests.post(PREDICTION_SERVICE_URL, json=payload, headers={"Content-Type": "application/json"}, timeout=HTTP_TIMEOUT)
             response.raise_for_status()
             result = response.json()
-            logger.debug("Resposta do serviço de previsão: %s", json.dumps(result, indent=2))
+            logger.debug("Resposta do serviço de predict: %s", json.dumps(result, indent=2))
             return result
         except requests.exceptions.RequestException as e:
             retries += 1
-            logger.error("Erro ao chamar serviço de previsão (tentativa %d/%d): %s", retries, MAX_RETRIES, e)
+            logger.error("Erro ao chamar serviço de predict (tentativa %d/%d): %s", retries, MAX_RETRIES, e)
             if retries < MAX_RETRIES:
                 time.sleep(RETRY_WAIT)
             else:
-                logger.error("Falha ao chamar serviço de previsão após %d tentativas", MAX_RETRIES)
+                logger.error("Falha ao chamar serviço de predict após %d tentativas", MAX_RETRIES)
                 return None
 
 def update_aas_variable(variable_key, value):
     if value is None:
-        return  # Não atualizar se o valor for None
+        return  
     config = AAS_VARIABLES.get(variable_key)
     if not config:
         logger.error(f"Variável {variable_key} não encontrada no mapeamento AAS_VARIABLES")
@@ -284,7 +285,7 @@ def update_aas_variable(variable_key, value):
     while retries < MAX_RETRIES:
         try:
             response = requests.put(url, headers=AAS_HEADERS, json=data, timeout=HTTP_TIMEOUT)
-            if response.status_code in [200, 204]:  # Aceitar 200 e 204 como sucesso
+            if response.status_code in [200, 204]: 
                 logger.debug(f"Atualizado {id_short}.value ({variable_key}) para {value} às {time.strftime('%H:%M:%S')}")
                 return True
             else:
@@ -295,7 +296,7 @@ def update_aas_variable(variable_key, value):
 def save_data(timestamp, is_m114=True):
     allowed_filenames = {"zdm4ms~4", "zd5b20~1", "zd2c72~1"}
     
-    # Verificar se control.filename é None
+    
     if control.filename is None or control.filename not in allowed_filenames:
         logger.info("Nome de ficheiro %s não está na lista permitida ou é None. Dados não salvos", control.filename)
         return
@@ -316,7 +317,7 @@ def save_data(timestamp, is_m114=True):
             row = [timestamp_str, data.nozzle_temp, data.nozzle_target, data.nozzle_delta,
                    data.nozzle_pwm, data.bed_temp, data.bed_target, data.bed_delta, data.bed_pwm,
                    data.x, data.y, data.z, data.extrusion_level, data.speed_factor, control.filename]
-            # Usar valores padrão se algum dado for None
+        
             nozzle_temp = data.nozzle_temp if data.nozzle_temp is not None else 0.0
             nozzle_target = data.nozzle_target if data.nozzle_target is not None else 0.0
             bed_temp = data.bed_temp if data.bed_temp is not None else 0.0
@@ -336,7 +337,7 @@ def save_data(timestamp, is_m114=True):
             logger.info("Dados M114 salvos: %s, X=%.2f, Y=%.2f, Z=%.2f, E=%.2f, SpeedFactor=%.0f%%, Nozzle=%.2f/%.2f, Bed=%.2f/%.2f, PWM(Nozzle:Bed)=(%d:%d), Filename=%s",
                         timestamp_str, x, y, z, extrusion_level, speed_factor,
                         nozzle_temp, nozzle_target, bed_temp, bed_target, nozzle_pwm, bed_pwm, control.filename)
-            # Atualizar AAS e verificar sucesso
+            
             updates = [
                 update_aas_variable("timestamp", timestamp_str),
                 update_aas_variable("nozzle_temp", data.nozzle_temp),
@@ -360,7 +361,7 @@ def save_data(timestamp, is_m114=True):
             row = [timestamp_str, data.nozzle_temp, data.nozzle_target, data.nozzle_delta,
                    data.nozzle_pwm, data.bed_temp, data.bed_target, data.bed_delta, data.bed_pwm,
                    None, None, None, None, data.speed_factor, control.filename]
-            # Usar valores padrão se algum dado for None
+            
             nozzle_temp = data.nozzle_temp if data.nozzle_temp is not None else 0.0
             nozzle_target = data.nozzle_target if data.nozzle_target is not None else 0.0
             bed_temp = data.bed_temp if data.bed_temp is not None else 0.0
@@ -370,7 +371,7 @@ def save_data(timestamp, is_m114=True):
             speed_factor = data.speed_factor if data.speed_factor is not None else 0.0
             logger.info("Dados M220 salvos: %s, SpeedFactor=%.0f%%, Nozzle=%.2f/%.2f, Bed=%.2f/%.2f, PWM(Nozzle:Bed)=(%d:%d), Filename=%s",
                         timestamp_str, speed_factor, nozzle_temp, nozzle_target, bed_temp, bed_target, nozzle_pwm, bed_pwm, control.filename)
-            # Atualizar AAS (sem X, Y, Z, E)
+            
             updates2 = [
                 update_aas_variable("timestamp", timestamp_str),
                 update_aas_variable("nozzle_temp", data.nozzle_temp),
@@ -425,13 +426,12 @@ def on_message(ws, message):
                     data.y = float(pos_match.group(2))
                     data.z = float(pos_match.group(3))
                     data.extrusion_level = float(pos_match.group(4))
-                    # Verificar se os valores de temperatura estão disponíveis e não são 0
                     nozzle_target = data.nozzle_target if data.nozzle_target is not None else 0.0
                     bed_target = data.bed_target if data.bed_target is not None else 0.0
                     if nozzle_target != 0 and bed_target != 0:
                         timestamp = datetime.now()
                         save_data(timestamp, is_m114=True)
-                        # Verificar se Z >= 4.0 mm e previsão ainda não foi chamada
+
                         if data.z == 4.0 and not control.prediction_called and control.start_time and control.filename:
                             prediction_result = call_prediction_service(control.start_time, control.filename)
                             if prediction_result:
@@ -440,14 +440,14 @@ def on_message(ws, message):
                                 predictions = prediction_result.get("predictions", [])
                                 if piece_type in ["QUADRADO", "RETANGULO"]:
                                     log_message = (
-                                        f"Previsão para {piece_type}: "
+                                        f"predict para {piece_type}: "
                                         f"Comprimento={predictions[0]:.2f}mm, "
                                         f"Largura={predictions[1]:.2f}mm, "
                                         f"Altura={predictions[2]:.2f}mm"
                                     )
                                 elif piece_type == "L":
                                     log_message = (
-                                        f"Previsão para {piece_type}: "
+                                        f"predict para {piece_type}: "
                                         f"Comprimento Externo={predictions[0]:.2f}mm, "
                                         f"Largura Externa={predictions[1]:.2f}mm, "
                                         f"Comprimento Interno 1={predictions[2]:.2f}mm, "
@@ -464,7 +464,6 @@ def on_message(ws, message):
                 speed_match = re.search(r"FR:([\d.]+)%", log)
                 if speed_match and control.m220_waiting:
                     data.speed_factor = float(speed_match.group(1))
-                    # Verificar se os valores de temperatura estão disponíveis e não são 0
                     nozzle_target = data.nozzle_target if data.nozzle_target is not None else 0.0
                     bed_target = data.bed_target if data.bed_target is not None else 0.0
                     if nozzle_target != 0 and bed_target != 0:
@@ -520,9 +519,9 @@ def main():
         logger.warning("Falha no login, esperando %ds antes de tentar novamente", RETRY_WAIT)
         time.sleep(RETRY_WAIT)
 
-    # Abrir a conexão WebSocket logo no início e mantê-la aberta
+
     control.ws = start_websocket()
-    time.sleep(2)  # Aguardar a conexão WebSocket ser estabelecida
+    time.sleep(2) 
 
     last_check_time = 0
     last_check_time_state = 0
@@ -555,8 +554,8 @@ def main():
                         logger.info("Impressora iniciando impressão: %s", state)
                         control.filename = get_current_filename_from_api()
                         control.filename_obtained = True
-                        control.filename_warning_logged = False  # Resetar o controle de log para nova impressão
-                        control.last_filename_warning = 0  # Resetar o tempo do último log
+                        control.filename_warning_logged = False 
+                        control.last_filename_warning = 0  
                         first_m114 = True
                         first_m220 = True
                         control.first_save_done = False
@@ -570,8 +569,8 @@ def main():
                         first_m114 = True
                         control.filename_obtained = False
                         control.filename = None
-                        control.filename_warning_logged = False  # Resetar o controle de log
-                        control.last_filename_warning = 0  # Resetar o tempo do último log
+                        control.filename_warning_logged = False  
+                        control.last_filename_warning = 0  
                         control.first_save_done = False
                         control.start_time = None
                         control.prediction_called = False
@@ -590,7 +589,7 @@ def main():
                                 first_m220 = False
                                 last_m220_time = current_time
                         else:
-                            # Registrar o log apenas na primeira vez ou a cada 5 minutos
+                            
                             if not control.filename_warning_logged:
                                 logger.info("Nome de ficheiro %s não está na lista permitida ou é None. Comandos M114 e M220 não serão enviados", control.filename)
                                 control.filename_warning_logged = True
@@ -618,7 +617,7 @@ def main():
                         send_m220()
                         last_m220_time = current_time
                 else:
-                    # Registrar o log apenas na primeira vez ou a cada 5 minutos
+                    
                     if not control.filename_warning_logged:
                         logger.info("Nome de ficheiro %s não está na lista permitida ou é None. Comandos M114 e M220 não serão enviados", control.filename)
                         control.filename_warning_logged = True
