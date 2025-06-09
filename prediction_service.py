@@ -138,8 +138,8 @@ def predict():
         
         # Carregar modelo e scaler
         try:
-            model = joblib.load(f"model_{piece_type.lower()}.joblib")
-            scaler = joblib.load(f"scaler_{piece_type.lower()}.joblib")
+            model = joblib.load(f"/app/models/model_{piece_type.lower()}.joblib")
+            scaler = joblib.load(f"/app/models/scaler_{piece_type.lower()}.joblib")
         except FileNotFoundError:
             logger.error(f"Erro ao carregar modelo ou scaler para {filename}")
             return jsonify({"error": f"Failed to load model or scaler for {piece_type}"}), 400
