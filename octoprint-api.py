@@ -434,8 +434,8 @@ def on_message(ws, message):
                         # Verificar se Z >= 4.0 mm e previsão ainda não foi chamada
                         if data.z == 4.0 and not control.prediction_called and control.start_time and control.filename:
                             prediction_result = call_prediction_service(control.start_time, control.filename)
-                            control.prediction_called = True
                             if prediction_result:
+                                control.prediction_called = True
                                 piece_type = prediction_result.get("piece_type")
                                 predictions = prediction_result.get("predictions", [])
                                 if piece_type in ["QUADRADO", "RETANGULO"]:

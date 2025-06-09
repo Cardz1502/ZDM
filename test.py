@@ -6,8 +6,8 @@ import time
 SERVICE_URL = "http://localhost:5000/predict"
 TEST_CASES = [
     {
-        "start_time": "2025-06-04 13:19:47",
-        "filename": "zdm4ms~4"  # L
+        "start_time": "2025-06-04 11:09:17",
+        "filename": "zd2c72~1"  # RETANGULO
     }
 ]
 
