@@ -330,7 +330,7 @@ def save_data(timestamp, is_m114=True):
             extrusion_level = data.extrusion_level if data.extrusion_level is not None else 0.0
             speed_factor = data.speed_factor if data.speed_factor is not None else 0.0
             if not control.first_save_done:
-                control.start_time = timestamp_str
+                control.start_time = timestamp
                 control.first_save_done = True
                 logger.info("Primeiro save_data registrado. Start_time definido como: %s", timestamp.strftime("%Y-%m-%d %H:%M:%S"))
 
