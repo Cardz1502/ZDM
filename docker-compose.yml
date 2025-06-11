@@ -26,6 +26,18 @@ services:
       - "5000:5000"
     restart: unless-stopped
 
+  opcua-server:
+      build:
+        context: ./opcua-server
+        dockerfile: Dockerfile.opcua
+      volumes:
+        - ./data:/app/data
+      networks:
+        - app-network
+      ports:
+        - "4840:4840"
+      restart: unless-stopped
+
 networks:
   app-network:
     driver: bridge
