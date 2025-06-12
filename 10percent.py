@@ -11,7 +11,7 @@ def parse_timestamp(ts):
 
 # Carrega o dataset bruto
 input_file = 'printer_data5.csv'  # Substitua pelo nome do seu arquivo de entrada
-output_file = '10percent.csv'  # Nome do arquivo de saída
+output_file = 'z_lower_1.csv'  # Nome do arquivo de saída
 
 # Lê o arquivo CSV
 try:
@@ -37,24 +37,24 @@ if df['timestamp'].isnull().any():
 df['time_diff'] = df['timestamp'].diff().dt.total_seconds().fillna(0)
 df['group'] = (df['time_diff'] > 600).cumsum()
 
-# Lista para armazenar as linhas até Z <= 4.0 mm de cada grupo
+# Lista para armazenar as linhas até Z <= 1.0 mm de cada grupo
 result_dfs = []
 
 # Itera sobre os grupos únicos
 for group_id in df['group'].unique():
     group_df = df[df['group'] == group_id].copy()
     
-    # Seleciona linhas onde Z <= 4.0 mm
-    z_4_df = group_df[group_df['Z'] < 4.0].copy()
+    # Seleciona linhas onde Z <= 1.0 mm
+    z_4_df = group_df[group_df['Z'] < 1.0].copy()
     
     if z_4_df.empty:
-        print(f"Grupo {group_id + 1}: Nenhum dado com Z <= 4.0 mm. Ignorando.")
+        print(f"Grupo {group_id + 1}: Nenhum dado com Z <= 1.0 mm. Ignorando.")
         continue
     
     # Adiciona ao resultado
     result_dfs.append(z_4_df)
     
-    print(f"Grupo {group_id + 1}: {len(group_df)} linhas, selecionadas {len(z_4_df)} linhas (Z <= 4.0 mm)")
+    print(f"Grupo {group_id + 1}: {len(group_df)} linhas, selecionadas {len(z_4_df)} linhas (Z <= 1.0 mm)")
 
 # Combina os dados selecionados em um único dataframe
 if result_dfs:
@@ -65,6 +65,6 @@ if result_dfs:
     
     # Salva o dataset resultante
     result_df.to_csv(output_file, index=False)
-    print(f"\nDataset com linhas até Z <= 4.0 mm salvo como {output_file}")
+    print(f"\nDataset com linhas até Z <= 1.0 mm salvo como {output_file}")
 else:
-    print("\nNenhum dado com Z <= 4.0 mm encontrado em qualquer grupo.")
+    print("\nNenhum dado com Z <= 1.0 mm encontrado em qualquer grupo.")
