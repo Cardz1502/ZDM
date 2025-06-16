@@ -47,7 +47,7 @@ services:
     networks:
       - app-network
     ports:
-      - "5001:5001"
+      - "5002:5002"
     restart: unless-stopped
 
 networks:

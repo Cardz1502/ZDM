@@ -4,4 +4,4 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 COPY ok_pred_service.py .
 CMD ["python", "ok_pred_service.py"]
-EXPOSE 5001
+EXPOSE 5002
