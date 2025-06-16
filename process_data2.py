@@ -177,40 +177,8 @@ def process_printer_data(input_file, output_file):
             print("Erro: Coluna 'filename' contém apenas valores nulos.")
             return
 
-        # Inicializar as 7 dimensões como vazias
-        metrics['d1'] = None
-        metrics['d2'] = None
-        metrics['d3'] = None
-        metrics['d4'] = None
-        metrics['d5'] = None
-        metrics['d6'] = None
-        metrics['d7'] = None
-
-        # Solicitar dimensões com base no tipo de peça
-        print(f"\nPeça {piece_id} (Data: {metrics['Data']}, Tipo: {metrics['Tipo de Peça']})")
-        while True:
-            try:
-                if metrics['Tipo de Peça'] == 'QUADRADO':
-                    metrics['d1'] = float(input(f"Peça {piece_id} - Comprimento do Quadrado (mm): "))
-                    metrics['d2'] = float(input(f"Peça {piece_id} - Largura do Quadrado (mm): "))
-                    metrics['d3'] = float(input(f"Peça {piece_id} - Altura do Quadrado (mm): "))
-                elif metrics['Tipo de Peça'] == 'RETANGULO':
-                    metrics['d1'] = float(input(f"Peça {piece_id} - Comprimento do Retângulo (mm): "))
-                    metrics['d2'] = float(input(f"Peça {piece_id} - Largura do Retângulo (mm): "))
-                    metrics['d3'] = float(input(f"Peça {piece_id} - Altura do Retângulo (mm): "))
-                elif metrics['Tipo de Peça'] == 'L':
-                    metrics['d1'] = float(input(f"Peça {piece_id} - Comprimento Externo do L (mm): "))
-                    metrics['d2'] = float(input(f"Peça {piece_id} - Largura Externa do L (mm): "))
-                    metrics['d3'] = float(input(f"Peça {piece_id} - Comprimento Interno 1 do L (mm): "))
-                    metrics['d4'] = float(input(f"Peça {piece_id} - Comprimento Interno 2 do L (mm): "))
-                    metrics['d5'] = float(input(f"Peça {piece_id} - Largura Interna 1 do L (mm): "))
-                    metrics['d6'] = float(input(f"Peça {piece_id} - Largura Interna 2 do L (mm): "))
-                    metrics['d7'] = float(input(f"Peça {piece_id} - Altura do L (mm): "))
-                break
-            except ValueError:
-                print("Por favor, insira um número válido.")
-
-        # Solicitar o Resultado da impressão (OK ou NOK)
+        # Solicitar o Resultado da impressão (OK ou NOK) com timestamps
+        print(f"\nPeça {piece_id} (Timestamp Inicial: {start_str}, Timestamp Final: {end_str}, Tipo: {metrics['Tipo de Peça']})")
         while True:
             result = input(f"Peça {piece_id} - Resultado da impressão (OK/NOK): ").strip().upper()
             if result in ['OK', 'NOK']:
@@ -236,8 +204,7 @@ def process_printer_data(input_file, output_file):
         'Variação X', 'Variação Y', 'Variação Z',
         'X_max', 'X_min', 'Y_max', 'Y_min',
         'Média PWM Extrusora', 'Desvio Padrão PWM Extrusora',
-        'Média PWM Bed', 'Desvio Padrão PWM Bed',  # Adicionando as novas colunas
-        'd1', 'd2', 'd3', 'd4', 'd5', 'd6', 'd7', 'Resultado'
+        'Média PWM Bed', 'Desvio Padrão PWM Bed', 'Resultado'
     ]
     new_processed_df = new_processed_df[columns]
 
@@ -253,6 +220,6 @@ def process_printer_data(input_file, output_file):
 
 # Executar o script
 if __name__ == "__main__":
-    input_file = "10percent.csv"
-    output_file = "processed_10percent.csv"
+    input_file = "z_lower_1.csv"
+    output_file = "processed_z_lower_1.csv"
     process_printer_data(input_file, output_file)

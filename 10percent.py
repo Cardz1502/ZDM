@@ -35,7 +35,7 @@ if df['timestamp'].isnull().any():
 
 # Identifica grupos de impressão com base em intervalos > 10 minutos (600 segundos)
 df['time_diff'] = df['timestamp'].diff().dt.total_seconds().fillna(0)
-df['group'] = (df['time_diff'] > 600).cumsum()
+df['group'] = (df['time_diff'] > 300).cumsum()
 
 # Lista para armazenar as linhas até Z <= 1.0 mm de cada grupo
 result_dfs = []

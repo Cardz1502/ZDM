@@ -1,0 +1,9 @@
+2025-06-16 13:57:42,472 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://192.168.250.102:5001
+2025-06-16 13:57:42,473 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-16 13:57:50,825 - ERROR - Erro ao processar previsão: The feature names should match those that were passed during fit.
+Feature names must be in the same order as they were in fit.
+
+2025-06-16 13:57:50,826 - INFO - 127.0.0.1 - - [16/Jun/2025 13:57:50] "[35m[1mPOST /predict HTTP/1.1[0m" 500 -

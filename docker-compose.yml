@@ -37,6 +37,19 @@ services:
         - "4840:4840"
       restart: unless-stopped
 
+  ok-pred-service:
+    build:
+      context: ./ok-pred-service
+      dockerfile: Dockerfile.okpred
+    volumes:
+      - ./data:/app/data
+      - ./models:/app/models:ro
+    networks:
+      - app-network
+    ports:
+      - "5001:5001"
+    restart: unless-stopped
+
 networks:
   app-network:
     driver: bridge

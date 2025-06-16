@@ -31,6 +31,7 @@ RETRY_WAIT = 10
 
 # Configurações do Serviço de Predict
 PREDICTION_SERVICE_URL = "http://prediction-service:5000/predict"
+OK_PREDICTION_SERVICE_URL = "http://prediction-service:5001/predict"
 
 HEADERS = {
     "X-Api-Key": API_KEY,
@@ -139,6 +140,7 @@ class Control:
         self.first_save_done = False
         self.start_time = None
         self.prediction_called = False
+        self.ok_prediction_called = False
 
 data = PrinterData()
 control = Control()
@@ -216,7 +218,7 @@ def send_m114():
             response.raise_for_status()
             logger.info("Comando M114 enviado")
             control.m114_waiting = True
-            control.m114_last_time = time.time()
+            control.m114_last_time = time.time() + 3600
             return
         except requests.exceptions.RequestException as e:
             retries += 1
@@ -237,7 +239,7 @@ def send_m220():
             response.raise_for_status()
             logger.info("Comando M220 enviado")
             control.m220_waiting = True
-            control.m220_last_time = time.time()
+            control.m220_last_time = time.time() + 3600
             return
         except requests.exceptions.RequestException as e:
             retries += 1
@@ -249,6 +251,28 @@ def send_m220():
                 control.m220_last_time = None
 
 def call_prediction_service(start_time, filename):
+    payload = {
+        "start_time": start_time.strftime("%Y-%m-%d %H:%M:%S"),
+        "filename": filename
+    }
+    retries = 0
+    while retries < MAX_RETRIES:
+        try:
+            response = requests.post(PREDICTION_SERVICE_URL, json=payload, headers={"Content-Type": "application/json"}, timeout=HTTP_TIMEOUT)
+            response.raise_for_status()
+            result = response.json()
+            logger.debug("Resposta do serviço de predict: %s", json.dumps(result, indent=2))
+            return result
+        except requests.exceptions.RequestException as e:
+            retries += 1
+            logger.error("Erro ao chamar serviço de predict (tentativa %d/%d): %s", retries, MAX_RETRIES, e)
+            if retries < MAX_RETRIES:
+                time.sleep(RETRY_WAIT)
+            else:
+                logger.error("Falha ao chamar serviço de predict após %d tentativas", MAX_RETRIES)
+                return None
+            
+def call_ok_prediction_service(start_time, filename):
     payload = {
         "start_time": start_time.strftime("%Y-%m-%d %H:%M:%S"),
         "filename": filename
@@ -432,6 +456,14 @@ def on_message(ws, message):
                         timestamp = datetime.now()
                         save_data(timestamp, is_m114=True)
 
+                        if data.z == 1.0 and not control.ok_prediction_called and control.start_time and control.filename:
+                            ok_prediction_result = call_ok_prediction_service(control.start_time, control.filename)
+                            if ok_prediction_result:
+                                control.ok_prediction_called = True
+                                ok_piece_type = prediction_result.get("piece_type")
+                                prediction = ok_prediction_result.get("prediction")
+                                logger.info(f"Segundo previsão a peça {ok_piece_type} que está a ser produzida sairá {prediction}")
+
                         if data.z == 4.0 and not control.prediction_called and control.start_time and control.filename:
                             prediction_result = call_prediction_service(control.start_time, control.filename)
                             if prediction_result:
@@ -533,7 +565,7 @@ def main():
     last_wait_impression = 0
     try:
         while True:
-            current_time = time.time()
+            current_time = time.time() + 3600
             logger.debug("Loop principal rodando, current_time: %s", datetime.fromtimestamp(current_time).strftime("%Y-%m-%d %H:%M:%S"))
 
             if current_time - last_check_time >= CHECK_INTERVAL:
@@ -560,6 +592,7 @@ def main():
                         first_m220 = True
                         control.first_save_done = False
                         control.prediction_called = False
+                        control.ok_prediction_called = False
 
                     if not is_printing and was_printing and is_operational:
                         logger.info("Impressora voltou ao estado Operational após impressão")
@@ -574,6 +607,7 @@ def main():
                         control.first_save_done = False
                         control.start_time = None
                         control.prediction_called = False
+                        control.ok_prediction_called = False
 
                     allowed_filenames = {"zdm4ms~4", "zd5b20~1", "zd2c72~1"}
                     filename_allowed = control.filename is not None and control.filename in allowed_filenames

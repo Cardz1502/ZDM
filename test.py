@@ -1,32 +1,29 @@
 import requests
 import json
-import time
+import logging
 
-# Configurações
-SERVICE_URL = "http://localhost:5000/predict"
-TEST_CASES = [
-    {
-        "start_time": "2025-06-04 11:09:17",
-        "filename": "zd2c72~1"  # RETANGULO
-    }
-]
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+logger = logging.getLogger(__name__)
 
-def test_service():
-    """Envia requisições de teste ao prediction_service."""
-    headers = {"Content-Type": "application/json"}
+print("Iniciando testes do prediction_service_ok_nok...")
 
-    for test_case in TEST_CASES:
-        print(f"\nEnviando teste para: {test_case['filename']}")
-        try:
-            response = requests.post(SERVICE_URL, json=test_case, headers=headers, timeout=10)
-            print(f"Status Code: {response.status_code}")
-            print("Resposta:")
-            print(json.dumps(response.json(), indent=2))
-        except requests.exceptions.RequestException as e:
-            print(f"Erro ao enviar requisição: {e}")
-        time.sleep(1)  # Pausa entre testes
+# Dados de teste
+test_data = {
+    "start_time": "2025-06-11 11:48:51",  # Ajuste para um timestamp válido em z_lower_1.csv
+    "filename": "zd2c72~1"
+}
 
-if __name__ == "__main__":
-    print("Iniciando testes do prediction_service...")
-    test_service()
-    print("\nTestes concluídos. Verifique o log em ./data/prediction_service.log")
+# Enviar requisição
+logger.info(f"Enviando teste para: {test_data['filename']}")
+try:
+    response = requests.post(
+        "http://localhost:5001/predict",
+        headers={"Content-Type": "application/json"},
+        data=json.dumps(test_data)
+    )
+    logger.info(f"Status Code: {response.status_code}")
+    logger.info(f"Resposta: {json.dumps(response.json(), indent=2)}")
+except Exception as e:
+    logger.error(f"Erro ao enviar requisição: {str(e)}")
+
+print("Testes concluídos. Verifique o log em ./data/prediction_service_ok_nok.log")
