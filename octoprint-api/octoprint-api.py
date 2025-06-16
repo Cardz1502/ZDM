@@ -10,7 +10,7 @@ import re
 import logging
 
 # Configurações do OctoPrint
-BASE_URL = "http://192.168.250.100" 
+BASE_URL = "http://192.168.6.1" 
 API_KEY = "Yfvanr37vlCxeQCFi8_pdyrz-GrqYFIYh2RpYKYtQ0I" 
 USERNAME = "rics" 
 PASSWORD = "ricsricsjabjab"
