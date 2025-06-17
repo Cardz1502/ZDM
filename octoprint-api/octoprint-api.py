@@ -460,9 +460,9 @@ def on_message(ws, message):
                             ok_prediction_result = call_ok_prediction_service(control.start_time, control.filename)
                             if ok_prediction_result:
                                 control.ok_prediction_called = True
-                                ok_piece_type = prediction_result.get("piece_type")
-                                prediction = ok_prediction_result.get("prediction")
-                                logger.info(f"Segundo previsão a peça {ok_piece_type} que está a ser produzida sairá {prediction}")
+                                ok_piece_type = ok_prediction_result.get("piece_type")
+                                ok_prediction = ok_prediction_result.get("prediction")
+                                logger.info(f"Segundo previsão a peça {ok_piece_type} que está a ser produzida sairá {ok_prediction}")
 
                         if data.z == 4.0 and not control.prediction_called and control.start_time and control.filename:
                             prediction_result = call_prediction_service(control.start_time, control.filename)
