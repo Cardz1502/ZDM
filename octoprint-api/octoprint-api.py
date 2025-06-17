@@ -218,7 +218,7 @@ def send_m114():
             response.raise_for_status()
             logger.info("Comando M114 enviado")
             control.m114_waiting = True
-            control.m114_last_time = time.time() + 3600
+            control.m114_last_time = time.time()
             return
         except requests.exceptions.RequestException as e:
             retries += 1
@@ -239,7 +239,7 @@ def send_m220():
             response.raise_for_status()
             logger.info("Comando M220 enviado")
             control.m220_waiting = True
-            control.m220_last_time = time.time() + 3600
+            control.m220_last_time = time.time()
             return
         except requests.exceptions.RequestException as e:
             retries += 1
@@ -453,7 +453,7 @@ def on_message(ws, message):
                     nozzle_target = data.nozzle_target if data.nozzle_target is not None else 0.0
                     bed_target = data.bed_target if data.bed_target is not None else 0.0
                     if nozzle_target != 0 and bed_target != 0:
-                        timestamp = datetime.now() + 3600
+                        timestamp = datetime.now()
                         save_data(timestamp, is_m114=True)
 
                         if data.z == 1.0 and not control.ok_prediction_called and control.start_time and control.filename:
@@ -499,7 +499,7 @@ def on_message(ws, message):
                     nozzle_target = data.nozzle_target if data.nozzle_target is not None else 0.0
                     bed_target = data.bed_target if data.bed_target is not None else 0.0
                     if nozzle_target != 0 and bed_target != 0:
-                        timestamp = datetime.now() + 3600
+                        timestamp = datetime.now()
                         save_data(timestamp, is_m114=False)
                     else:
                         logger.info("M220 ignorado após fim da impressão: SpeedFactor=%.0f%%", data.speed_factor)
@@ -565,7 +565,7 @@ def main():
     last_wait_impression = 0
     try:
         while True:
-            current_time = time.time() + 3600
+            current_time = time.time()
             logger.debug("Loop principal rodando, current_time: %s", datetime.fromtimestamp(current_time).strftime("%Y-%m-%d %H:%M:%S"))
 
             if current_time - last_check_time >= CHECK_INTERVAL:
