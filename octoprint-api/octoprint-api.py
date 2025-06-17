@@ -453,7 +453,7 @@ def on_message(ws, message):
                     nozzle_target = data.nozzle_target if data.nozzle_target is not None else 0.0
                     bed_target = data.bed_target if data.bed_target is not None else 0.0
                     if nozzle_target != 0 and bed_target != 0:
-                        timestamp = datetime.now()
+                        timestamp = datetime.now() + 3600
                         save_data(timestamp, is_m114=True)
 
                         if data.z == 1.0 and not control.ok_prediction_called and control.start_time and control.filename:
@@ -499,7 +499,7 @@ def on_message(ws, message):
                     nozzle_target = data.nozzle_target if data.nozzle_target is not None else 0.0
                     bed_target = data.bed_target if data.bed_target is not None else 0.0
                     if nozzle_target != 0 and bed_target != 0:
-                        timestamp = datetime.now()
+                        timestamp = datetime.now() + 3600
                         save_data(timestamp, is_m114=False)
                     else:
                         logger.info("M220 ignorado após fim da impressão: SpeedFactor=%.0f%%", data.speed_factor)
