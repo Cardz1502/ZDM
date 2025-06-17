@@ -280,7 +280,7 @@ def call_ok_prediction_service(start_time, filename):
     retries = 0
     while retries < MAX_RETRIES:
         try:
-            response = requests.post(PREDICTION_SERVICE_URL, json=payload, headers={"Content-Type": "application/json"}, timeout=HTTP_TIMEOUT)
+            response = requests.post(OK_PREDICTION_SERVICE_URL, json=payload, headers={"Content-Type": "application/json"}, timeout=HTTP_TIMEOUT)
             response.raise_for_status()
             result = response.json()
             logger.debug("Resposta do serviço de predict: %s", json.dumps(result, indent=2))
