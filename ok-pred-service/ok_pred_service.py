@@ -167,12 +167,12 @@ def predict():
             logger.error("Erro ao carregar modelo ou LabelEncoder")
             return jsonify({"error": "Failed to load model or LabelEncoder"}), 500
 
-        # Verificar correspondência de features com o modelo
-        expected_features = model.feature_names_in_ if hasattr(model, 'feature_names_in_') else FEATURE_COLUMNS
-        if list(features_df.columns) != list(expected_features):
-            logger.error(f"Colunas fornecidas: {features_df.columns.tolist()}")
-            logger.error(f"Colunas esperadas pelo modelo: {expected_features}")
-            raise ValueError("Feature names do not match those used during model training")
+        # # Verificar correspondência de features com o modelo
+        # expected_features = model.feature_names_in_ if hasattr(model, 'feature_names_in_') else FEATURE_COLUMNS
+        # if list(features_df.columns) != list(expected_features):
+        #     logger.error(f"Colunas fornecidas: {features_df.columns.tolist()}")
+        #     logger.error(f"Colunas esperadas pelo modelo: {expected_features}")
+        #     raise ValueError("Feature names do not match those used during model training")
 
         # Fazer previsão
         logger.info("Fazendo previsão...")
