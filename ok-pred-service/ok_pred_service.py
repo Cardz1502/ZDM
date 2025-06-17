@@ -161,7 +161,7 @@ def predict():
 
         # Carregar modelo e LabelEncoder
         try:
-            model = joblib.load("./models/rf_model_ok_nok.joblib")
+            model = joblib.load("./models/random_forest_ok_nok.joblib")
             label_encoder = joblib.load("./models/label_encoder.joblib")
         except FileNotFoundError:
             logger.error("Erro ao carregar modelo ou LabelEncoder")
