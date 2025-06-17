@@ -31,7 +31,7 @@ RETRY_WAIT = 10
 
 # Configurações do Serviço de Predict
 PREDICTION_SERVICE_URL = "http://prediction-service:5000/predict"
-OK_PREDICTION_SERVICE_URL = "http://prediction-service:5002/predict"
+OK_PREDICTION_SERVICE_URL = "http://ok-pred-service:5002/predict"
 
 HEADERS = {
     "X-Api-Key": API_KEY,
