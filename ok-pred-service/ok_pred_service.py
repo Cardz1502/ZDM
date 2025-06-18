@@ -13,21 +13,20 @@ logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s",
     handlers=[
-        logging.FileHandler("/app/data/prediction_service_ok_nok.log", encoding='utf-8'),
+        logging.FileHandler("prediction_service_ok_nok.log", encoding='utf-8'),
         logging.StreamHandler()
     ]
 )
 logger = logging.getLogger(__name__)
 
-CSV_FILE = "/app/data/printer_dataZDM.csv"
+CSV_FILE = "z_lower_1.csv"
 FEATURE_COLUMNS = [
     'Speed Factor', 'Média Delta temp_nozzle', 'Máximo Delta temp_nozzle',
     'Média Delta Mesa (°C)', 'Tempo Fora do Intervalo Extrusora (%)',
     'Taxa de Extrusão (mm/min)', 'Tempo Ativo de Extrusão (%)',
-    'Variação X', 'Variação Y', 'Variação Z', 'X_max', 'X_min',
-    'Y_max', 'Y_min', 'Média PWM Extrusora', 'Desvio Padrão PWM Extrusora',
-    'Média PWM Bed', 'Desvio Padrão PWM Bed', 'Peça_L','Peça_QUADRADO',
-    'Peça_RETANGULO'
+    'Variação Y', 'Variação Z', 'X_max', 'Y_max', 'Y_min',
+    'Média PWM Extrusora', 'Desvio Padrão PWM Extrusora',
+    'Média PWM Bed', 'Desvio Padrão PWM Bed'
 ]
 
 def calculate_t_out_of_range(df, threshold=2.0):
@@ -53,7 +52,7 @@ def compute_features(samples, filename):
     df = pd.DataFrame(samples)
     metrics = {}
 
-    # Calcular métricas numéricas
+    # Calcular métricas numéricas (alinhado com processed_z_lower_1.csv)
     metrics['Speed Factor'] = df['speed_factor'].mean() if df['speed_factor'].notna().any() else 0.0
     metrics['Média Delta temp_nozzle'] = df['temp_delta_nozzle'].mean() if df['temp_delta_nozzle'].notna().any() else 0.0
     metrics['Máximo Delta temp_nozzle'] = df['temp_delta_nozzle'].max() if df['temp_delta_nozzle'].notna().any() else 0.0
@@ -78,22 +77,15 @@ def compute_features(samples, filename):
         metrics['Taxa de Extrusão (mm/min)'] = 0.0
         metrics['Tempo Ativo de Extrusão (%)'] = 0.0
 
-    metrics['Variação Z'] = df['Z'].std() if df['Z'].notna().any() else 0.0
-    metrics['Variação X'] = df['X'].std() if df['X'].notna().any() else 0.0
-    metrics['Variação Y'] = df['Y'].std() if df['Y'].notna().any() else 0.0
+    metrics['Variação Y'] = (df['Y'].max() - df['Y'].min()) if df['Y'].notna().any() else 0.0
+    metrics['Variação Z'] = (df['Z'].max() - df['Z'].min()) if df['Z'].notna().any() else 0.0
     metrics['X_max'] = df['X'].max() if df['X'].notna().any() else 0.0
-    metrics['X_min'] = df['X'].min() if df['X'].notna().any() else 0.0
     metrics['Y_max'] = df['Y'].max() if df['Y'].notna().any() else 0.0
     metrics['Y_min'] = df['Y'].min() if df['Y'].notna().any() else 0.0
     metrics['Média PWM Extrusora'] = df['pwm_nozzle'].mean() if df['pwm_nozzle'].notna().any() else 0.0
     metrics['Desvio Padrão PWM Extrusora'] = df['pwm_nozzle'].std() if df['pwm_nozzle'].notna().any() else 0.0
     metrics['Média PWM Bed'] = df['pwm_bed'].mean() if df['pwm_bed'].notna().any() else 0.0
     metrics['Desvio Padrão PWM Bed'] = df['pwm_bed'].std() if df['pwm_bed'].notna().any() else 0.0
-
-    # Adicionar one-hot encoding para Tipo de Peça
-    metrics['Peça_QUADRADO'] = 1 if filename == 'zdm4ms~4' else 0
-    metrics['Peça_L'] = 1 if filename == 'zd5b20~1' else 0
-    metrics['Peça_RETANGULO'] = 1 if filename == 'zd2c72~1' else 0
 
     # Criar DataFrame com as colunas na ordem exata
     features_df = pd.DataFrame([metrics])[FEATURE_COLUMNS]
@@ -134,17 +126,22 @@ def predict():
 
         # Carregar dados do CSV
         try:
-            df = pd.read_csv(CSV_FILE, encoding='utf-8', sep=',', on_bad_lines='warn')
+            df = pd.read_csv(CSV_FILE, encoding='latin-1', sep=',', on_bad_lines='warn')
         except FileNotFoundError:
             logger.error(f"Arquivo CSV {CSV_FILE} não encontrado")
             return jsonify({"error": "CSV file not found"}), 500
         except UnicodeDecodeError:
-            logger.error(f"Erro de codificação ao ler {CSV_FILE}. Tentando latin-1...")
-            df = pd.read_csv(CSV_FILE, encoding='latin-1', sep=',', on_bad_lines='warn')
+            logger.error(f"Erro de codificação ao ler {CSV_FILE}")
+            return jsonify({"error": "Encoding error reading CSV file"}), 500
 
         # Filtrar dados da impressão atual
-        start_time = pd.to_datetime(start_time)
-        df['timestamp'] = pd.to_datetime(df['timestamp'])
+        try:
+            start_time = pd.to_datetime(start_time, format='%Y-%m-%d %H:%M:%S')
+        except ValueError as e:
+            logger.error(f"Erro ao converter start_time: {str(e)}")
+            return jsonify({"error": "Invalid start_time format"}), 400
+
+        df['timestamp'] = pd.to_datetime(df['timestamp'], format='%Y-%m-%d %H:%M:%S')
         df_filtered = df[
             (df['timestamp'] >= start_time) &
             (df['filename'] == filename)
@@ -159,24 +156,21 @@ def predict():
         features_df = compute_features(df_filtered, filename)
         logger.info(f"Features calculadas: {features_df.columns.tolist()}")
 
-        # Carregar modelo e LabelEncoder
+        # Carregar modelo, scaler e LabelEncoder
         try:
-            model = joblib.load("./models/random_forest_ok_nok.joblib")
-            label_encoder = joblib.load("./models/label_encoder.joblib")
+            model = joblib.load("models/random_forest_ok_nok.joblib")
+            scaler = joblib.load("models/scaler.joblib")
+            label_encoder = joblib.load("models/label_encoder.joblib")
         except FileNotFoundError:
-            logger.error("Erro ao carregar modelo ou LabelEncoder")
-            return jsonify({"error": "Failed to load model or LabelEncoder"}), 500
+            logger.error("Erro ao carregar modelo, scaler ou LabelEncoder")
+            return jsonify({"error": "Failed to load model, scaler, or LabelEncoder"}), 500
 
-        # # Verificar correspondência de features com o modelo
-        # expected_features = model.feature_names_in_ if hasattr(model, 'feature_names_in_') else FEATURE_COLUMNS
-        # if list(features_df.columns) != list(expected_features):
-        #     logger.error(f"Colunas fornecidas: {features_df.columns.tolist()}")
-        #     logger.error(f"Colunas esperadas pelo modelo: {expected_features}")
-        #     raise ValueError("Feature names do not match those used during model training")
+        # Normalizar os dados
+        features_df_scaled = scaler.transform(features_df)
 
         # Fazer previsão
         logger.info("Fazendo previsão...")
-        prediction = model.predict(features_df)[0]
+        prediction = model.predict(features_df_scaled)[0]
         prediction_label = label_encoder.inverse_transform([prediction])[0]
 
         # Log da previsão

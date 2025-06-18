@@ -9,7 +9,7 @@ print("Iniciando testes do prediction_service_ok_nok...")
 
 # Dados de teste
 test_data = {
-    "start_time": "2025-06-11 11:48:51",  # Ajuste para um timestamp válido em z_lower_1.csv
+    "start_time": "2025-06-12 19:31:01",  # Ajuste para um timestamp válido em z_lower_1.csv
     "filename": "zd2c72~1"
 }
 
@@ -17,7 +17,7 @@ test_data = {
 logger.info(f"Enviando teste para: {test_data['filename']}")
 try:
     response = requests.post(
-        "http://localhost:5001/predict",
+        "http://localhost:5002/predict",
         headers={"Content-Type": "application/json"},
         data=json.dumps(test_data)
     )

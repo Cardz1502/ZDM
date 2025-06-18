@@ -7,3 +7,88 @@
 Feature names must be in the same order as they were in fit.
 
 2025-06-16 13:57:50,826 - INFO - 127.0.0.1 - - [16/Jun/2025 13:57:50] "[35m[1mPOST /predict HTTP/1.1[0m" 500 -
+2025-06-18 10:19:26,163 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5002
+ * Running on http://192.168.250.102:5002
+2025-06-18 10:19:26,164 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-18 10:19:31,580 - ERROR - Arquivo CSV printer_dataZDM.csv não encontrado
+2025-06-18 10:19:31,582 - INFO - 127.0.0.1 - - [18/Jun/2025 10:19:31] "[35m[1mPOST /predict HTTP/1.1[0m" 500 -
+2025-06-18 10:20:07,450 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5002
+ * Running on http://192.168.250.102:5002
+2025-06-18 10:20:07,450 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-18 10:20:13,568 - INFO - Calculando features para QUADRADO...
+2025-06-18 10:20:13,573 - INFO - Features calculadas: ['Speed Factor', 'Média Delta temp_nozzle', 'Máximo Delta temp_nozzle', 'Média Delta Mesa (°C)', 'Tempo Fora do Intervalo Extrusora (%)', 'Taxa de Extrusão (mm/min)', 'Tempo Ativo de Extrusão (%)', 'Variação X', 'Variação Y', 'Variação Z', 'X_max', 'X_min', 'Y_max', 'Y_min', 'Média PWM Extrusora', 'Desvio Padrão PWM Extrusora', 'Média PWM Bed', 'Desvio Padrão PWM Bed', 'Peça_L', 'Peça_QUADRADO', 'Peça_RETANGULO']
+2025-06-18 10:20:14,391 - ERROR - Erro ao processar previsão: The feature names should match those that were passed during fit.
+Feature names unseen at fit time:
+- Peça_L
+- Peça_QUADRADO
+- Peça_RETANGULO
+- Variação X
+- X_min
+
+2025-06-18 10:20:14,393 - INFO - 127.0.0.1 - - [18/Jun/2025 10:20:14] "[35m[1mPOST /predict HTTP/1.1[0m" 500 -
+2025-06-18 10:31:37,248 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5002
+ * Running on http://192.168.250.102:5002
+2025-06-18 10:31:37,249 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-18 10:31:43,147 - ERROR - Arquivo CSV /app/data/z_lower_1.csv não encontrado
+2025-06-18 10:31:43,148 - INFO - 127.0.0.1 - - [18/Jun/2025 10:31:43] "[35m[1mPOST /predict HTTP/1.1[0m" 500 -
+2025-06-18 10:32:01,681 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5002
+ * Running on http://192.168.250.102:5002
+2025-06-18 10:32:01,682 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-18 10:32:07,413 - INFO - Calculando features para QUADRADO...
+2025-06-18 10:32:07,416 - INFO - Features calculadas: ['Speed Factor', 'Média Delta temp_nozzle', 'Máximo Delta temp_nozzle', 'Média Delta Mesa (°C)', 'Tempo Fora do Intervalo Extrusora (%)', 'Taxa de Extrusão (mm/min)', 'Tempo Ativo de Extrusão (%)', 'Variação Z', 'Média PWM Extrusora', 'Desvio Padrão PWM Extrusora', 'Média PWM Bed', 'Desvio Padrão PWM Bed', 'Taxa Variação temp_nozzle']
+2025-06-18 10:32:07,417 - ERROR - Erro ao carregar modelo, scaler ou LabelEncoder
+2025-06-18 10:32:07,418 - INFO - 127.0.0.1 - - [18/Jun/2025 10:32:07] "[35m[1mPOST /predict HTTP/1.1[0m" 500 -
+2025-06-18 10:34:05,454 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5002
+ * Running on http://192.168.250.102:5002
+2025-06-18 10:34:05,456 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-18 10:34:12,181 - INFO - Calculando features para QUADRADO...
+2025-06-18 10:34:12,183 - INFO - Features calculadas: ['Speed Factor', 'Média Delta temp_nozzle', 'Máximo Delta temp_nozzle', 'Média Delta Mesa (°C)', 'Tempo Fora do Intervalo Extrusora (%)', 'Taxa de Extrusão (mm/min)', 'Tempo Ativo de Extrusão (%)', 'Variação Z', 'Média PWM Extrusora', 'Desvio Padrão PWM Extrusora', 'Média PWM Bed', 'Desvio Padrão PWM Bed', 'Taxa Variação temp_nozzle']
+2025-06-18 10:34:12,183 - ERROR - Erro ao carregar modelo, scaler ou LabelEncoder
+2025-06-18 10:34:12,185 - INFO - 127.0.0.1 - - [18/Jun/2025 10:34:12] "[35m[1mPOST /predict HTTP/1.1[0m" 500 -
+2025-06-18 10:35:29,843 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5002
+ * Running on http://192.168.250.102:5002
+2025-06-18 10:35:29,843 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-18 10:35:35,693 - INFO - Calculando features para QUADRADO...
+2025-06-18 10:35:35,695 - INFO - Features calculadas: ['Speed Factor', 'Média Delta temp_nozzle', 'Máximo Delta temp_nozzle', 'Média Delta Mesa (°C)', 'Tempo Fora do Intervalo Extrusora (%)', 'Taxa de Extrusão (mm/min)', 'Tempo Ativo de Extrusão (%)', 'Variação Z', 'Média PWM Extrusora', 'Desvio Padrão PWM Extrusora', 'Média PWM Bed', 'Desvio Padrão PWM Bed', 'Taxa Variação temp_nozzle']
+2025-06-18 10:35:36,491 - ERROR - Erro ao processar previsão: The feature names should match those that were passed during fit.
+Feature names unseen at fit time:
+- Taxa Variação temp_nozzle
+Feature names seen at fit time, yet now missing:
+- Variação Y
+- X_max
+- Y_max
+- Y_min
+
+2025-06-18 10:35:36,493 - INFO - 127.0.0.1 - - [18/Jun/2025 10:35:36] "[35m[1mPOST /predict HTTP/1.1[0m" 500 -
+2025-06-18 10:50:26,365 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5002
+ * Running on http://10.22.127.20:5002
+2025-06-18 10:50:26,365 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-18 10:50:31,945 - INFO - Calculando features para QUADRADO...
+2025-06-18 10:50:31,953 - INFO - Features calculadas: ['Speed Factor', 'Média Delta temp_nozzle', 'Máximo Delta temp_nozzle', 'Média Delta Mesa (°C)', 'Tempo Fora do Intervalo Extrusora (%)', 'Taxa de Extrusão (mm/min)', 'Tempo Ativo de Extrusão (%)', 'Variação Y', 'Variação Z', 'X_max', 'Y_max', 'Y_min', 'Média PWM Extrusora', 'Desvio Padrão PWM Extrusora', 'Média PWM Bed', 'Desvio Padrão PWM Bed']
+2025-06-18 10:50:32,740 - INFO - Fazendo previsão...
+2025-06-18 10:50:32,748 - INFO - Previsão para QUADRADO: Resultado=OK
+2025-06-18 10:50:32,748 - INFO - 127.0.0.1 - - [18/Jun/2025 10:50:32] "POST /predict HTTP/1.1" 200 -
+2025-06-18 10:51:39,735 - INFO - Calculando features para L...
+2025-06-18 10:51:39,735 - INFO - Features calculadas: ['Speed Factor', 'Média Delta temp_nozzle', 'Máximo Delta temp_nozzle', 'Média Delta Mesa (°C)', 'Tempo Fora do Intervalo Extrusora (%)', 'Taxa de Extrusão (mm/min)', 'Tempo Ativo de Extrusão (%)', 'Variação Y', 'Variação Z', 'X_max', 'Y_max', 'Y_min', 'Média PWM Extrusora', 'Desvio Padrão PWM Extrusora', 'Média PWM Bed', 'Desvio Padrão PWM Bed']
+2025-06-18 10:51:39,760 - INFO - Fazendo previsão...
+2025-06-18 10:51:39,766 - INFO - Previsão para L: Resultado=NOK
+2025-06-18 10:51:39,768 - INFO - 127.0.0.1 - - [18/Jun/2025 10:51:39] "POST /predict HTTP/1.1" 200 -
+2025-06-18 10:53:25,873 - INFO - Calculando features para RETANGULO...
+2025-06-18 10:53:25,876 - INFO - Features calculadas: ['Speed Factor', 'Média Delta temp_nozzle', 'Máximo Delta temp_nozzle', 'Média Delta Mesa (°C)', 'Tempo Fora do Intervalo Extrusora (%)', 'Taxa de Extrusão (mm/min)', 'Tempo Ativo de Extrusão (%)', 'Variação Y', 'Variação Z', 'X_max', 'Y_max', 'Y_min', 'Média PWM Extrusora', 'Desvio Padrão PWM Extrusora', 'Média PWM Bed', 'Desvio Padrão PWM Bed']
+2025-06-18 10:53:25,895 - INFO - Fazendo previsão...
+2025-06-18 10:53:25,899 - INFO - Previsão para RETANGULO: Resultado=OK
+2025-06-18 10:53:25,899 - INFO - 127.0.0.1 - - [18/Jun/2025 10:53:25] "POST /predict HTTP/1.1" 200 -
