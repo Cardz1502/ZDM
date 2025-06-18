@@ -92,3 +92,13 @@ Feature names seen at fit time, yet now missing:
 2025-06-18 10:53:25,895 - INFO - Fazendo previsão...
 2025-06-18 10:53:25,899 - INFO - Previsão para RETANGULO: Resultado=OK
 2025-06-18 10:53:25,899 - INFO - 127.0.0.1 - - [18/Jun/2025 10:53:25] "POST /predict HTTP/1.1" 200 -
+2025-06-18 10:54:52,789 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5002
+ * Running on http://10.22.127.20:5002
+2025-06-18 10:54:52,789 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-18 10:55:01,599 - INFO - Calculando features para RETANGULO...
+2025-06-18 10:55:01,608 - INFO - Features calculadas: ['Speed Factor', 'Média Delta temp_nozzle', 'Máximo Delta temp_nozzle', 'Média Delta Mesa (°C)', 'Tempo Fora do Intervalo Extrusora (%)', 'Taxa de Extrusão (mm/min)', 'Tempo Ativo de Extrusão (%)', 'Variação Y', 'Variação Z', 'X_max', 'Y_max', 'Y_min', 'Média PWM Extrusora', 'Desvio Padrão PWM Extrusora', 'Média PWM Bed', 'Desvio Padrão PWM Bed']
+2025-06-18 10:55:02,420 - INFO - Fazendo previsão...
+2025-06-18 10:55:02,425 - INFO - Previsão para RETANGULO: Resultado=NOK
+2025-06-18 10:55:02,425 - INFO - 127.0.0.1 - - [18/Jun/2025 10:55:02] "POST /predict HTTP/1.1" 200 -
