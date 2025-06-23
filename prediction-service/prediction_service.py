@@ -18,7 +18,7 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-CSV_FILE = "/app/data/printer_dataZDM.csv"
+CSV_FILE = "/app/data/printer_dataZDM2.csv"
 FEATURE_COLUMNS = [
     'Speed Factor', 'Média Delta temp_nozzle', 'Máximo Delta temp_nozzle',
     'Média Delta Mesa (°C)', 'Tempo Fora do Intervalo Extrusora (%)',
