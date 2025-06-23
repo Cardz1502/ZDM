@@ -9,8 +9,8 @@ print("Iniciando testes do prediction_service_ok_nok...")
 
 # Dados de teste
 test_data = {
-    "start_time": "2025-06-12 19:31:01",  # Ajuste para um timestamp válido em z_lower_1.csv
-    "filename": "zd2c72~1"
+    "start_time": "2025-06-18 14:16:43",  # Ajuste para um timestamp válido em z_lower_1.csv
+    "filename": "zdm4ms~4"
 }
 
 # Enviar requisição

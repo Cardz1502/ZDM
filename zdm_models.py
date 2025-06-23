@@ -75,8 +75,8 @@ for piece_type in ['QUADRADO', 'RETANGULO', 'L']:
     model.fit(X_train, y_train)
     
     # Salva o modelo e o scaler
-    joblib.dump(model, f'model_{piece_type.lower()}.joblib')
-    joblib.dump(scaler, f'scaler_{piece_type.lower()}.joblib')
+    #joblib.dump(model, f'model_{piece_type.lower()}.joblib')
+    #joblib.dump(scaler, f'scaler_{piece_type.lower()}.joblib')
     print(f"Modelo e scaler para {piece_type} salvos como 'model_{piece_type.lower()}.joblib' e 'scaler_{piece_type.lower()}.joblib'")
     
     # Faz previsões

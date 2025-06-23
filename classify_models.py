@@ -186,21 +186,21 @@ for model_name, model in models.items():
         plt.title(f'Importância das Features - {model_name}')
         plt.show()
     
-    # Salvar o modelo
-    model_file = f'{model_name.lower().replace(" ", "_")}_ok_nok.joblib'
-    joblib.dump(model, model_file)
-    print(f"Modelo salvo em {model_file}")
+    # # Salvar o modelo
+    # model_file = f'{model_name.lower().replace(" ", "_")}_ok_nok.joblib'
+    # joblib.dump(model, model_file)
+    # print(f"Modelo salvo em {model_file}")
 
 # Comparar métricas
 metrics_df = pd.DataFrame(all_metrics)
 print("\nComparação de Métricas (Conjunto de Teste):")
 print(metrics_df[['Model', 'Accuracy', 'Precision', 'Recall', 'F1-Score']].round(4))
 
-# Salvar o LabelEncoder e o Scaler
-le_file = 'label_encoder.joblib'
-joblib.dump(le, le_file)
-print(f"LabelEncoder salvo em {le_file}")
+# # Salvar o LabelEncoder e o Scaler
+# le_file = 'label_encoder.joblib'
+# joblib.dump(le, le_file)
+# print(f"LabelEncoder salvo em {le_file}")
 
-scaler_file = 'scaler.joblib'
-joblib.dump(scaler, scaler_file)
-print(f"Scaler salvo em {scaler_file}")
+# scaler_file = 'scaler.joblib'
+# joblib.dump(scaler, scaler_file)
+# print(f"Scaler salvo em {scaler_file}")

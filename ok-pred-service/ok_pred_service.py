@@ -13,13 +13,13 @@ logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s",
     handlers=[
-        logging.FileHandler("/app/data/prediction_service_ok_nok.log", encoding='utf-8'),
+        logging.FileHandler("data/prediction_service_ok_nok.log", encoding='utf-8'),
         logging.StreamHandler()
     ]
 )
 logger = logging.getLogger(__name__)
 
-CSV_FILE = "/app/data/printer_dataZDM.csv"
+CSV_FILE = "z_lower_1.csv"
 FEATURE_COLUMNS = [
     'Speed Factor', 'Média Delta temp_nozzle', 'Máximo Delta temp_nozzle',
     'Média Delta Mesa (°C)', 'Tempo Fora do Intervalo Extrusora (%)',
@@ -158,9 +158,9 @@ def predict():
 
         # Carregar modelo, scaler e LabelEncoder
         try:
-            model = joblib.load("/app/models/random_forest_ok_nok.joblib")
-            scaler = joblib.load("/app/models/scaler.joblib")
-            label_encoder = joblib.load("/app/models/label_encoder.joblib")
+            model = joblib.load("models/random_forest_ok_nok.joblib")
+            scaler = joblib.load("models/scaler.joblib")
+            label_encoder = joblib.load("models/label_encoder.joblib")
         except FileNotFoundError:
             logger.error("Erro ao carregar modelo, scaler ou LabelEncoder")
             return jsonify({"error": "Failed to load model, scaler, or LabelEncoder"}), 500
