@@ -61,7 +61,7 @@ def evaluate_model(y_true, y_pred, model_name):
     return metrics
 
 # Carregar o dataset
-input_file = 'processed_z_lower_2.csv'
+input_file = 'processed_z_lower_1.csv'
 print(f"Lendo {input_file}...")
 try:
     df = pd.read_csv(input_file, encoding='utf-8')
