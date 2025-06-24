@@ -250,6 +250,22 @@ def send_m220():
                 control.m220_waiting = False
                 control.m220_last_time = None
 
+def send_m524():
+    url = f"{BASE_URL}/api/printer/command"
+    payload = {"command": "M524"}
+    retries = 0
+    while retries < MAX_RETRIES:
+        try:
+            response = requests.post(url, json=payload, headers=HEADERS, timeout=HTTP_TIMEOUT)
+            response.raise_for_status()
+            logger.info("Comando M524 enviado")
+            return
+        except requests.exceptions.RequestException as e:
+            retries += 1
+            logger.error("Erro ao enviar M524 (tentativa %d/%d): %s", retries, MAX_RETRIES, e)
+            if retries < MAX_RETRIES:
+                time.sleep(RETRY_WAIT)
+                
 def call_prediction_service(start_time, filename):
     payload = {
         "start_time": start_time.strftime("%Y-%m-%d %H:%M:%S"),
@@ -463,6 +479,10 @@ def on_message(ws, message):
                                 ok_piece_type = ok_prediction_result.get("piece_type")
                                 ok_prediction = ok_prediction_result.get("prediction")
                                 logger.info(f"Segundo previsão a peça {ok_piece_type} que está a ser produzida sairá {ok_prediction}")
+                                if ok_prediction == "NOK":
+                                    logger.info(f"A parar a impressão...")
+                                    send_m524()
+
 
                         if data.z == 4.0 and not control.prediction_called and control.start_time and control.filename:
                             prediction_result = call_prediction_service(control.start_time, control.filename)
