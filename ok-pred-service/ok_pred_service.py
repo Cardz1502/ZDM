@@ -158,9 +158,9 @@ def predict():
 
         # Carregar modelo, scaler e LabelEncoder
         try:
-            model = joblib.load("/app/models/random_forest_ok_nok.joblib")
-            scaler = joblib.load("/app/models/scaler.joblib")
-            label_encoder = joblib.load("/app/models/label_encoder.joblib")
+            model = joblib.load("/app/models/svm_ok_nokv2.joblib")
+            scaler = joblib.load("/app/models/scalerv2.joblib")
+            label_encoder = joblib.load("/app/models/label_encoderv2.joblib")
         except FileNotFoundError:
             logger.error("Erro ao carregar modelo, scaler ou LabelEncoder")
             return jsonify({"error": "Failed to load model, scaler, or LabelEncoder"}), 500

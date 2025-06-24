@@ -61,7 +61,7 @@ def evaluate_model(y_true, y_pred, model_name):
     return metrics
 
 # Carregar o dataset
-input_file = 'processed_z_lower_1.csv'
+input_file = 'processed_z_lower_2.csv'
 print(f"Lendo {input_file}...")
 try:
     df = pd.read_csv(input_file, encoding='utf-8')
@@ -187,7 +187,7 @@ for model_name, model in models.items():
         plt.show()
     
     # Salvar o modelo
-    model_file = f'{model_name.lower().replace(" ", "_")}_ok_nok.joblib'
+    model_file = f'{model_name.lower().replace(" ", "_")}_ok_nokv2.joblib'
     joblib.dump(model, model_file)
     print(f"Modelo salvo em {model_file}")
 
@@ -197,10 +197,10 @@ print("\nComparação de Métricas (Conjunto de Teste):")
 print(metrics_df[['Model', 'Accuracy', 'Precision', 'Recall', 'F1-Score']].round(4))
 
 # Salvar o LabelEncoder e o Scaler
-le_file = 'label_encoder.joblib'
+le_file = 'label_encoderv2.joblib'
 joblib.dump(le, le_file)
 print(f"LabelEncoder salvo em {le_file}")
 
-scaler_file = 'scaler.joblib'
+scaler_file = 'scalerv2.joblib'
 joblib.dump(scaler, scaler_file)
 print(f"Scaler salvo em {scaler_file}")
