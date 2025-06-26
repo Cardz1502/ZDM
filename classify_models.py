@@ -93,7 +93,7 @@ le = LabelEncoder()
 df['Resultado'] = le.fit_transform(df['Resultado'])  # OK=1, NOK=0
 
 # Selecionar features e target
-features_to_drop = ['Peça_L', 'Peça_QUADRADO', 'Peça_RETANGULO' ,'Variação X', 'X_min', 'id_peça', 'Data', 'Resultado']
+features_to_drop = ['Peça_L', 'Peça_QUADRADO', 'Peça_RETANGULO' , 'id_peça', 'Data', 'Resultado']
 #features = [col for col in df.columns if col not in features_to_drop]
 features = ['Máximo Delta temp_nozzle', 'Desvio Padrão temp_nozzle', 
             'Média PWM Extrusora', 'Média PWM Bed', 
@@ -105,7 +105,7 @@ y = df['Resultado']
 scaler = StandardScaler()
 X_scaled = scaler.fit_transform(X)
 X_train, X_test, y_train, y_test, ids_train, ids_test, piece_types_train, piece_types_test = train_test_split(
-    X_scaled, y, ids, piece_types, test_size=0.2, random_state=42, stratify=y
+    X_scaled, y, ids, piece_types, test_size=0.15, random_state=42, stratify=y
 )
 
 # Exibir distribuição no treino e teste
@@ -118,6 +118,8 @@ print(pd.Series(y_test).value_counts(normalize=True))
 print("Aplicando data augmentation...")
 X_train_aug, y_train_aug = augment_data(X_train, y_train, features, noise_factor=0.05, n_augmentations=2)
 print(f"Tamanho do conjunto de treino após augmentation: {X_train_aug.shape[0]} amostras")
+print("Distribuição de OK/NOK após augmentation no treino:")
+print(pd.Series(y_train_aug).value_counts(normalize=True))
 
 # Inicializar os modelos
 models = {
@@ -127,7 +129,8 @@ models = {
         min_samples_split=5,
         min_samples_leaf=2,
         max_features='sqrt',
-        random_state=42
+        random_state=42,
+        class_weight={0: 1.2, 1: 1.0}
     ),
     'XGBoost': XGBClassifier(
         n_estimators=100,
@@ -140,7 +143,7 @@ models = {
         kernel='rbf',
         probability=True,
         random_state=42,
-        class_weight='balanced'
+        class_weight={0: 1.2, 1: 1.0}
     )
 }
 
