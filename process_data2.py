@@ -22,7 +22,7 @@ def calculate_e_active_time(group):
 
 # Função principal para processar o CSV
 def process_printer_data(input_file, output_file):
-    print("Lendo o printer_data5.csv...")
+    print("Lendo o z_lower_1.csv...")
     try:
         df = pd.read_csv(input_file, encoding='latin-1', sep=',', index_col=False, on_bad_lines='warn')
         print("Arquivo lido com separador vírgula (,).")
@@ -31,10 +31,10 @@ def process_printer_data(input_file, output_file):
         return
 
     if df.empty:
-        print("Erro: O arquivo printer_data3.csv está vazio. Não há dados para processar.")
+        print("Erro: O arquivo z_lower_1.csv está vazio. Não há dados para processar.")
         return
 
-    print("Colunas disponíveis no printer_data3.csv:")
+    print("Colunas disponíveis no z_lower_1.csv:")
     print(list(df.columns))
 
     # Verificar se as colunas esperadas estão presentes
@@ -47,7 +47,7 @@ def process_printer_data(input_file, output_file):
     if missing_columns:
         print(f"Erro: As seguintes colunas esperadas não foram encontradas: {missing_columns}")
         print("Colunas encontradas:", list(df.columns))
-        print("Verifique o formato do arquivo printer_data3.csv.")
+        print("Verifique o formato do arquivo z_lower_1.csv.")
         return
 
     date_column = 'timestamp'
@@ -71,7 +71,7 @@ def process_printer_data(input_file, output_file):
     df['time_diff'] = df['timestamp'].diff().dt.total_seconds() / 60  # Diferença em minutos
     df['print_group'] = (df['time_diff'] >= 5).cumsum()  # Novo grupo para gaps >= 5 minutos
 
-    # Ler o processed_data2.csv para obter impressões já processadas
+    # Ler o processed_z_lower_1.csv para obter impressões já processadas
     processed_timestamps = set()
     try:
         processed_df = pd.read_csv(output_file, encoding='utf-8')
@@ -97,10 +97,10 @@ def process_printer_data(input_file, output_file):
             prints_to_process.append(print_group)
 
     if not prints_to_process:
-        print("Não há novas impressões para processar no printer_data3.csv.")
+        print("Não há novas impressões para processar no z_lower_1.csv.")
         return
 
-    print(f"Processando {len(prints_to_process)} novas impressões do printer_data5.csv...")
+    print(f"Processando {len(prints_to_process)} novas impressões do z_lower_1.csv...")
     processed_data = []
     piece_id = last_id + 1
 
@@ -121,8 +121,10 @@ def process_printer_data(input_file, output_file):
 
         # Métricas da impressão
         metrics['Média Delta temp_nozzle'] = group['temp_delta_nozzle'].mean() if group['temp_delta_nozzle'].notna().any() else 0.0
+        metrics['Desvio Padrão temp_nozzle'] = group['temp_delta_nozzle'].std() if group['temp_delta_nozzle'].notna().any() else 0.0
         metrics['Máximo Delta temp_nozzle'] = group['temp_delta_nozzle'].max() if group['temp_delta_nozzle'].notna().any() else 0.0
         metrics['Média Delta Mesa (°C)'] = group['temp_delta_bed'].mean() if group['temp_delta_bed'].notna().any() else 0.0
+        metrics['Desvio Padrão Delta Mesa (°C)'] = group['temp_delta_bed'].std() if group['temp_delta_bed'].notna().any() else 0.0
         metrics['Tempo Fora do Intervalo Extrusora (%)'] = calculate_t_out_of_range(group, threshold=2.0)
 
         if group['E'].notna().any() and len(group) > 1:
@@ -199,7 +201,8 @@ def process_printer_data(input_file, output_file):
     # Reordenar colunas para corresponder ao formato desejado
     columns = [
         'Tipo de Peça', 'id_peça', 'Data', 'Speed Factor',
-        'Média Delta temp_nozzle', 'Máximo Delta temp_nozzle', 'Média Delta Mesa (°C)', 
+        'Média Delta temp_nozzle', 'Desvio Padrão temp_nozzle', 'Máximo Delta temp_nozzle',
+        'Média Delta Mesa (°C)', 'Desvio Padrão Delta Mesa (°C)',
         'Tempo Fora do Intervalo Extrusora (%)', 'Taxa de Extrusão (mm/min)', 'Tempo Ativo de Extrusão (%)',
         'Variação X', 'Variação Y', 'Variação Z',
         'X_max', 'X_min', 'Y_max', 'Y_min',
@@ -208,7 +211,7 @@ def process_printer_data(input_file, output_file):
     ]
     new_processed_df = new_processed_df[columns]
 
-    # Salvar os novos dados no processed_data2.csv
+    # Salvar os novos dados no processed_z_lower_1.csv
     print(f"\nAdicionando os dados processados em {output_file}...")
     if last_id == 0:
         # Se é a primeira vez, criar o arquivo

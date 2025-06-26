@@ -10,8 +10,9 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import joblib
 
+
 # Função para data augmentation
-def augment_data(X, y, features, noise_factor=0.05, n_augmentations=2):
+def augment_data(X, y, features, noise_factor=0.05, n_augmentations=10):
     X_augmented = [X]
     y_augmented = [y]
     
@@ -92,8 +93,11 @@ le = LabelEncoder()
 df['Resultado'] = le.fit_transform(df['Resultado'])  # OK=1, NOK=0
 
 # Selecionar features e target
-features_to_drop = ['Peça_L', 'Peça_QUADRADO', 'Peça_RETANGULO', 'Variação X', 'X_min', 'id_peça', 'Data', 'Resultado']
-features = [col for col in df.columns if col not in features_to_drop]
+features_to_drop = ['Peça_L', 'Peça_QUADRADO', 'Peça_RETANGULO' ,'Variação X', 'X_min', 'id_peça', 'Data', 'Resultado']
+#features = [col for col in df.columns if col not in features_to_drop]
+features = ['Máximo Delta temp_nozzle', 'Desvio Padrão temp_nozzle', 
+            'Média PWM Extrusora', 'Média PWM Bed', 
+            'Tempo Fora do Intervalo Extrusora (%)']
 X = df[features]
 y = df['Resultado']
 
