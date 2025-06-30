@@ -55,6 +55,7 @@ def compute_features(samples, filename):
     # Calcular métricas numéricas (alinhado com processed_z_lower_1.csv)
     metrics['Speed Factor'] = df['speed_factor'].mean() if df['speed_factor'].notna().any() else 0.0
     metrics['Média Delta temp_nozzle'] = df['temp_delta_nozzle'].mean() if df['temp_delta_nozzle'].notna().any() else 0.0
+    metrics['Desvio Padrão temp_nozzle'] = df['temp_delta_nozzle'].std() if df['temp_delta_nozzle'].notna().any() else 0.0
     metrics['Máximo Delta temp_nozzle'] = df['temp_delta_nozzle'].max() if df['temp_delta_nozzle'].notna().any() else 0.0
     metrics['Média Delta Mesa (°C)'] = df['temp_delta_bed'].mean() if df['temp_delta_bed'].notna().any() else 0.0
     metrics['Tempo Fora do Intervalo Extrusora (%)'] = calculate_t_out_of_range(df, threshold=2.0)
@@ -87,11 +88,22 @@ def compute_features(samples, filename):
     metrics['Média PWM Bed'] = df['pwm_bed'].mean() if df['pwm_bed'].notna().any() else 0.0
     metrics['Desvio Padrão PWM Bed'] = df['pwm_bed'].std() if df['pwm_bed'].notna().any() else 0.0
 
-    # Criar DataFrame com as colunas na ordem exata
-    features_df = pd.DataFrame([metrics])[FEATURE_COLUMNS]
+    # # Criar DataFrame com as colunas na ordem exata
+    # features_df = pd.DataFrame([metrics])[FEATURE_COLUMNS]
 
-    # Verificar se todas as colunas esperadas estão presentes
-    if list(features_df.columns) != FEATURE_COLUMNS:
+    # Criar DataFrame com as colunas na ordem exata do treinamento
+    features_df = pd.DataFrame([metrics], columns=[
+        'Máximo Delta temp_nozzle', 'Desvio Padrão temp_nozzle', 
+        'Média PWM Extrusora', 'Média PWM Bed', 
+        'Tempo Fora do Intervalo Extrusora (%)'
+    ])
+
+    # Verificar se as colunas correspondem
+    if list(features_df.columns) != [
+        'Máximo Delta temp_nozzle', 'Desvio Padrão temp_nozzle', 
+        'Média PWM Extrusora', 'Média PWM Bed', 
+        'Tempo Fora do Intervalo Extrusora (%)'
+    ]:
         logger.error(f"Colunas geradas não correspondem às esperadas: {list(features_df.columns)}")
         raise ValueError("Feature columns mismatch")
 
