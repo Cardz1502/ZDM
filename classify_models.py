@@ -21,17 +21,8 @@ def augment_data(X, y, features, noise_factor=0.05, n_augmentations=10):
         noise = np.random.normal(0, noise_factor * X.std(axis=0), X.shape)
         X_noisy = X + noise
         
-        # Perturbações baseadas em domínio
-        X_perturbed = X.copy()
-        if 'Speed Factor' in features:
-            idx = features.index('Speed Factor')
-            X_perturbed[:, idx] *= np.random.uniform(0.9, 1.1, X.shape[0])
-        if 'Média Delta temp_nozzle' in features:
-            idx = features.index('Média Delta temp_nozzle')
-            X_perturbed[:, idx] *= np.random.uniform(0.95, 1.05, X.shape[0])
-        
-        X_augmented.extend([X_noisy, X_perturbed])
-        y_augmented.extend([y, y])
+        X_augmented.extend([X_noisy])
+        y_augmented.extend([y])
     
     return np.vstack(X_augmented), np.hstack(y_augmented)
 
@@ -123,18 +114,18 @@ print(pd.Series(y_train_aug).value_counts(normalize=True))
 
 # Definir grades de hiperparâmetros
 param_grid_rf = {
-    'n_estimators': [50, 100, 200],
-    'max_depth': [5, 10, 15, None],
-    'min_samples_split': [2, 5, 10],
-    'min_samples_leaf': [1, 2, 4],
-    'class_weight': [{0: 1.5, 1: 1.0}, {0: 2.0, 1: 0.8}, {0: 3.0, 1: 0.7}]
+    'n_estimators': [50, 100],
+    'max_depth': [3, 5, 7],
+    'min_samples_split': [2, 5],
+    'min_samples_leaf': [2, 4],
+    'class_weight': [{0: 1.2, 1: 1.0}, {0: 1.5, 1: 1.0}]
 }
 
 param_grid_xgb = {
-    'n_estimators': [50, 100, 150],
-    'max_depth': [3, 5, 7],
-    'learning_rate': [0.01, 0.1, 0.2],
-    'scale_pos_weight': [1.5, 2.0, 2.5, 3.0]
+    'n_estimators': [50, 100],
+    'max_depth': [3, 5],
+    'learning_rate': [0.1, 0.2],
+    'scale_pos_weight': [1.5, 2.0]
 }
 
 param_grid_svm = {
@@ -210,7 +201,7 @@ for model_name, (model, param_grid) in models.items():
     
     # Salvar o modelo
     model_file = f'{model_name.lower().replace(" ", "_")}_ok_nokv2.joblib'
-    joblib.dump(model, model_file)
+    joblib.dump(best_model, model_file)
     print(f"Modelo salvo em {model_file}")
 
 # Comparar métricas

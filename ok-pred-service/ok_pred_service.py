@@ -158,7 +158,7 @@ def predict():
 
         # Carregar modelo, scaler e LabelEncoder
         try:
-            model = joblib.load("/app/models/xgboost_ok_nokv2.joblib")
+            model = joblib.load("/app/models/svm_ok_nokv2.joblib")
             scaler = joblib.load("/app/models/scalerv2.joblib")
             label_encoder = joblib.load("/app/models/label_encoderv2.joblib")
         except FileNotFoundError:
