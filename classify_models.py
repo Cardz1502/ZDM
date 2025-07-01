@@ -12,7 +12,7 @@ import joblib
 from sklearn.decomposition import PCA
 
 # Função para data augmentation
-def augment_data(X, y, noise_factor=0.05, n_augmentations=10):
+def augment_data(X, y, noise_factor=0.1, n_augmentations=5):
     X_augmented = [X]
     y_augmented = [y]
     
@@ -115,21 +115,21 @@ param_grid_rf = {
     'max_depth': [3, 5, 7],
     'min_samples_split': [2, 5],
     'min_samples_leaf': [2, 4],
-    'class_weight': [{0: 1.2, 1: 1.0}, {0: 1.5, 1: 1.0}]
+    'class_weight': [{0: 1.5, 1: 1.0}, {0: 2.0, 1: 1.0}]  # Aumentado para 1.5-2.0
 }
 
 param_grid_xgb = {
     'n_estimators': [50, 100],
-    'max_depth': [3, 5],
+    'max_depth': [2, 3],  # Reduzido para evitar overfitting
     'learning_rate': [0.1, 0.2],
-    'scale_pos_weight': [1.5, 2.0]
+    'scale_pos_weight': [2.0, 2.5]  # Aumentado para 2.0-2.5
 }
 
 param_grid_svm = {
-    'C': [1, 10],
+    'C': [10, 100],  # Aumentado para 100 para mais flexibilidade
     'kernel': ['rbf'],
     'gamma': ['scale'],
-    'class_weight': [None, 'balanced']
+    'class_weight': [{0: 1.5, 1: 1.0}, {0: 2.0, 1: 1.0}]  # Adicionado pesos
 }
 
 
