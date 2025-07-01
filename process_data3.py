@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 from datetime import datetime
+import os
 
 # Função para calcular o percentual de tempo com temperatura fora do intervalo
 def calculate_t_out_of_range(group, threshold=2.0):
@@ -53,10 +54,6 @@ def process_printer_data(input_file, output_file):
     date_column = 'timestamp'
     print(f"Coluna de data encontrada: {date_column}")
 
-    # Verificar os primeiros valores da coluna timestamp
-    print("Primeiros 5 valores da coluna 'timestamp':")
-    print(df[date_column].head())
-
     # Converter a coluna de data para datetime
     try:
         df['timestamp'] = pd.to_datetime(df[date_column], format='%Y-%m-%d %H:%M:%S')
@@ -71,27 +68,48 @@ def process_printer_data(input_file, output_file):
     df['time_diff'] = df['timestamp'].diff().dt.total_seconds() / 60  # Diferença em minutos
     df['print_group'] = (df['time_diff'] >= 5).cumsum()  # Novo grupo para gaps >= 5 minutos
 
-    # Agrupar os dados por print_group (cada grupo é uma impressão distinta)
+    # Agrupar os dados por print_group
     grouped = df.groupby('print_group')
     all_prints = sorted(grouped.groups.keys())  # Lista de impressões ordenadas
 
+    # Carregar dados processados existentes, se houver
+    processed_df = pd.DataFrame()
+    if os.path.exists(output_file):
+        try:
+            processed_df = pd.read_csv(output_file, encoding='utf-8')
+            print(f"Arquivo {output_file} encontrado. Carregando dados processados existentes...")
+        except Exception as e:
+            print(f"Erro ao ler {output_file}: {e}")
+            return
+    else:
+        print(f"Arquivo {output_file} não encontrado. Será criado um novo.")
+
+    # Identificar impressões já processadas com base no campo 'Data'
+    processed_data_values = set(processed_df['Data'].values) if not processed_df.empty else set()
+    last_id = processed_df['id_peça'].max() if not processed_df.empty else 0
+    piece_id = last_id + 1 if last_id > 0 else 1
+
     print(f"Processando {len(all_prints)} impressões do z_lower_1.csv...")
     processed_data = []
-    piece_id = 1  # Reiniciar IDs para reprocessamento completo
+    new_prints = 0
 
     for print_group in all_prints:
         group = grouped.get_group(print_group)
-        metrics = {}
-        metrics['id_peça'] = piece_id
-
-        # Adicionar a data da impressão (data do primeiro registro do grupo)
         start_time = group['timestamp'].iloc[0]
         end_time = group['timestamp'].iloc[-1]
-        start_str = start_time.strftime('%Y-%m-%d %H:%M:%S')
-        end_str = end_time.strftime('%H:%M:%S')
-        metrics['Data'] = f"{start_str}/{end_str}"
+        data_value = f"{start_time.strftime('%Y-%m-%d %H:%M:%S')}/{end_time.strftime('%H:%M:%S')}"
 
-        # Calcular Speed Factor (média dos valores não nulos)
+        # Verificar se a impressão já foi processada
+        if data_value in processed_data_values:
+            print(f"Impressão com Data {data_value} já processada. Pulando...")
+            continue
+
+        new_prints += 1
+        metrics = {}
+        metrics['id_peça'] = piece_id
+        metrics['Data'] = data_value
+
+        # Calcular Speed Factor
         metrics['Speed Factor'] = group['speed_factor'].mean() if group['speed_factor'].notna().any() else 0.0
 
         # Métricas da impressão
@@ -138,7 +156,7 @@ def process_printer_data(input_file, output_file):
 
         # Extrair o valor único de filename do grupo
         if group['filename'].notna().any():
-            filename = group['filename'].dropna().iloc[0]  # Pega o primeiro valor não nulo
+            filename = group['filename'].dropna().iloc[0]
             print(f"Filename encontrado: {filename}")
             # Mapear o filename para o tipo de peça
             if filename == 'zdm4ms~4':
@@ -154,8 +172,8 @@ def process_printer_data(input_file, output_file):
             print("Erro: Coluna 'filename' contém apenas valores nulos.")
             return
 
-        # Solicitar o Resultado da impressão (OK ou NOK) com timestamps
-        print(f"\nPeça {piece_id} (Timestamp Inicial: {start_str}, Timestamp Final: {end_str}, Tipo: {metrics['Tipo de Peça']})")
+        # Solicitar o Resultado da impressão (OK ou NOK)
+        print(f"\nPeça {piece_id} (Timestamp Inicial: {start_time.strftime('%Y-%m-%d %H:%M:%S')}, Timestamp Final: {end_time.strftime('%H:%M:%S')}, Tipo: {metrics['Tipo de Peça']})")
         while True:
             result = input(f"Peça {piece_id} - Resultado da impressão (OK/NOK): ").strip().upper()
             if result in ['OK', 'NOK']:
@@ -167,7 +185,7 @@ def process_printer_data(input_file, output_file):
         piece_id += 1
 
     if not processed_data:
-        print("Nenhum dado para adicionar.")
+        print("Nenhum dado novo para adicionar.")
         return
 
     # Criar o DataFrame com os novos dados processados
@@ -184,10 +202,16 @@ def process_printer_data(input_file, output_file):
     ]
     new_processed_df = new_processed_df[columns]
 
-    # Salvar os novos dados no processed_z_lower_1.csv
+    # Combinar com os dados existentes, se houver
+    if not processed_df.empty:
+        final_df = pd.concat([processed_df, new_processed_df], ignore_index=True)
+    else:
+        final_df = new_processed_df
+
+    # Salvar os dados no processed_z_lower_1.csv
     print(f"\nSalvando os dados processados em {output_file}...")
-    new_processed_df.to_csv(output_file, index=False, encoding='utf-8')
-    print("Processamento concluído!")
+    final_df.to_csv(output_file, index=False, encoding='utf-8')
+    print(f"Processamento concluído! {new_prints} novas impressões processadas.")
 
 # Executar o script
 if __name__ == "__main__":

@@ -102,12 +102,12 @@ print(f"Tamanho do conjunto de treino após augmentation: {X_train_aug.shape[0]}
 print("Distribuição de OK/NOK após augmentation no treino:")
 print(pd.Series(y_train_aug).value_counts(normalize=True))
 
-# PCA
-pca = PCA(n_components=0.95)
-X_train_aug_pca = pca.fit_transform(X_train_aug)
-X_train_pca = pca.transform(X_train)  # para avaliação no conjunto original
-X_test_pca = pca.transform(X_test)
-print(f"Redução com PCA: {X.shape[1]} → {X_train_aug_pca.shape[1]} componentes principais")
+# # PCA
+# pca = PCA(n_components=0.95)
+# X_train_aug_pca = pca.fit_transform(X_train_aug)
+# X_train_pca = pca.transform(X_train)  # para avaliação no conjunto original
+# X_test_pca = pca.transform(X_test)
+# print(f"Redução com PCA: {X.shape[1]} → {X_train_aug_pca.shape[1]} componentes principais")
 
 # Hiperparâmetros
 param_grid_rf = {
@@ -145,17 +145,17 @@ for model_name, (model, param_grid) in models.items():
     grid_search = GridSearchCV(
         model, param_grid, cv=5, scoring='f1', n_jobs=-1, verbose=1
     )
-    grid_search.fit(X_train_aug_pca, y_train_aug)
+    grid_search.fit(X_train_aug, y_train_aug)
     
     print(f"Melhores parâmetros para {model_name}: {grid_search.best_params_}")
     best_model = grid_search.best_estimator_
     
     # Avaliação no treino (original)
-    y_pred_train = best_model.predict(X_train_pca)
+    y_pred_train = best_model.predict(X_train)
     metrics_train = evaluate_model(y_train, y_pred_train, f'{model_name} - Treino')
     
     # Avaliação no teste
-    y_pred_test = best_model.predict(X_test_pca)
+    y_pred_test = best_model.predict(X_test)
     metrics_test = evaluate_model(y_test, y_pred_test, f'{model_name} - Teste')
     all_metrics.append(metrics_test)
     
@@ -192,16 +192,16 @@ for model_name, (model, param_grid) in models.items():
     #     plt.show()
     
     # Salvar o modelo
-    # model_file = f'{model_name.lower().replace(" ", "_")}_ok_nokv2.joblib'
-    # joblib.dump(best_model, model_file)
-    # print(f"Modelo salvo em {model_file}")
+    model_file = f'{model_name.lower().replace(" ", "_")}_ok_nokv2.joblib'
+    joblib.dump(best_model, model_file)
+    print(f"Modelo salvo em {model_file}")
 
 # Comparar métricas
 metrics_df = pd.DataFrame(all_metrics)
 print("\nComparação de Métricas (Conjunto de Teste):")
 print(metrics_df[['Model', 'Accuracy', 'Precision', 'Recall', 'F1-Score']].round(4))
 
-# # Salvar codificadores
-# joblib.dump(le, 'label_encoderv2.joblib')
-# joblib.dump(scaler, 'scalerv2.joblib')
-# print("LabelEncoder e Scaler salvos.")
+# Salvar codificadores
+joblib.dump(le, 'label_encoderv2.joblib')
+joblib.dump(scaler, 'scalerv2.joblib')
+print("LabelEncoder e Scaler salvos.")
