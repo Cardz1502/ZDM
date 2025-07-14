@@ -97,17 +97,17 @@ print(pd.Series(y_test).value_counts(normalize=True))
 
 # Data Augmentation
 print("Aplicando data augmentation...")
-X_train_aug, y_train_aug = augment_data(X_train, y_train, noise_factor=0.05, n_augmentations=2)
+X_train_aug, y_train_aug = augment_data(X_train, y_train, noise_factor=0.1, n_augmentations=5)
 print(f"Tamanho do conjunto de treino após augmentation: {X_train_aug.shape[0]} amostras")
 print("Distribuição de OK/NOK após augmentation no treino:")
 print(pd.Series(y_train_aug).value_counts(normalize=True))
 
-# # PCA
-# pca = PCA(n_components=0.95)
-# X_train_aug_pca = pca.fit_transform(X_train_aug)
-# X_train_pca = pca.transform(X_train)  # para avaliação no conjunto original
-# X_test_pca = pca.transform(X_test)
-# print(f"Redução com PCA: {X.shape[1]} → {X_train_aug_pca.shape[1]} componentes principais")
+# PCA
+pca = PCA(n_components=0.95)
+X_train_aug_pca = pca.fit_transform(X_train_aug)
+X_train_pca = pca.transform(X_train)  # para avaliação no conjunto original
+X_test_pca = pca.transform(X_test)
+print(f"Redução com PCA: {X.shape[1]} → {X_train_aug_pca.shape[1]} componentes principais")
 
 # Hiperparâmetros
 param_grid_rf = {
@@ -132,7 +132,6 @@ param_grid_svm = {
     'class_weight': [{0: 1.5, 1: 1.0}, {0: 2.0, 1: 1.0}]  # Adicionado pesos
 }
 
-
 models = {
     'Random Forest': (RandomForestClassifier(random_state=42), param_grid_rf),
     'XGBoost': (XGBClassifier(random_state=42), param_grid_xgb),
@@ -145,17 +144,17 @@ for model_name, (model, param_grid) in models.items():
     grid_search = GridSearchCV(
         model, param_grid, cv=5, scoring='f1', n_jobs=-1, verbose=1
     )
-    grid_search.fit(X_train_aug, y_train_aug)
+    grid_search.fit(X_train_aug_pca, y_train_aug)  # Usar X_train_aug_pca após PCA
     
     print(f"Melhores parâmetros para {model_name}: {grid_search.best_params_}")
     best_model = grid_search.best_estimator_
     
-    # Avaliação no treino (original)
-    y_pred_train = best_model.predict(X_train)
+    # Avaliação no treino (original com PCA)
+    y_pred_train = best_model.predict(X_train_pca)
     metrics_train = evaluate_model(y_train, y_pred_train, f'{model_name} - Treino')
     
-    # Avaliação no teste
-    y_pred_test = best_model.predict(X_test)
+    # Avaliação no teste com PCA
+    y_pred_test = best_model.predict(X_test_pca)
     metrics_test = evaluate_model(y_test, y_pred_test, f'{model_name} - Teste')
     all_metrics.append(metrics_test)
     
@@ -175,21 +174,6 @@ for model_name, (model, param_grid) in models.items():
             print(f"\nAmostra (id_peça: {id_peça}):")
             print(f"Previsto: {pred_label}")
             print(f"Real: {real_label}")
-    
-    # # Importância das features
-    # if model_name in ['Random Forest', 'XGBoost']:
-    #     feature_importance = pd.DataFrame({
-    #         'Feature': features,
-    #         'Importance': best_model.feature_importances_
-    #     }).sort_values('Importance', ascending=False)
-        
-    #     print(f"\nImportância das Features - {model_name}:")
-    #     print(feature_importance)
-        
-    #     plt.figure(figsize=(10, 6))
-    #     sns.barplot(x='Importance', y='Feature', data=feature_importance)
-    #     plt.title(f'Importância das Features - {model_name}')
-    #     plt.show()
     
     # Salvar o modelo
     model_file = f'{model_name.lower().replace(" ", "_")}_ok_nokv2.joblib'

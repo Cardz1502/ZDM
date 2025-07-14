@@ -34,9 +34,7 @@ dimensions_by_type = {
 # Define as features
 feature_columns = ['Speed Factor', 'Média Delta temp_nozzle', 'Máximo Delta temp_nozzle', 
                    'Média Delta Mesa (°C)', 'Tempo Fora do Intervalo Extrusora (%)', 
-                   'Taxa de Extrusão (mm/min)', 'Tempo Ativo de Extrusão (%)', 
-                   'Variação X', 'Variação Y', 'Variação Z', 'X_max', 'X_min', 
-                   'Y_max', 'Y_min', 'Média PWM Extrusora', 'Desvio Padrão PWM Extrusora', 
+                   'Taxa de Extrusão (mm/min)', 'Tempo Ativo de Extrusão (%)', 'Média PWM Extrusora', 'Desvio Padrão PWM Extrusora', 
                    'Média PWM Bed', 'Desvio Padrão PWM Bed']
 
 # Itera sobre cada tipo de peça

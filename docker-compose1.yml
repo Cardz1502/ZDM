@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  aasx-server:
+    container_name: aasx-server
+    image: docker.io/adminshellio/aasx-server-blazor-for-demo:0.3.1.284-aasv3-alpha-latest
+    restart: unless-stopped
+    ports:
+      - 5005:5005
+    environment:
+      - Kestrel_EndpointsHttp_Url=http://*:5005
+    volumes:
+      - "C:/Users/joaop/Desktop/FACULDADE/DISSERTAÇÃOFINAL/AAS/ZDM:/AasxServerBlazor/aasxs"
+    command: --no-security --external-blazor http://localhost:5005
