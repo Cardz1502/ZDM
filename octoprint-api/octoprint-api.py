@@ -334,7 +334,7 @@ def update_aas_variable(variable_key, value):
             logger.error(f"Erro na requisição ao AAS para {variable_key} (tentativa {retries+1}/{MAX_RETRIES}): {e}")
 
 def save_data(timestamp, is_m114=True):
-    allowed_filenames = {"zdm4ms~4", "zd5b20~1", "zd2c72~1"}
+    allowed_filenames = {"zdm4ms~4", "zd5b20~1", "zd2c72~1", "ZDM4MS~1"}
     
     
     if control.filename is None or control.filename not in allowed_filenames:
@@ -629,7 +629,7 @@ def main():
                         control.prediction_called = False
                         control.ok_prediction_called = False
 
-                    allowed_filenames = {"zdm4ms~4", "zd5b20~1", "zd2c72~1"}
+                    allowed_filenames = {"zdm4ms~4", "zd5b20~1", "zd2c72~1", "ZDM4MS~1"}
                     filename_allowed = control.filename is not None and control.filename in allowed_filenames
 
                     if is_printing:
@@ -659,7 +659,7 @@ def main():
                     time.sleep(RETRY_WAIT)
                     continue
 
-            allowed_filenames = {"zdm4ms~4", "zd5b20~1", "zd2c72~1"}
+            allowed_filenames = {"zdm4ms~4", "zd5b20~1", "zd2c72~1", "ZDM4MS~1"}
             filename_allowed = control.filename is not None and control.filename in allowed_filenames
 
             if was_printing:
