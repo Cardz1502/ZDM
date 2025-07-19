@@ -4,12 +4,23 @@ import time
 import threading
 import json
 import re
+import datetime
 
 API_KEY = "-cqzgIHdAaLvW-9EbK6dXW5019dvLPgNyxP7tEwscFw"
+AAS_URL = "192.168.250.110:5001"
+MIDDLEWARE_URL = 'http://192.168.2.90'  # URL do middleware
+CSV_URL = '192.168.250.108:5000'  # URL do CSV
 
 stop_m114 = threading.Event()
 stop_m220 = threading.Event()
 stop_info_loop = threading.Event()
+m114_response_received = threading.Event()
+m220_response_received = threading.Event()
+
+# Inicialmente setados para permitir o envio do primeiro comando
+m114_response_received.set()
+m220_response_received.set()
+
 
 
 # CLASSE PrinterData
@@ -51,7 +62,7 @@ data = PrinterData()
 # Iniciar Flask
 app = Flask(__name__)
 
-MIDDLEWARE_URL = 'http://192.168.2.90'  # URL do middleware
+
 
 def send_command(destination, msg):
     
@@ -88,44 +99,46 @@ def get_status(destination):
         return state
 
 def start_m114_loop(ip_printer):
-    def monitor():
+    def loop_m114():
         while not stop_m114.is_set():
-            try:
-                send_command(ip_printer, "M114")
-                time.sleep(5)
-            except Exception as e:
-                print(f"[LOOP ERRO] Falha ao enviar M114: {e}")
-                time.sleep(2)
+            if m114_response_received.wait(timeout=5):  # Espera a resposta anterior (máximo 5s)
+                try:
+                    m114_response_received.clear()  # Vai esperar a próxima resposta
+                    send_command(ip_printer, "M114")
+                except Exception as e:
+                    print(f"[ERRO] Falha ao enviar M114: {e}")
+                    m114_response_received.set()  # Evita deadlock
+            else:
+                print("[WARN] Timeout à espera de M114. Reenviando comando.")
+                # Tenta novamente pois pode ter perdido resposta
+                m114_response_received.set()  # Libera para novo envio no próximo loop
 
-            try:
-                state = get_status(ip_printer)
-                if state.lower() == "operational":
-                    print("[LOOP] Parando M114: impressora voltou a 'operational'")
-                    stop_m114.set()
-            except:
-                pass
-    threading.Thread(target=monitor, daemon=True).start()
+            time.sleep(0.5)
+
+    threading.Thread(target=loop_m114, daemon=True).start()
+
+
 
 
 def start_m220_loop(ip_printer):
     def loop_m220():
-        while True:
-            try:
-                send_command(ip_printer, "M220")
-                time.sleep(20)
-            except Exception as e:
-                print(f"[LOOP ERRO] Falha ao enviar M220: {e}")
-            time.sleep(20)
+        while not stop_m220.is_set():
+            if m220_response_received.wait(timeout=5):  # Espera até 5s pela resposta
+                try:
+                    m220_response_received.clear()
+                    send_command(ip_printer, "M220")
+                except Exception as e:
+                    print(f"[ERRO] Falha ao enviar M220: {e}")
+                    m220_response_received.set()
+            else:
+                print("[WARN] Timeout à espera de M220. Reenviando comando.")
+                m220_response_received.set()
 
-            try:
-                state = get_status(ip_printer)
-                if state.lower() == "operational":
-                    print("[LOOP] Parando M220: impressora voltou a 'operational'")
-                    stop_m220.set()
-            except:
-                pass
+            time.sleep(0.5)
 
     threading.Thread(target=loop_m220, daemon=True).start()
+
+
 
 
 def printer_sub(destination):
@@ -142,22 +155,53 @@ def printer_sub(destination):
         # Enviar comando para o middleware
         response = requests.post(f"{MIDDLEWARE_URL}:1880/printer/sub", json=payload, timeout=10)
         response.raise_for_status()  # levanta erro se status code for 4xx ou 5xx
-        #print(f"[INFO] Middleware  SUB respondeu: {response.status_code} - {response.text}")
+        print(f"[INFO] Subscrito ao Middleware: {response.status_code} - {response.text}")
 
-def get_printer_info(destination):
+def send_to_aas(destination, msg):
+    
+    # Criar a mensagem para o middleware
+        payload = {
+            "destination": destination,
+            "msg": msg,
+        }
+
+        
+        print(f"[INFO] Enviando DADOS da aas para middleware: {msg}")
+
+        # Enviar comando para o middleware
+        response = requests.post(f"{MIDDLEWARE_URL}:1880/aas/append", json=payload, timeout=10)
+        response.raise_for_status()  # levanta erro se status code for 4xx ou 5xx
+
+def send_to_csv(destination, msg):
+    
+    # Criar a mensagem para o middleware
+        payload = {
+            "destination": destination,
+            "msg": msg,
+        }
+
+        
+        print(f"[INFO] Enviando DADOS do csv para middleware: {msg}")
+
+        # Enviar comando para o middleware
+        response = requests.post(f"{MIDDLEWARE_URL}:1880/csv/append", json=payload, timeout=10)
+        response.raise_for_status()  # levanta erro se status code for 4xx ou 5xx
+
+
+def get_printer_info(destination, filename):
     payload = {
         "destination": destination
     }
 
-    #print(f"[INFO] Enviando pedido de dados para middleware: {payload}")
-    response = requests.post(f"{MIDDLEWARE_URL}:1880/printer/info", json=payload, timeout=10)
-    response.raise_for_status()
-    #print(f"[INFO] Middleware respondeu: {response.status_code} - {response.text}")
-    
-    message_data = response.json()
+    try:
+        response = requests.post(f"{MIDDLEWARE_URL}:1880/printer/info", json=payload, timeout=10)
+        response.raise_for_status()
+        message_data = response.json()
+    except Exception as e:
+        print(f"[ERRO] Ao contactar middleware: {e}")
+        return
 
     last_temp = None
-    pending_messages = []
 
     for item in message_data:
         current = item.get("current", {})
@@ -165,11 +209,11 @@ def get_printer_info(destination):
 
         for log in logs:
             log = log.strip()
-            #print(f"[DEBUG] Analisando log: {log}")
 
             # Temperatura
             temp_match = re.search(r"(?:Recv:\s*)?T:([\d.]+)\s*/([\d.]+)\s*B:([\d.]+)\s*/([\d.]+)\s*@:(\d+)\s*B@:(\d+)", log)
             if temp_match:
+                
                 last_temp = {
                     "nozzle_temp": float(temp_match.group(1)),
                     "nozzle_target": float(temp_match.group(2)),
@@ -178,54 +222,83 @@ def get_printer_info(destination):
                     "nozzle_pwm": int(temp_match.group(5)),
                     "bed_pwm": int(temp_match.group(6)),
                 }
-                print(f"[INFO] Temp atualizada: {last_temp}")
-                continue  # passar para o próximo log
+                continue
 
             # Posição
             pos_match = re.search(r"X:([-\d.]+)\s+Y:([-\d.]+)\s+Z:([-\d.]+)\s+E:([-\d.]+)", log)
-            if pos_match:
+            if pos_match and last_temp:
+                # print informações de posição encontradas
+                print(f"[INFO] Posição encontrada: {pos_match.group(0)}")
+                # Montar dados para enviar
+                timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                 pos_data = {
-                    "x": float(pos_match.group(1)),
-                    "y": float(pos_match.group(2)),
-                    "z": float(pos_match.group(3)),
-                    "extrusion_level": float(pos_match.group(4)),
+                    "X": float(pos_match.group(1)),
+                    "Y": float(pos_match.group(2)),
+                    "Z": float(pos_match.group(3)),
+                    "E": float(pos_match.group(4)),
                 }
-                if last_temp:
-                    pending_messages.append({
-                        "type": "position",
-                        "position": pos_data,
-                        "temperature": last_temp.copy()
-                    })
-                    print(f"[INFO] Posição capturada com temperatura: {pos_data} @ {last_temp}")
+                
+
+                data = {
+                    "timestamp": timestamp,
+                    "temp_nozzle": last_temp["nozzle_temp"],
+                    "temp_target_nozzle": last_temp["nozzle_target"],
+                    "temp_delta_nozzle": last_temp["nozzle_temp"] - last_temp["nozzle_target"],
+                    "pwm_nozzle": last_temp["nozzle_pwm"],
+                    "temp_bed": last_temp["bed_temp"],
+                    "temp_target_bed": last_temp["bed_target"],
+                    "temp_delta_bed": last_temp["bed_temp"] - last_temp["bed_target"],
+                    "pwm_bed": last_temp["bed_pwm"],
+                    "X": pos_data["X"],
+                    "Y": pos_data["Y"],
+                    "Z": pos_data["Z"],
+                    "E": pos_data["E"],
+                    "speed_factor": None,
+                    "filename": filename
+                }
+
+                m114_response_received.set()
+                send_to_aas(AAS_URL, data)
+                send_to_csv(CSV_URL, data)
                 continue
 
             # Speed Factor
             speed_match = re.search(r"FR:([\d.]+)%", log)
-            if speed_match:
+            if speed_match and last_temp:
+                # print informações de velocidade encontradas
+                print(f"[INFO] Velocidade encontrada: {speed_match.group(0)}")
+                timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                 speed_factor = float(speed_match.group(1))
-                if last_temp:
-                    pending_messages.append({
-                        "type": "speed",
-                        "speed_factor": speed_factor,
-                        "temperature": last_temp.copy()
-                    })
-                    print(f"[INFO] SpeedFactor capturado com temperatura: {speed_factor}% @ {last_temp}")
+
+                data = {
+                    "timestamp": timestamp,
+                    "temp_nozzle": last_temp["nozzle_temp"],
+                    "temp_target_nozzle": last_temp["nozzle_target"],
+                    "temp_delta_nozzle": last_temp["nozzle_temp"] - last_temp["nozzle_target"],
+                    "pwm_nozzle": last_temp["nozzle_pwm"],
+                    "temp_bed": last_temp["bed_temp"],
+                    "temp_target_bed": last_temp["bed_target"],
+                    "temp_delta_bed": last_temp["bed_temp"] - last_temp["bed_target"],
+                    "pwm_bed": last_temp["bed_pwm"],
+                    "X": None,
+                    "Y": None,
+                    "Z": None,
+                    "E": None,
+                    "speed_factor": speed_factor,
+                    "filename": filename
+                }
+                m220_response_received.set()
+
+                send_to_aas(AAS_URL, data)
+                send_to_csv(CSV_URL, data)
                 continue
 
-    return pending_messages  # ou processa como precisares
 
-def start_printer_info_loop(ip_printer):                            #to_do: VER ATRASOS DE M114, ADICIONAR TIMESTAMPS, VER SE AS MENSAGENS TÃO A SER GUARDADAS PARA SEREM ENVIADAS MAIS TARDE(TEMOS QUE LIMPAR O BUFFER)
+def start_printer_info_loop(ip_printer, filename):                            #to_do: VER ATRASOS DE M114, VER SE AS MENSAGENS TÃO A SER GUARDADAS PARA SEREM ENVIADAS MAIS TARDE(TEMOS QUE LIMPAR O BUFFER)
     def loop():
         while True:
             try:
-                printer_info = get_printer_info(ip_printer)
-                if printer_info:
-                    for msg in printer_info:
-                        print("[INFO] Mensagem capturada:")
-                        print(json.dumps(msg, indent=4))
-                        # Aqui podes gravar ou enviar os dados
-                else:
-                    print("[INFO] Nenhuma informação útil encontrada nos logs.")
+                get_printer_info(ip_printer, filename)
             except Exception as e:
                 print(f"[ERRO] Falha ao obter info da impressora: {e}")
             time.sleep(5)
@@ -239,6 +312,31 @@ def start_printer_info_loop(ip_printer):                            #to_do: VER 
                 pass
 
     threading.Thread(target=loop, daemon=True).start()
+
+def wait_for_printing_and_start_monitoring(ip_printer, filename):
+    try:
+        while True:
+            state = get_status(ip_printer).lower()
+            print(f"[INFO] Estado atual da impressora: {state}")
+
+            if state == "printing from sd":
+                print("[INFO] Impressora iniciou impressão. Iniciando monitorização...")
+                printer_sub(ip_printer)
+                start_printer_info_loop(ip_printer, filename)
+                start_m114_loop(ip_printer)
+                start_m220_loop(ip_printer)
+                break
+
+            elif state == "operational":
+                print("[INFO] Impressora ainda está a aquecer...")
+
+            else:
+                print(f"[INFO] Estado inesperado: {state}")
+
+            time.sleep(2)
+
+    except Exception as e:
+        print(f"[ERRO - Thread de monitorização] {e}")
 
 
         
@@ -270,31 +368,12 @@ def start():
         stop_m114.clear()
         stop_m220.clear()
 
-        # Loop de espera até a impressora estar a imprimir
-        while True:
-            try:
-                state = get_status(ip_printer).lower()
-                print(f"[INFO] Estado atual da impressora: {state}")
-
-                if state == "printing from sd":
-                    print("[INFO] Impressora iniciou impressão. Iniciando monitorização...")
-                    printer_sub(ip_printer)
-                    start_printer_info_loop(ip_printer)
-                    start_m114_loop(ip_printer)
-                    start_m220_loop(ip_printer)
-                    break  # sai do loop
-
-                elif state == "operational":
-                    print("[INFO] Impressora ainda está a aquecer...")
-
-                else:
-                    print(f"[INFO] Estado inesperado: {state}")
-
-                time.sleep(2)
-
-            except Exception as e:
-                print(f"[ERRO] A verificar estado da impressora: {e}")
-                time.sleep(2)
+        # Inicia a verificação em background
+        threading.Thread(
+            target=wait_for_printing_and_start_monitoring,
+            args=(ip_printer, filename),
+            daemon=True
+        ).start()
 
         return jsonify({"status": "mensagem encaminhada com sucesso"}), 200
 
