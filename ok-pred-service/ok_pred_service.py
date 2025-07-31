@@ -52,13 +52,17 @@ def compute_features(samples, filename):
     df = pd.DataFrame(samples)
     metrics = {}
 
-    # Calcular métricas numéricas (alinhado com processed_z_lower_1.csv)
+    # Calcular métricas para z=1
+    metrics['Desvio Padrão temp_nozzle'] = df['temp_delta_nozzle'].std() if df['temp_delta_nozzle'].notna().any() else 0.0  ## z=1
+    metrics['Máximo Delta temp_nozzle'] = df['temp_delta_nozzle'].max() if df['temp_delta_nozzle'].notna().any() else 0.0 ## z=1
+    metrics['Tempo Fora do Intervalo Extrusora (%)'] = calculate_t_out_of_range(df, threshold=2.0) ## z=1
+    metrics['Média PWM Extrusora'] = df['pwm_nozzle'].mean() if df['pwm_nozzle'].notna().any() else 0.0 ## z=1
+    metrics['Média PWM Bed'] = df['pwm_bed'].mean() if df['pwm_bed'].notna().any() else 0.0 ## z=1
+    
+     # Calcular métricas para z=1
     metrics['Speed Factor'] = df['speed_factor'].mean() if df['speed_factor'].notna().any() else 0.0
     metrics['Média Delta temp_nozzle'] = df['temp_delta_nozzle'].mean() if df['temp_delta_nozzle'].notna().any() else 0.0
-    metrics['Desvio Padrão temp_nozzle'] = df['temp_delta_nozzle'].std() if df['temp_delta_nozzle'].notna().any() else 0.0
-    metrics['Máximo Delta temp_nozzle'] = df['temp_delta_nozzle'].max() if df['temp_delta_nozzle'].notna().any() else 0.0
     metrics['Média Delta Mesa (°C)'] = df['temp_delta_bed'].mean() if df['temp_delta_bed'].notna().any() else 0.0
-    metrics['Tempo Fora do Intervalo Extrusora (%)'] = calculate_t_out_of_range(df, threshold=2.0)
     
     if df['E'].notna().any() and len(df) > 1:
         e_initial = df['E'].iloc[0]
@@ -83,9 +87,7 @@ def compute_features(samples, filename):
     metrics['X_max'] = df['X'].max() if df['X'].notna().any() else 0.0
     metrics['Y_max'] = df['Y'].max() if df['Y'].notna().any() else 0.0
     metrics['Y_min'] = df['Y'].min() if df['Y'].notna().any() else 0.0
-    metrics['Média PWM Extrusora'] = df['pwm_nozzle'].mean() if df['pwm_nozzle'].notna().any() else 0.0
     metrics['Desvio Padrão PWM Extrusora'] = df['pwm_nozzle'].std() if df['pwm_nozzle'].notna().any() else 0.0
-    metrics['Média PWM Bed'] = df['pwm_bed'].mean() if df['pwm_bed'].notna().any() else 0.0
     metrics['Desvio Padrão PWM Bed'] = df['pwm_bed'].std() if df['pwm_bed'].notna().any() else 0.0
 
     # # Criar DataFrame com as colunas na ordem exata

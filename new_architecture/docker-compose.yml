@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  monitor_aux:
+    build: .
+    command: python monitor_aux.py
+    ports:
+      - "5000:5000"
+    networks:
+      labnet_macvlan:
+        ipv4_address: 192.168.250.104
+
+  models_aux:
+    build: .
+    command: python models_aux.py
+    ports:
+      - "5002:5002"
+    networks:
+      labnet_macvlan:
+        ipv4_address: 192.168.250.104
+
+  csv_aux:
+    build: .
+    command: uvicorn csv_aux:app --host 0.0.0.0 --port 5004
+    ports:
+      - "5004:5004"
+    networks:
+      labnet_macvlan:
+        ipv4_address: 192.168.250.104
+
+networks:
+  labnet_macvlan:
+    external: true

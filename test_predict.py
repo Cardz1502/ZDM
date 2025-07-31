@@ -2,7 +2,7 @@ import requests
 import json
 
 # URL onde o teu modelo está a correr
-URL = "http://localhost:5000/predict"  # ou outro IP/porta se estiver noutro sítio
+URL = "http://localhost:5002/predict"  # ou outro IP/porta se estiver noutro sítio
 
 # Carregar o JSON com os dados de teste
 with open("data.json", "r", encoding="utf-8") as f:

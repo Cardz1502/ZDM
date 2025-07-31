@@ -1,0 +1,4345 @@
+[
+    {
+        "id": "6add8d272f432a47",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "de0f015148179c14",
+        "type": "http in",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "url": "/printer/command",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 300,
+        "y": 180,
+        "wires": [
+            [
+                "16f8f1a8e5f37f0c",
+                "f418a005e9c20b00"
+            ]
+        ]
+    },
+    {
+        "id": "058fa6e7cd9a2e3c",
+        "type": "http request",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "method": "use",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 1110,
+        "y": 180,
+        "wires": [
+            [
+                "1951c875d5ea2c9c",
+                "c6d1270415c59ff2"
+            ]
+        ]
+    },
+    {
+        "id": "4161a4e9524dbdac",
+        "type": "http response",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1550,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "16f8f1a8e5f37f0c",
+        "type": "function",
+        "z": "6add8d272f432a47",
+        "name": "Pre-processing for printer command",
+        "func": "\nif (msg.payload.msg == null || msg.payload.destination == null || msg.payload.destination == null) {\n    msg.payload = \"Error\";\n    msg.topic = \"parameter\";\n} else {\n    msg.url = \"http://\" + msg.payload.destination + \":80/api/printer/command\";\n    msg.method = \"POST\";\n    msg.headers = {\n    \"Content-Type\": \"application/json\",\n    \"X-Api-Key\": msg.payload.key\n    }\n    msg.payload = {\n        command: msg.payload.msg\n    }\n}\n\nreturn msg;\n\n\n//\"X-Api-Key\": \"-cqzgIHdAaLvW-9EbK6dXW5019dvLPgNyxP7tEwscFw\"",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 180,
+        "wires": [
+            [
+                "ccca9d9911eff2fd",
+                "0e44d63ba0c3cb35",
+                "ebbdee6d4471ebb0"
+            ]
+        ]
+    },
+    {
+        "id": "1951c875d5ea2c9c",
+        "type": "function",
+        "z": "6add8d272f432a47",
+        "name": "post-processing",
+        "func": "if (msg.statusCode == 200 || msg.statusCode == 204){\n    return msg;\n} else {\n    msg.payload = \"|Error|: \"+ msg.payload;\n    return msg;\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1340,
+        "y": 180,
+        "wires": [
+            [
+                "4161a4e9524dbdac"
+            ]
+        ]
+    },
+    {
+        "id": "f418a005e9c20b00",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 1",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 540,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "ccca9d9911eff2fd",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 2",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 900,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "a59679362735b5eb",
+        "type": "http in",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "url": "/test",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 2729.3333625793457,
+        "y": 171.9999942779541,
+        "wires": [
+            [
+                "a6d4ed86ecd1ac43",
+                "69f48c895547fa96"
+            ]
+        ]
+    },
+    {
+        "id": "d33c60b8ae428661",
+        "type": "http response",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 3139.3333625793457,
+        "y": 171.9999942779541,
+        "wires": []
+    },
+    {
+        "id": "a6d4ed86ecd1ac43",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 3",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2929.3333625793457,
+        "y": 231.9999942779541,
+        "wires": []
+    },
+    {
+        "id": "69f48c895547fa96",
+        "type": "function",
+        "z": "6add8d272f432a47",
+        "name": "function 3",
+        "func": "if (msg.payload = \"bota\")\n{\n    msg.payload = \"Tudo OK\";\n} else {\n    msg.payload = \"Nada OK\";\n}\n\nmsg.statusCode = 200;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 2929.3333625793457,
+        "y": 171.9999942779541,
+        "wires": [
+            [
+                "d33c60b8ae428661",
+                "886293eea4830bf0"
+            ]
+        ]
+    },
+    {
+        "id": "886293eea4830bf0",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 4",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 3149.3333625793457,
+        "y": 231.9999942779541,
+        "wires": []
+    },
+    {
+        "id": "8b3a179e61b618dd",
+        "type": "http response",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1070,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "0e44d63ba0c3cb35",
+        "type": "function",
+        "z": "6add8d272f432a47",
+        "name": "Error",
+        "func": "\nif (msg.payload == \"Error\"){\n    msg.statusCode = 400;\n\n    if (msg.topic == \"parameter\") {\n        msg.payload = \"|ERROR|: Parameter error\";\n    } else {\n        msg.payload = \"|ERROR|: Something unexpected happened\";\n    }\n\n    return msg;\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 890,
+        "y": 120,
+        "wires": [
+            [
+                "8b3a179e61b618dd",
+                "2df619cf72dad117"
+            ]
+        ]
+    },
+    {
+        "id": "ebbdee6d4471ebb0",
+        "type": "function",
+        "z": "6add8d272f432a47",
+        "name": "No Error",
+        "func": "\nif (msg.payload != \"Error\"){\n    return msg;\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 900,
+        "y": 180,
+        "wires": [
+            [
+                "0ca0a6b1e2607792",
+                "058fa6e7cd9a2e3c"
+            ]
+        ]
+    },
+    {
+        "id": "2df619cf72dad117",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 5",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1080,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "0ca0a6b1e2607792",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 6",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1100,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "c6d1270415c59ff2",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 7",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1320,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "d903d0e92ff054e8",
+        "type": "websocket out",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "server": "a23b6c4d184ff287",
+        "client": "",
+        "x": 3130,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "688aa1870cc71355",
+        "type": "trigger",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "op1": "{\"current\": {\"state\": {\"text\": \"Operational\", \"flags\": {\"operational\": true, \"printing\": false, \"cancelling\": false, \"pausing\": false, \"resuming\": false, \"finishing\": false, \"closedOrError\": false, \"error\": false, \"paused\": false, \"ready\": true, \"sdReady\": true}, \"error\": \"\"}, \"job\": {\"file\": {\"name\": \"zdm4ms~3.gco\", \"path\": \"zdm4ms~3.gco\", \"display\": \"zdm4ms~3.gco\", \"origin\": \"sdcard\", \"size\": 733058, \"date\": null}, \"estimatedPrintTime\": null, \"averagePrintTime\": null, \"lastPrintTime\": null, \"filament\": null, \"user\": null}, \"currentZ\": null, \"progress\": {\"completion\": null, \"filepos\": null, \"printTime\": null, \"printTimeLeft\": null, \"printTimeLeftOrigin\": null}, \"offsets\": {}, \"resends\": {\"count\": 0, \"transmitted\": 499, \"ratio\": 0}, \"serverTime\": 1750381642.5824747, \"temps\": [{\"time\": 1750381640, \"tool0\": {\"actual\": 26.65, \"target\": 0.0}, \"bed\": {\"actual\": 26.38, \"target\": 0.0}, \"chamber\": {\"actual\": null, \"target\": null}}], \"busyFiles\": [], \"markings\": [{\"type\": \"connected\", \"label\": \"Connected\", \"time\": 1750364336.6002443}, {\"type\": \"print\", \"label\": \"Start\", \"time\": 1750364766.135756}, {\"type\": \"cancel\", \"label\": \"Cancel\", \"time\": 1750364788.4689822}], \"logs\": [\"Recv:  T:26.66 /0.00 B:26.37 /0.00 @:0 B@:0\"], \"messages\": [\"T:26.65 /0.00 B:26.38 /0.00 @:0 B@:0\"]}}",
+        "op2": "{\"current\": {\"state\": {\"text\": \"Operational\", \"flags\": {\"operational\": true, \"printing\": false, \"cancelling\": false, \"pausing\": false, \"resuming\": false, \"finishing\": false, \"closedOrError\": false, \"error\": false, \"paused\": false, \"ready\": true, \"sdReady\": true}, \"error\": \"\"}, \"job\": {\"file\": {\"name\": \"zdm4ms~3.gco\", \"path\": \"zdm4ms~3.gco\", \"display\": \"zdm4ms~3.gco\", \"origin\": \"sdcard\", \"size\": 733058, \"date\": null}, \"estimatedPrintTime\": null, \"averagePrintTime\": null, \"lastPrintTime\": null, \"filament\": null, \"user\": null}, \"currentZ\": null, \"progress\": {\"completion\": null, \"filepos\": null, \"printTime\": null, \"printTimeLeft\": null, \"printTimeLeftOrigin\": null}, \"offsets\": {}, \"resends\": {\"count\": 0, \"transmitted\": 499, \"ratio\": 0}, \"serverTime\": 1750381642.5824747, \"temps\": [{\"time\": 1750381640, \"tool0\": {\"actual\": 26.65, \"target\": 0.0}, \"bed\": {\"actual\": 26.38, \"target\": 0.0}, \"chamber\": {\"actual\": null, \"target\": null}}], \"busyFiles\": [], \"markings\": [{\"type\": \"connected\", \"label\": \"Connected\", \"time\": 1750364336.6002443}, {\"type\": \"print\", \"label\": \"Start\", \"time\": 1750364766.135756}, {\"type\": \"cancel\", \"label\": \"Cancel\", \"time\": 1750364788.4689822}], \"logs\": [\"Recv:  T:26.66 /0.00 B:26.37 /0.00 @:0 B@:0\"], \"messages\": [\"T:26.65 /0.00 B:26.38 /0.00 @:0 B@:0\"]}}",
+        "op1type": "str",
+        "op2type": "str",
+        "duration": "3",
+        "extend": false,
+        "overrideDelay": false,
+        "units": "s",
+        "reset": "",
+        "bytopic": "all",
+        "topic": "topic",
+        "outputs": 1,
+        "x": 2920,
+        "y": 380,
+        "wires": [
+            [
+                "d903d0e92ff054e8",
+                "cc1b0c2b11429d3e"
+            ]
+        ]
+    },
+    {
+        "id": "5b4425f673f61531",
+        "type": "inject",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "props": [
+            {
+                "p": "topic",
+                "vt": "str"
+            },
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "teste",
+        "payloadType": "str",
+        "x": 2730,
+        "y": 380,
+        "wires": [
+            [
+                "688aa1870cc71355"
+            ]
+        ]
+    },
+    {
+        "id": "ac9bc67d32f757c0",
+        "type": "dynamic-websocket",
+        "z": "6add8d272f432a47",
+        "name": "Web from RevPI",
+        "url": "",
+        "allowSelfSigned": false,
+        "autoReconnect": false,
+        "reconnectAttempts": 0,
+        "reconnectInterval": 5000,
+        "useExponentialBackoff": false,
+        "authType": "none",
+        "username": "",
+        "password": "",
+        "token": "",
+        "tokenLocation": "header",
+        "tokenKey": "Authorization",
+        "headers": "",
+        "transformMessages": false,
+        "messageFormat": "json",
+        "binarySupport": false,
+        "validateMessages": false,
+        "messageTemplate": "",
+        "x": 1920,
+        "y": 540,
+        "wires": [
+            [
+                "a21dce310bdc64b8",
+                "8166ecadfc33b39d"
+            ],
+            [
+                "d00ea46322f0b4c6"
+            ],
+            [
+                "a608cc83d837ea85",
+                "a28e242dcc8fc924",
+                "0339d03d6b756ced"
+            ]
+        ]
+    },
+    {
+        "id": "a4ad820fdc1a97e8",
+        "type": "function",
+        "z": "6add8d272f432a47",
+        "name": "Pre-processing for printer subscription",
+        "func": "\nif (msg.payload.destination == null || msg.payload.username == null || msg.payload.key == null){\n    msg.payload = \"Error\";\n    msg.topic = \"parameter\";\n} else {\n    msg.oqueestava = msg.payload;\n}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 590,
+        "y": 420,
+        "wires": [
+            [
+                "3dea597906074cc0",
+                "b88458e5f4496722"
+            ]
+        ]
+    },
+    {
+        "id": "eab231f83d158e77",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 16",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 540,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "0f50a447b3552022",
+        "type": "http response",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1050,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "3dea597906074cc0",
+        "type": "function",
+        "z": "6add8d272f432a47",
+        "name": "Error",
+        "func": "\nif (msg.payload == \"Error\"){\n    msg.statusCode = 400;\n\n    if (msg.topic == \"parameter\") {\n        msg.payload = \"|ERROR|: Parameter error\";\n    } else {\n        msg.payload = \"|ERROR|: Something unexpected happened\";\n    }\n\n    return msg;\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 870,
+        "y": 360,
+        "wires": [
+            [
+                "0f50a447b3552022",
+                "157d502c561d5245"
+            ]
+        ]
+    },
+    {
+        "id": "157d502c561d5245",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 17",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1060,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "b88458e5f4496722",
+        "type": "function",
+        "z": "6add8d272f432a47",
+        "name": "No Error",
+        "func": "\nif (msg.payload != \"Error\"){\n    return msg;\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 880,
+        "y": 420,
+        "wires": [
+            [
+                "e2736387e41cbfe3",
+                "0cbd0c93fe102f22",
+                "614d0d3390e4fe06"
+            ]
+        ]
+    },
+    {
+        "id": "a608cc83d837ea85",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 18",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2160,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "d00ea46322f0b4c6",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 19",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2160,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "a21dce310bdc64b8",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "OUTPUT WEBSOCKET IMPRESSORA",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2260,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "678b558b0dfcc4f2",
+        "type": "function",
+        "z": "6add8d272f432a47",
+        "name": "Connection",
+        "func": "\nlet password = msg.payload.session;\n\nmsg.payload = msg.oqueestava;\n\nflow.set(\"activeprinter\", msg.payload.destination);\n\nflow.set(\"message\", { \"auth\": msg.payload.username + \":\" + password });\n\nvar newMsg = {\n    //url: \"ws://127.1.1.1:1880/ws/test\"\n    url: \"ws://\" + msg.payload.destination + \":80/sockjs/websocket\"\n};\n\nreturn newMsg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "// Code added here will be run once\n// whenever the node is started.\n\nlet msg = {};\n\nmsg.close = true;\n\nreturn msg;",
+        "finalize": "",
+        "libs": [],
+        "x": 1670,
+        "y": 540,
+        "wires": [
+            [
+                "ac9bc67d32f757c0",
+                "636eab1a0a13f9f8"
+            ]
+        ]
+    },
+    {
+        "id": "8166ecadfc33b39d",
+        "type": "function",
+        "z": "6add8d272f432a47",
+        "name": "buffer",
+        "func": "\nvar printer = flow.get(\"activeprinter\") || [];\n\nvar printerBuffer = flow.get(printer) || [];\n\n//printerBuffer.push({ts: new Date(), msg: msg.payload});\n\nprinterBuffer.push(msg.payload);\n\nflow.set(printer, printerBuffer);",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 2150,
+        "y": 480,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "700d3f164eed9bba",
+        "type": "http response",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1270,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "e2736387e41cbfe3",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 21",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1080,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "0cbd0c93fe102f22",
+        "type": "function",
+        "z": "6add8d272f432a47",
+        "name": "function 9",
+        "func": "    msg.statusCode = 200;\n    msg.payload = \"Websocket connected\";\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1080,
+        "y": 420,
+        "wires": [
+            [
+                "700d3f164eed9bba"
+            ]
+        ]
+    },
+    {
+        "id": "6bb7cb0cd13a93ae",
+        "type": "http in",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "url": "/printer/sub",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 280,
+        "y": 420,
+        "wires": [
+            [
+                "eab231f83d158e77",
+                "a4ad820fdc1a97e8"
+            ]
+        ]
+    },
+    {
+        "id": "d3c988899cc38f54",
+        "type": "function",
+        "z": "6add8d272f432a47",
+        "name": "get printer info",
+        "func": "\nif (msg.payload.destination == null) {\n    msg.payload = \"Error\";\n    msg.topic = \"printer\";\n}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 520,
+        "y": 900,
+        "wires": [
+            [
+                "f1f40146de6f88d7",
+                "dba6b6912647d2a8"
+            ]
+        ]
+    },
+    {
+        "id": "1d0a5ad801e9031c",
+        "type": "http in",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "url": "/printer/info",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 280,
+        "y": 900,
+        "wires": [
+            [
+                "d3c988899cc38f54",
+                "175f37943a346dd4"
+            ]
+        ]
+    },
+    {
+        "id": "1a7efcedd772a16a",
+        "type": "http response",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 910,
+        "y": 900,
+        "wires": []
+    },
+    {
+        "id": "f1f40146de6f88d7",
+        "type": "function",
+        "z": "6add8d272f432a47",
+        "name": "Error",
+        "func": "\nif (msg.payload == \"Error\"){\n    msg.statusCode = 400;\n\n    if (msg.topic == \"printer\") {\n        msg.payload = \"|ERROR|: Printer Parameter Error\";\n    }\n\n    return msg;\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 730,
+        "y": 900,
+        "wires": [
+            [
+                "1a7efcedd772a16a",
+                "9214f8b0be82e56c"
+            ]
+        ]
+    },
+    {
+        "id": "9214f8b0be82e56c",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 22",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 920,
+        "y": 840,
+        "wires": []
+    },
+    {
+        "id": "dba6b6912647d2a8",
+        "type": "function",
+        "z": "6add8d272f432a47",
+        "name": "No Error",
+        "func": "\nif (msg.payload != \"Error\"){\n    return msg;\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 740,
+        "y": 960,
+        "wires": [
+            [
+                "aebf520430bfbbc8"
+            ]
+        ]
+    },
+    {
+        "id": "da584121e3d09be7",
+        "type": "http response",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1130,
+        "y": 960,
+        "wires": []
+    },
+    {
+        "id": "aebf520430bfbbc8",
+        "type": "function",
+        "z": "6add8d272f432a47",
+        "name": "get buffer",
+        "func": "var printerBuffer = flow.get(msg.payload.destination) || [];\n\nif (printerBuffer.length === 0) {\n    msg.payload = \"No values yet\";\n} else {\n    flow.set(msg.payload.destination, []);\n}\n\nmsg.payload = printerBuffer;\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 940,
+        "y": 960,
+        "wires": [
+            [
+                "da584121e3d09be7",
+                "275a623dfd46e859"
+            ]
+        ]
+    },
+    {
+        "id": "275a623dfd46e859",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 23",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1140,
+        "y": 900,
+        "wires": []
+    },
+    {
+        "id": "2d06b89af7bf81a5",
+        "type": "http in",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "url": "/monitoring/start",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 300,
+        "y": 1100,
+        "wires": [
+            [
+                "540397fd8d62fa61",
+                "ea70be9438744d03"
+            ]
+        ]
+    },
+    {
+        "id": "540397fd8d62fa61",
+        "type": "function",
+        "z": "6add8d272f432a47",
+        "name": "start monitor",
+        "func": "\nif (msg.payload.destination == null) {\n    msg.payload = \"Error\";\n    msg.topic = \"destination\";\n} else {\n    msg.url = \"http://\" + msg.payload.destination + \":5000/start\";\n    msg.method = \"POST\";\n    msg.payload = msg.payload.msg;\n}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 550,
+        "y": 1100,
+        "wires": [
+            [
+                "1273005bb560af6d",
+                "f52dff8115173018"
+            ]
+        ]
+    },
+    {
+        "id": "068be5ad3e8293da",
+        "type": "http response",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 930,
+        "y": 1100,
+        "wires": []
+    },
+    {
+        "id": "1273005bb560af6d",
+        "type": "function",
+        "z": "6add8d272f432a47",
+        "name": "Error",
+        "func": "\nif (msg.payload == \"Error\"){\n    msg.statusCode = 400;\n\n    if (msg.topic == \"destination\") {\n        msg.payload = \"|ERROR|: Destination Parameter Error\";\n    }\n\n    return msg;\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 750,
+        "y": 1100,
+        "wires": [
+            [
+                "068be5ad3e8293da",
+                "bebef6fdfcbc5518"
+            ]
+        ]
+    },
+    {
+        "id": "bebef6fdfcbc5518",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 26",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 940,
+        "y": 1040,
+        "wires": []
+    },
+    {
+        "id": "f52dff8115173018",
+        "type": "function",
+        "z": "6add8d272f432a47",
+        "name": "No Error",
+        "func": "\nif (msg.payload != \"Error\"){\n    return msg;\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 760,
+        "y": 1160,
+        "wires": [
+            [
+                "91ddd4ded9711fe2"
+            ]
+        ]
+    },
+    {
+        "id": "91ddd4ded9711fe2",
+        "type": "http request",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "method": "use",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 970,
+        "y": 1160,
+        "wires": [
+            [
+                "6b7cb3010be332cc",
+                "28913b0a11b6f4e3"
+            ]
+        ]
+    },
+    {
+        "id": "cc631f429a89eb55",
+        "type": "http response",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1410,
+        "y": 1160,
+        "wires": []
+    },
+    {
+        "id": "6b7cb3010be332cc",
+        "type": "function",
+        "z": "6add8d272f432a47",
+        "name": "post-processing",
+        "func": "\nif (msg.statusCode == 200) {\n    msg.statusCode = 200;\n    msg.payload = \"Monitoring Started\";\n} else {\n    msg.statusCode = 500;\n    msg.payload = \"|Error|: Monitoring Error\";\n}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1200,
+        "y": 1160,
+        "wires": [
+            [
+                "cc631f429a89eb55"
+            ]
+        ]
+    },
+    {
+        "id": "ea70be9438744d03",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 24",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 540,
+        "y": 1040,
+        "wires": []
+    },
+    {
+        "id": "175f37943a346dd4",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 8",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 500,
+        "y": 960,
+        "wires": []
+    },
+    {
+        "id": "66c909c061beea16",
+        "type": "http request",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "method": "use",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 3130,
+        "y": 680,
+        "wires": [
+            [
+                "b6d59baf43e412b0"
+            ]
+        ]
+    },
+    {
+        "id": "faf43c7025d66ac3",
+        "type": "function",
+        "z": "6add8d272f432a47",
+        "name": "Login",
+        "func": "//msg.url = \"http://\" + msg.payload.destination + \":80/api/login\";\nmsg.url = \"http://192.168.6.1:80/api/login\";\nmsg.method = \"POST\";\nmsg.headers = {\n\"Content-Type\": \"application/json\",\n//\"X-Api-Key\": msg.payload.key\n\"X-Api-Key\": \"-cqzgIHdAaLvW-9EbK6dXW5019dvLPgNyxP7tEwscFw\"\n}\nmsg.payload = {\n    \"passive\": true\n}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 2930,
+        "y": 680,
+        "wires": [
+            [
+                "66c909c061beea16"
+            ]
+        ]
+    },
+    {
+        "id": "929f0bd94bf0a82d",
+        "type": "inject",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "ola",
+        "payloadType": "str",
+        "x": 2730,
+        "y": 680,
+        "wires": [
+            [
+                "faf43c7025d66ac3"
+            ]
+        ]
+    },
+    {
+        "id": "b6d59baf43e412b0",
+        "type": "json",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 3330,
+        "y": 680,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f223411a5192ed77",
+        "type": "http request",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "method": "use",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 1270,
+        "y": 540,
+        "wires": [
+            [
+                "a4366955af467b83"
+            ]
+        ]
+    },
+    {
+        "id": "614d0d3390e4fe06",
+        "type": "function",
+        "z": "6add8d272f432a47",
+        "name": "Login",
+        "func": "//msg.url = \"http://\" + msg.payload.destination + \":80/api/login\";\nmsg.url = \"http://\" + msg.payload.destination + \":80/api/login\";\nmsg.method = \"POST\";\nmsg.headers = {\n\"Content-Type\": \"application/json\",\n//\"X-Api-Key\": msg.payload.key\n\"X-Api-Key\": msg.payload.key\n}\nmsg.payload = {\n    \"passive\": true\n}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1070,
+        "y": 540,
+        "wires": [
+            [
+                "f223411a5192ed77"
+            ]
+        ]
+    },
+    {
+        "id": "a4366955af467b83",
+        "type": "json",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 1470,
+        "y": 540,
+        "wires": [
+            [
+                "678b558b0dfcc4f2",
+                "27aef0f579261c2f"
+            ]
+        ]
+    },
+    {
+        "id": "27aef0f579261c2f",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 9",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1660,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "636eab1a0a13f9f8",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 10",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1900,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "e1820b5974aad69f",
+        "type": "http request",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "method": "use",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 3130,
+        "y": 500,
+        "wires": [
+            [
+                "adef1a8e774e0cca"
+            ]
+        ]
+    },
+    {
+        "id": "e8c117ab37dfcb25",
+        "type": "function",
+        "z": "6add8d272f432a47",
+        "name": "Sub",
+        "func": "//msg.url = \"http://\" + msg.payload.destination + \":80/api/login\";\nmsg.url = \"http://127.1.1.1:1880/printer/sub\";\nmsg.method = \"POST\";\nmsg.payload = {\n    \"destination\": \"192.168.6.1\",\n    \"username\": \"rics\",\n    \"key\": \"-cqzgIHdAaLvW-9EbK6dXW5019dvLPgNyxP7tEwscFw\"\n}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 2930,
+        "y": 500,
+        "wires": [
+            [
+                "e1820b5974aad69f"
+            ]
+        ]
+    },
+    {
+        "id": "6dbb44d7e4c2c18e",
+        "type": "inject",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "ola",
+        "payloadType": "str",
+        "x": 2730,
+        "y": 500,
+        "wires": [
+            [
+                "e8c117ab37dfcb25"
+            ]
+        ]
+    },
+    {
+        "id": "adef1a8e774e0cca",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 11",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 3340,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "5de943dc4521b4bf",
+        "type": "http in",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "url": "/printer/status",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 290,
+        "y": 1340,
+        "wires": [
+            [
+                "903a60060af096ee",
+                "fb74a9b24aed350f"
+            ]
+        ]
+    },
+    {
+        "id": "09372da1b4a3f825",
+        "type": "http request",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "method": "use",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 1090,
+        "y": 1340,
+        "wires": [
+            [
+                "d2e75901e3067dd1",
+                "018dd7302e8fa16f"
+            ]
+        ]
+    },
+    {
+        "id": "2d09194a85c2a209",
+        "type": "http response",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1530,
+        "y": 1340,
+        "wires": []
+    },
+    {
+        "id": "903a60060af096ee",
+        "type": "function",
+        "z": "6add8d272f432a47",
+        "name": "Pre-processing for printer status",
+        "func": "\nif (msg.payload.destination == null) {\n    msg.payload = \"Error\";\n    msg.topic = \"parameter\";\n} else {\n    msg.url = \"http://\" + msg.payload.destination + \":80/api/job\";\n    msg.method = \"GET\";\n    msg.headers = {\n    \"Content-Type\": \"application/json\",\n    \"X-Api-Key\": msg.payload.key\n    }\n}\n\nreturn msg;\n\n//\"X-Api-Key\": \"-cqzgIHdAaLvW-9EbK6dXW5019dvLPgNyxP7tEwscFw\"",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 610,
+        "y": 1340,
+        "wires": [
+            [
+                "c3539e9931a031ed",
+                "6a720ba89f93ea81",
+                "9ed3c33ad904ba0c"
+            ]
+        ]
+    },
+    {
+        "id": "d2e75901e3067dd1",
+        "type": "function",
+        "z": "6add8d272f432a47",
+        "name": "post-processing",
+        "func": "if (msg.statusCode == 200 || msg.statusCode == 204){\n    return msg;\n} else {\n    msg.payload = \"|Error|: \"+ msg.payload;\n    return msg;\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1320,
+        "y": 1340,
+        "wires": [
+            [
+                "2d09194a85c2a209"
+            ]
+        ]
+    },
+    {
+        "id": "fb74a9b24aed350f",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 12",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 540,
+        "y": 1400,
+        "wires": []
+    },
+    {
+        "id": "c3539e9931a031ed",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 13",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 880,
+        "y": 1400,
+        "wires": []
+    },
+    {
+        "id": "651e38abd540d1fa",
+        "type": "http response",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1050,
+        "y": 1280,
+        "wires": []
+    },
+    {
+        "id": "6a720ba89f93ea81",
+        "type": "function",
+        "z": "6add8d272f432a47",
+        "name": "Error",
+        "func": "\nif (msg.payload == \"Error\"){\n    msg.statusCode = 400;\n\n    if (msg.topic == \"parameter\") {\n        msg.payload = \"|ERROR|: Parameter error\";\n    } else {\n        msg.payload = \"|ERROR|: Something unexpected happened\";\n    }\n\n    return msg;\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 870,
+        "y": 1280,
+        "wires": [
+            [
+                "651e38abd540d1fa",
+                "979bf62d87a1dc57"
+            ]
+        ]
+    },
+    {
+        "id": "9ed3c33ad904ba0c",
+        "type": "function",
+        "z": "6add8d272f432a47",
+        "name": "No Error",
+        "func": "\nif (msg.payload != \"Error\"){\n    return msg;\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 880,
+        "y": 1340,
+        "wires": [
+            [
+                "066ce03cd0c7ad6f",
+                "09372da1b4a3f825"
+            ]
+        ]
+    },
+    {
+        "id": "979bf62d87a1dc57",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 14",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1060,
+        "y": 1220,
+        "wires": []
+    },
+    {
+        "id": "066ce03cd0c7ad6f",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 15",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1080,
+        "y": 1400,
+        "wires": []
+    },
+    {
+        "id": "018dd7302e8fa16f",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 16",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1300,
+        "y": 1400,
+        "wires": []
+    },
+    {
+        "id": "28913b0a11b6f4e3",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 25",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1180,
+        "y": 1100,
+        "wires": []
+    },
+    {
+        "id": "d3be60f9a8b007a2",
+        "type": "http request",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "method": "use",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 3130,
+        "y": 560,
+        "wires": [
+            [
+                "40176b9e3212f998"
+            ]
+        ]
+    },
+    {
+        "id": "8058d3c0b6f0ae5e",
+        "type": "function",
+        "z": "6add8d272f432a47",
+        "name": "Command",
+        "func": "//msg.url = \"http://\" + msg.payload.destination + \":80/api/login\";\nmsg.url = \"http://127.1.1.1:1880/printer/command\";\nmsg.method = \"POST\";\nmsg.payload = {\n    \"destination\": \"192.168.6.1\",\n    \"msg\": \"m24\",\n    \"key\": \"-cqzgIHdAaLvW-9EbK6dXW5019dvLPgNyxP7tEwscFw\"\n}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 2950,
+        "y": 560,
+        "wires": [
+            [
+                "d3be60f9a8b007a2"
+            ]
+        ]
+    },
+    {
+        "id": "db72b4c2cacdb681",
+        "type": "inject",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "ola",
+        "payloadType": "str",
+        "x": 2730,
+        "y": 560,
+        "wires": [
+            [
+                "8058d3c0b6f0ae5e"
+            ]
+        ]
+    },
+    {
+        "id": "40176b9e3212f998",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 27",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 3340,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "92e1b1b271ba5e49",
+        "type": "http request",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "method": "use",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 3130,
+        "y": 620,
+        "wires": [
+            [
+                "6b31f7ee7323bb63"
+            ]
+        ]
+    },
+    {
+        "id": "53ddd754930434a4",
+        "type": "function",
+        "z": "6add8d272f432a47",
+        "name": "Info",
+        "func": "//msg.url = \"http://\" + msg.payload.destination + \":80/api/login\";\nmsg.url = \"http://127.1.1.1:1880/printer/info\";\nmsg.method = \"POST\";\nmsg.payload = {\n    \"destination\": \"192.168.6.1\"\n}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 2930,
+        "y": 620,
+        "wires": [
+            [
+                "92e1b1b271ba5e49"
+            ]
+        ]
+    },
+    {
+        "id": "2e94c152773bef9e",
+        "type": "inject",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "ola",
+        "payloadType": "str",
+        "x": 2730,
+        "y": 620,
+        "wires": [
+            [
+                "53ddd754930434a4"
+            ]
+        ]
+    },
+    {
+        "id": "6b31f7ee7323bb63",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 20",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 3340,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "cc1b0c2b11429d3e",
+        "type": "websocket out",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "server": "a23b6c4d184ff287",
+        "client": "",
+        "x": 3130,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "04e12e03a6c12fa7",
+        "type": "function",
+        "z": "6add8d272f432a47",
+        "name": "Authentication",
+        "func": "\nmsg = flow.get(\"message\");\n\nvar newMsg = {\n    message: msg\n};\n\nreturn newMsg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1680,
+        "y": 600,
+        "wires": [
+            [
+                "ac9bc67d32f757c0",
+                "7315d20f15c7b686"
+            ]
+        ]
+    },
+    {
+        "id": "b20299085eaba5ca",
+        "type": "link in",
+        "z": "6add8d272f432a47",
+        "name": "Auth",
+        "links": [
+            "a28e242dcc8fc924"
+        ],
+        "x": 1505,
+        "y": 600,
+        "wires": [
+            [
+                "04e12e03a6c12fa7",
+                "ad90b8cdedf7ccfc"
+            ]
+        ]
+    },
+    {
+        "id": "ad90b8cdedf7ccfc",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 28",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1660,
+        "y": 660,
+        "wires": []
+    },
+    {
+        "id": "a28e242dcc8fc924",
+        "type": "link out",
+        "z": "6add8d272f432a47",
+        "name": "Send Auth",
+        "mode": "link",
+        "links": [
+            "b20299085eaba5ca"
+        ],
+        "x": 2115,
+        "y": 720,
+        "wires": []
+    },
+    {
+        "id": "7315d20f15c7b686",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 29",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1900,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "9c08af7ba24d67ef",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 30",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2920,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "7830a8d81dee6cb0",
+        "type": "websocket in",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "server": "a23b6c4d184ff287",
+        "client": "",
+        "x": 2730,
+        "y": 320,
+        "wires": [
+            [
+                "9c08af7ba24d67ef"
+            ]
+        ]
+    },
+    {
+        "id": "ec199ea9a098579a",
+        "type": "http in",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "url": "/aas/append",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 290,
+        "y": 1820,
+        "wires": [
+            [
+                "e58ba3fc7f8b84bf",
+                "6bf5bdca744c21b4"
+            ]
+        ]
+    },
+    {
+        "id": "d70c4d40829e073b",
+        "type": "http request",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "method": "use",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 1710,
+        "y": 1820,
+        "wires": [
+            [
+                "88b8ad5a87aaca99",
+                "f78d4dd4b9e69e03"
+            ]
+        ]
+    },
+    {
+        "id": "fc8b3c6f3b6eab23",
+        "type": "http response",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 2330,
+        "y": 1820,
+        "wires": []
+    },
+    {
+        "id": "e58ba3fc7f8b84bf",
+        "type": "function",
+        "z": "6add8d272f432a47",
+        "name": "Error Processing",
+        "func": "\nif (msg.payload.destination == null || msg.payload.msg == null) {\n    msg.payload = \"Error\";\n    msg.topic = \"parameter\";\n} else {\n    flow.set(\"assappendresponse\", msg);\n}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 550,
+        "y": 1820,
+        "wires": [
+            [
+                "26d984a9a124731d",
+                "fdec9f0bbd5a3e25",
+                "4ba78298298ae6e3"
+            ]
+        ]
+    },
+    {
+        "id": "67465faabf5e870b",
+        "type": "function",
+        "z": "6add8d272f432a47",
+        "name": "post-processing",
+        "func": "let results = msg.payload;\n\nmsg = flow.get(\"assappendresponse\");\n\nmsg.statusCode = 200;\nmsg.payload = results;\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 2120,
+        "y": 1820,
+        "wires": [
+            [
+                "fc8b3c6f3b6eab23",
+                "7fd518ac592a03bd"
+            ]
+        ]
+    },
+    {
+        "id": "6bf5bdca744c21b4",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 31",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 520,
+        "y": 1880,
+        "wires": []
+    },
+    {
+        "id": "26d984a9a124731d",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 32",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 800,
+        "y": 1880,
+        "wires": []
+    },
+    {
+        "id": "f288825383030b0c",
+        "type": "http response",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 970,
+        "y": 1760,
+        "wires": []
+    },
+    {
+        "id": "fdec9f0bbd5a3e25",
+        "type": "function",
+        "z": "6add8d272f432a47",
+        "name": "Error",
+        "func": "\nif (msg.payload == \"Error\"){\n    msg.statusCode = 400;\n\n    if (msg.topic == \"parameter\") {\n        msg.payload = \"|ERROR|: Parameter error\";\n    } else {\n        msg.payload = \"|ERROR|: Something unexpected happened\";\n    }\n\n    return msg;\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 790,
+        "y": 1760,
+        "wires": [
+            [
+                "f288825383030b0c",
+                "b3c2e854e52df021"
+            ]
+        ]
+    },
+    {
+        "id": "4ba78298298ae6e3",
+        "type": "function",
+        "z": "6add8d272f432a47",
+        "name": "No Error",
+        "func": "\nif (msg.payload != \"Error\"){\n    return msg;\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 800,
+        "y": 1820,
+        "wires": [
+            [
+                "122aa7b56918a641"
+            ]
+        ]
+    },
+    {
+        "id": "b3c2e854e52df021",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 33",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 960,
+        "y": 1700,
+        "wires": []
+    },
+    {
+        "id": "49b0bd781a5da768",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 34",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1300,
+        "y": 1880,
+        "wires": []
+    },
+    {
+        "id": "88b8ad5a87aaca99",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 35",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1920,
+        "y": 1880,
+        "wires": []
+    },
+    {
+        "id": "027b7382a9695526",
+        "type": "function",
+        "z": "6add8d272f432a47",
+        "name": "Pre-processing for printer subscription",
+        "func": "let activeprinter = flow.get(\"activeprinter\") || \"\";\n\nif (msg.payload.destination == null){\n    msg.payload = \"Error\";\n    msg.topic = \"parameter\";\n} else if (activeprinter == \"\") {\n    msg.payload = \"Error\";\n    msg.topic = \"printer\";\n} else if (activeprinter != msg.payload.destination) {\n    msg.payload = \"Error\";\n    msg.topic = \"destination\";\n}\n\nflow.set(\"activeprinter\", \"\");\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "// Code added here will be run once\n// whenever the node is started.\n\nflow.set(\"activeprinter\", \"\");",
+        "finalize": "",
+        "libs": [],
+        "x": 610,
+        "y": 720,
+        "wires": [
+            [
+                "7e9272c3c0f0aff0",
+                "3fd18c3719e90d0d",
+                "aef061aef964bc88"
+            ]
+        ]
+    },
+    {
+        "id": "9170099bb76d6f09",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 36",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 560,
+        "y": 780,
+        "wires": []
+    },
+    {
+        "id": "1fbad057a9752ebd",
+        "type": "http response",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1070,
+        "y": 660,
+        "wires": []
+    },
+    {
+        "id": "7e9272c3c0f0aff0",
+        "type": "function",
+        "z": "6add8d272f432a47",
+        "name": "Error",
+        "func": "\nif (msg.payload == \"Error\"){\n    msg.statusCode = 400;\n\n    if (msg.topic == \"parameter\") {\n        msg.payload = \"|ERROR|: Parameter error\";\n    } else if (msg.topic == \"destination\") {\n        msg.payload = \"|ERROR|: Destination does not match\";\n    } else if (msg.topic == \"printer\") {\n        msg.payload = \"|ERROR|: No active printer\";\n    } else {\n        msg.payload = \"|ERROR|: Something unexpected happened\";\n    }\n\n    return msg;\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 890,
+        "y": 660,
+        "wires": [
+            [
+                "1fbad057a9752ebd",
+                "605d8fa3cd5f8ff7"
+            ]
+        ]
+    },
+    {
+        "id": "605d8fa3cd5f8ff7",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 37",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1080,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "3fd18c3719e90d0d",
+        "type": "function",
+        "z": "6add8d272f432a47",
+        "name": "No Error",
+        "func": "\nif (msg.payload != \"Error\"){\n    return msg;\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 900,
+        "y": 720,
+        "wires": [
+            [
+                "842a63d54a146720",
+                "634012f1b157bb3c",
+                "248a988174306e7c"
+            ]
+        ]
+    },
+    {
+        "id": "04863200ae4b06b7",
+        "type": "http response",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1290,
+        "y": 720,
+        "wires": []
+    },
+    {
+        "id": "842a63d54a146720",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 38",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1100,
+        "y": 780,
+        "wires": []
+    },
+    {
+        "id": "634012f1b157bb3c",
+        "type": "function",
+        "z": "6add8d272f432a47",
+        "name": "function 4",
+        "func": "\nmsg.statusCode = 200;\nmsg.payload = \"Websocket disconnected\";\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1100,
+        "y": 720,
+        "wires": [
+            [
+                "04863200ae4b06b7"
+            ]
+        ]
+    },
+    {
+        "id": "88d83fd9c0b6de55",
+        "type": "http in",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "url": "/printer/unsub",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 290,
+        "y": 720,
+        "wires": [
+            [
+                "9170099bb76d6f09",
+                "027b7382a9695526"
+            ]
+        ]
+    },
+    {
+        "id": "248a988174306e7c",
+        "type": "function",
+        "z": "6add8d272f432a47",
+        "name": "disconnect",
+        "func": "\nlet newmsg = {};\n\nnewmsg.close = true;\n\nreturn newmsg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1310,
+        "y": 660,
+        "wires": [
+            [
+                "ac9bc67d32f757c0"
+            ]
+        ]
+    },
+    {
+        "id": "c7fdfe591efad96b",
+        "type": "http in",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "url": "/printer/assembly",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 300,
+        "y": 1580,
+        "wires": [
+            [
+                "97ae96660b064c04",
+                "fd53d00ad9846483"
+            ]
+        ]
+    },
+    {
+        "id": "30bc8d403c02a615",
+        "type": "http request",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "method": "use",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 1030,
+        "y": 1580,
+        "wires": [
+            [
+                "d95aca4c1940f358",
+                "fd947edc2e7a6fe1"
+            ]
+        ]
+    },
+    {
+        "id": "96110f0183107140",
+        "type": "http response",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1470,
+        "y": 1580,
+        "wires": []
+    },
+    {
+        "id": "97ae96660b064c04",
+        "type": "function",
+        "z": "6add8d272f432a47",
+        "name": "Pre-processing for aas",
+        "func": "\nif (msg.payload.destination == null || msg.payload.msg == null) {\n    msg.payload = \"Error\";\n    msg.topic = \"parameter\";\n} else {\n    msg.url = \"http://\" + msg.payload.destination + \":80/check_assembly\";\n    msg.method = \"GET\";\n    msg.payload = msg.payload.msg;\n}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 580,
+        "y": 1580,
+        "wires": [
+            [
+                "5c5b89297f5947d5",
+                "dc3bb9ca80840e16",
+                "913c2e7cb3d11480"
+            ]
+        ]
+    },
+    {
+        "id": "d95aca4c1940f358",
+        "type": "function",
+        "z": "6add8d272f432a47",
+        "name": "post-processing",
+        "func": "if (msg.statusCode == 200){\n    return msg;\n} else {\n    msg.payload = \"|Error|: \"+ msg.payload;\n    return msg;\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1260,
+        "y": 1580,
+        "wires": [
+            [
+                "96110f0183107140"
+            ]
+        ]
+    },
+    {
+        "id": "fd53d00ad9846483",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 39",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 540,
+        "y": 1640,
+        "wires": []
+    },
+    {
+        "id": "5c5b89297f5947d5",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 40",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 820,
+        "y": 1640,
+        "wires": []
+    },
+    {
+        "id": "6de68e4fec7314ee",
+        "type": "http response",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 990,
+        "y": 1520,
+        "wires": []
+    },
+    {
+        "id": "dc3bb9ca80840e16",
+        "type": "function",
+        "z": "6add8d272f432a47",
+        "name": "Error",
+        "func": "\nif (msg.payload == \"Error\"){\n    msg.statusCode = 400;\n\n    if (msg.topic == \"parameter\") {\n        msg.payload = \"|ERROR|: Parameter error\";\n    } else {\n        msg.payload = \"|ERROR|: Something unexpected happened\";\n    }\n\n    return msg;\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 810,
+        "y": 1520,
+        "wires": [
+            [
+                "6de68e4fec7314ee",
+                "5beb9d3aaf1106a8"
+            ]
+        ]
+    },
+    {
+        "id": "913c2e7cb3d11480",
+        "type": "function",
+        "z": "6add8d272f432a47",
+        "name": "No Error",
+        "func": "\nif (msg.payload != \"Error\"){\n    return msg;\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 820,
+        "y": 1580,
+        "wires": [
+            [
+                "6e3c6b780b25928b",
+                "30bc8d403c02a615"
+            ]
+        ]
+    },
+    {
+        "id": "5beb9d3aaf1106a8",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 41",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 980,
+        "y": 1460,
+        "wires": []
+    },
+    {
+        "id": "6e3c6b780b25928b",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 42",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1020,
+        "y": 1640,
+        "wires": []
+    },
+    {
+        "id": "fd947edc2e7a6fe1",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 43",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1240,
+        "y": 1640,
+        "wires": []
+    },
+    {
+        "id": "2cfb164c3b4d1cef",
+        "type": "http in",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "url": "/csv/get",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 270,
+        "y": 2060,
+        "wires": [
+            [
+                "05ad5eca6a181f4d",
+                "4c1b2454508d70d5"
+            ]
+        ]
+    },
+    {
+        "id": "3c4857f3f80a36d2",
+        "type": "http request",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "method": "use",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 970,
+        "y": 2060,
+        "wires": [
+            [
+                "4750d704ce29fa08",
+                "a8e692abfdb2819f"
+            ]
+        ]
+    },
+    {
+        "id": "5b19c1d9044d64dd",
+        "type": "http response",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1410,
+        "y": 2060,
+        "wires": []
+    },
+    {
+        "id": "05ad5eca6a181f4d",
+        "type": "function",
+        "z": "6add8d272f432a47",
+        "name": "Pre-processing for csv",
+        "func": "\nif (msg.payload.destination == null || msg.payload.msg == null) {\n    msg.payload = \"Error\";\n    msg.topic = \"parameter\";\n} else {\n    msg.url = \"http://\" + msg.payload.destination + \"/get\";\n    msg.method = \"POST\";\n    msg.payload = msg.payload.msg;\n}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 520,
+        "y": 2060,
+        "wires": [
+            [
+                "f0199d0a6479e92c",
+                "4da4142a62adaa04",
+                "4fb895863c3f4c34"
+            ]
+        ]
+    },
+    {
+        "id": "4750d704ce29fa08",
+        "type": "function",
+        "z": "6add8d272f432a47",
+        "name": "post-processing",
+        "func": "if (msg.statusCode == 200 || msg.statusCode == 204){\n    return msg;\n} else {\n    msg.payload = \"|Error|: \"+ msg.payload;\n    return msg;\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1200,
+        "y": 2060,
+        "wires": [
+            [
+                "5b19c1d9044d64dd"
+            ]
+        ]
+    },
+    {
+        "id": "4c1b2454508d70d5",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 44",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 480,
+        "y": 2120,
+        "wires": []
+    },
+    {
+        "id": "f0199d0a6479e92c",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 45",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 760,
+        "y": 2120,
+        "wires": []
+    },
+    {
+        "id": "a5a526d9d7cdfaf7",
+        "type": "http response",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 930,
+        "y": 2000,
+        "wires": []
+    },
+    {
+        "id": "4da4142a62adaa04",
+        "type": "function",
+        "z": "6add8d272f432a47",
+        "name": "Error",
+        "func": "\nif (msg.payload == \"Error\"){\n    msg.statusCode = 400;\n\n    if (msg.topic == \"parameter\") {\n        msg.payload = \"|ERROR|: Parameter error\";\n    } else {\n        msg.payload = \"|ERROR|: Something unexpected happened\";\n    }\n\n    return msg;\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 750,
+        "y": 2000,
+        "wires": [
+            [
+                "a5a526d9d7cdfaf7",
+                "552b9fbc0c4706a3"
+            ]
+        ]
+    },
+    {
+        "id": "4fb895863c3f4c34",
+        "type": "function",
+        "z": "6add8d272f432a47",
+        "name": "No Error",
+        "func": "\nif (msg.payload != \"Error\"){\n    return msg;\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 760,
+        "y": 2060,
+        "wires": [
+            [
+                "e91c0f98140cdd2c",
+                "3c4857f3f80a36d2"
+            ]
+        ]
+    },
+    {
+        "id": "552b9fbc0c4706a3",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 46",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 920,
+        "y": 1940,
+        "wires": []
+    },
+    {
+        "id": "e91c0f98140cdd2c",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 47",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 960,
+        "y": 2120,
+        "wires": []
+    },
+    {
+        "id": "a8e692abfdb2819f",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 48",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1180,
+        "y": 2120,
+        "wires": []
+    },
+    {
+        "id": "230ebf2d4a9a7a72",
+        "type": "http in",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "url": "/csv/append",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 290,
+        "y": 2300,
+        "wires": [
+            [
+                "fb254c4957a5f772",
+                "22cec98cc5b82d9e"
+            ]
+        ]
+    },
+    {
+        "id": "87d72b5fba40d42d",
+        "type": "http request",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "method": "use",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 1010,
+        "y": 2300,
+        "wires": [
+            [
+                "f836ae6ea70db10e",
+                "0c0aed9e2b9375b8"
+            ]
+        ]
+    },
+    {
+        "id": "83f630ce889df65e",
+        "type": "http response",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1450,
+        "y": 2300,
+        "wires": []
+    },
+    {
+        "id": "fb254c4957a5f772",
+        "type": "function",
+        "z": "6add8d272f432a47",
+        "name": "Pre-processing for aas",
+        "func": "\nif (msg.payload.destination == null || msg.payload.msg == null) {\n    msg.payload = \"Error\";\n    msg.topic = \"parameter\";\n} else {\n    msg.url = \"http://\" + msg.payload.destination + \"/append\";\n    msg.method = \"POST\";\n    msg.payload = msg.payload.msg;\n}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 560,
+        "y": 2300,
+        "wires": [
+            [
+                "b23eac95740164be",
+                "62cea38cd91922c5",
+                "8bde161a57e142df"
+            ]
+        ]
+    },
+    {
+        "id": "f836ae6ea70db10e",
+        "type": "function",
+        "z": "6add8d272f432a47",
+        "name": "post-processing",
+        "func": "if (msg.statusCode == 200 || msg.statusCode == 204){\n    return msg;\n} else {\n    msg.payload = \"|Error|: \"+ msg.payload;\n    return msg;\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1240,
+        "y": 2300,
+        "wires": [
+            [
+                "83f630ce889df65e"
+            ]
+        ]
+    },
+    {
+        "id": "22cec98cc5b82d9e",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 49",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 520,
+        "y": 2360,
+        "wires": []
+    },
+    {
+        "id": "b23eac95740164be",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 50",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 800,
+        "y": 2360,
+        "wires": []
+    },
+    {
+        "id": "76b0afe195750592",
+        "type": "http response",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 970,
+        "y": 2240,
+        "wires": []
+    },
+    {
+        "id": "62cea38cd91922c5",
+        "type": "function",
+        "z": "6add8d272f432a47",
+        "name": "Error",
+        "func": "\nif (msg.payload == \"Error\"){\n    msg.statusCode = 400;\n\n    if (msg.topic == \"parameter\") {\n        msg.payload = \"|ERROR|: Parameter error\";\n    } else {\n        msg.payload = \"|ERROR|: Something unexpected happened\";\n    }\n\n    return msg;\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 790,
+        "y": 2240,
+        "wires": [
+            [
+                "76b0afe195750592",
+                "fbaff3546dadef80"
+            ]
+        ]
+    },
+    {
+        "id": "8bde161a57e142df",
+        "type": "function",
+        "z": "6add8d272f432a47",
+        "name": "No Error",
+        "func": "\nif (msg.payload != \"Error\"){\n    return msg;\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 800,
+        "y": 2300,
+        "wires": [
+            [
+                "40d14a0c89d0233a",
+                "87d72b5fba40d42d"
+            ]
+        ]
+    },
+    {
+        "id": "fbaff3546dadef80",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 51",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 960,
+        "y": 2180,
+        "wires": []
+    },
+    {
+        "id": "40d14a0c89d0233a",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 52",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1000,
+        "y": 2360,
+        "wires": []
+    },
+    {
+        "id": "0c0aed9e2b9375b8",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 53",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1220,
+        "y": 2360,
+        "wires": []
+    },
+    {
+        "id": "aef061aef964bc88",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 54",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 900,
+        "y": 780,
+        "wires": []
+    },
+    {
+        "id": "122aa7b56918a641",
+        "type": "function",
+        "z": "6add8d272f432a47",
+        "name": "Pre-processing for AAS",
+        "func": "const baseUrl = \"http://\" + msg.payload.destination + \"/submodels/aHR0cHM6Ly9leGFtcGxlLmNvbS9pZHMvc20vNjA1MF8zMTMwXzYwNTJfODY2MA/submodel-elements/\";\n\nlet keysData = msg.payload.msg;\n\nconst aasBaseData = {\n    category: \"\",\n    semanticId: {\n        type: \"ModelReference\",\n        keys: [{\n            type: \"ConceptDescription\",\n            value: \"https://example.com/ids/cd/1162_4162_5052_4762\"\n        }]\n    },\n    valueType: \"xs:string\",\n    modelType: \"Property\"\n};\n\nconst keys = {\n    timestamp: \"timestamp\",\n    temp_nozzle: \"nozzle_temp\",\n    temp_target_nozzle: \"nozzle_target\",\n    temp_delta_nozzle: \"nozzle_delta\",\n    pwm_nozzle: \"nozzle_pwm\",\n    temp_bed: \"bed_temp\",\n    temp_target_bed: \"bed_target\",\n    temp_delta_bed: \"bed_delta\",\n    pwm_bed: \"bed_pwm\",\n    \"X\": \"X\",\n    \"Y\": \"Y\",\n    \"Z\": \"Z\",\n    \"E\": \"E\",\n    speed_factor: \"speed_factor\",\n    filename: \"filename\"\n};\n\nconst messages = [];\n\nfor (let key in keys) {\n    const value = keysData[key];\n    if (value !== undefined && value !== null && value !== \"None\") {\n        messages.push({\n            method: \"PUT\",\n            url: baseUrl + keys[key] + \".value\",\n            //payload: { ...aasBaseData, idShort: keys[key], value: String(value) }\n            payload: { ...aasBaseData, idShort: \"value\", value: String(value) }\n        });\n    }\n}\n\n//return [messages];\n\nlet newMsg = {\n    payload: messages\n}\n\nreturn newMsg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1050,
+        "y": 1820,
+        "wires": [
+            [
+                "49b0bd781a5da768",
+                "c708fbf1263202d2"
+            ]
+        ]
+    },
+    {
+        "id": "7fd518ac592a03bd",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 55",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2340,
+        "y": 1880,
+        "wires": []
+    },
+    {
+        "id": "c708fbf1263202d2",
+        "type": "split",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "splt": "\\n",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": true,
+        "addname": "",
+        "property": "payload",
+        "x": 1290,
+        "y": 1820,
+        "wires": [
+            [
+                "5a93087b266cf06f"
+            ]
+        ]
+    },
+    {
+        "id": "f78d4dd4b9e69e03",
+        "type": "join",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "mode": "auto",
+        "build": "object",
+        "property": "payload",
+        "propertyType": "msg",
+        "key": "topic",
+        "joiner": "\\n",
+        "joinerType": "str",
+        "useparts": false,
+        "accumulate": true,
+        "timeout": "",
+        "count": "",
+        "reduceRight": false,
+        "reduceExp": "",
+        "reduceInit": "",
+        "reduceInitType": "",
+        "reduceFixup": "",
+        "x": 1910,
+        "y": 1820,
+        "wires": [
+            [
+                "67465faabf5e870b",
+                "9a3c2801f9fe9173"
+            ]
+        ]
+    },
+    {
+        "id": "9a3c2801f9fe9173",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 56",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2100,
+        "y": 1760,
+        "wires": []
+    },
+    {
+        "id": "37e1de293403c53b",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 57",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1700,
+        "y": 1760,
+        "wires": []
+    },
+    {
+        "id": "5a93087b266cf06f",
+        "type": "function",
+        "z": "6add8d272f432a47",
+        "name": "split helper",
+        "func": "const parts = msg.parts;\n\nmsg = msg.payload;\n\nmsg.parts = parts;\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1490,
+        "y": 1820,
+        "wires": [
+            [
+                "d70c4d40829e073b",
+                "37e1de293403c53b"
+            ]
+        ]
+    },
+    {
+        "id": "a2116ace3f6d82b6",
+        "type": "http request",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "method": "use",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 1310,
+        "y": 1940,
+        "wires": [
+            [
+                "cf1388f5cbd2611f",
+                "ec6e20661d6edd18"
+            ]
+        ]
+    },
+    {
+        "id": "cf1388f5cbd2611f",
+        "type": "function",
+        "z": "6add8d272f432a47",
+        "name": "post-processing",
+        "func": "let results = msg.payload;\n\nmsg = flow.get(\"assappendresponse\");\n\nmsg.statusCode = 200;\nmsg.payload = results;\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1540,
+        "y": 1940,
+        "wires": [
+            [
+                "a7a73c2681477ab7"
+            ]
+        ]
+    },
+    {
+        "id": "a7a73c2681477ab7",
+        "type": "http response",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1750,
+        "y": 1940,
+        "wires": []
+    },
+    {
+        "id": "ec6e20661d6edd18",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 58",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1520,
+        "y": 2000,
+        "wires": []
+    },
+    {
+        "id": "4860d90d44bae803",
+        "type": "http request",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "method": "use",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 3130,
+        "y": 740,
+        "wires": [
+            [
+                "57f7033dbc77e6ef"
+            ]
+        ]
+    },
+    {
+        "id": "17da0d2b92fb6e07",
+        "type": "function",
+        "z": "6add8d272f432a47",
+        "name": "CSV append",
+        "func": "//msg.url = \"http://\" + msg.payload.destination + \":80/api/login\";\nmsg.url = \"http://192.168.250.108:5000/append\";\nmsg.method = \"POST\";\nmsg.payload = {\n    \"destination\": \"192.168.6.1\"\n}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 2950,
+        "y": 740,
+        "wires": [
+            [
+                "4860d90d44bae803"
+            ]
+        ]
+    },
+    {
+        "id": "818d436b3e8c4395",
+        "type": "inject",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "ola",
+        "payloadType": "str",
+        "x": 2730,
+        "y": 740,
+        "wires": [
+            [
+                "17da0d2b92fb6e07"
+            ]
+        ]
+    },
+    {
+        "id": "57f7033dbc77e6ef",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 59",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 3340,
+        "y": 740,
+        "wires": []
+    },
+    {
+        "id": "ebf8f97fd5f30025",
+        "type": "http in",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "url": "/model/predict1",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 300,
+        "y": 2540,
+        "wires": [
+            [
+                "8ecfdedebaca31ad",
+                "05576ca487d645e1"
+            ]
+        ]
+    },
+    {
+        "id": "014b1ebf8d2a034c",
+        "type": "http request",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "method": "use",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 1070,
+        "y": 2540,
+        "wires": [
+            [
+                "8d2b546f10e7c54f",
+                "c42c26117b8f556f"
+            ]
+        ]
+    },
+    {
+        "id": "7f4e33f8fb4d0c8a",
+        "type": "http response",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1510,
+        "y": 2540,
+        "wires": []
+    },
+    {
+        "id": "8ecfdedebaca31ad",
+        "type": "function",
+        "z": "6add8d272f432a47",
+        "name": "Pre-processing for prediction",
+        "func": "\nif (msg.payload.destination == null || msg.payload.msg == null) {\n    msg.payload = \"Error\";\n    msg.topic = \"parameter\";\n} else {\n    msg.url = \"http://\" + msg.payload.destination + \"/predict1\";\n    msg.method = \"POST\";\n    msg.payload = msg.payload.msg;\n}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 600,
+        "y": 2540,
+        "wires": [
+            [
+                "df174dac74f8c62b",
+                "eda45d69a6dfe5bd",
+                "316b77a067ef068f"
+            ]
+        ]
+    },
+    {
+        "id": "8d2b546f10e7c54f",
+        "type": "function",
+        "z": "6add8d272f432a47",
+        "name": "post-processing",
+        "func": "if (msg.statusCode == 200 || msg.statusCode == 204){\n    return msg;\n} else {\n    msg.payload = \"|Error|: \"+ msg.payload;\n    return msg;\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1300,
+        "y": 2540,
+        "wires": [
+            [
+                "7f4e33f8fb4d0c8a"
+            ]
+        ]
+    },
+    {
+        "id": "05576ca487d645e1",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 60",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 540,
+        "y": 2600,
+        "wires": []
+    },
+    {
+        "id": "df174dac74f8c62b",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 61",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 860,
+        "y": 2600,
+        "wires": []
+    },
+    {
+        "id": "7527f97ec56a1c7c",
+        "type": "http response",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1030,
+        "y": 2480,
+        "wires": []
+    },
+    {
+        "id": "eda45d69a6dfe5bd",
+        "type": "function",
+        "z": "6add8d272f432a47",
+        "name": "Error",
+        "func": "\nif (msg.payload == \"Error\"){\n    msg.statusCode = 400;\n\n    if (msg.topic == \"parameter\") {\n        msg.payload = \"|ERROR|: Parameter error\";\n    } else {\n        msg.payload = \"|ERROR|: Something unexpected happened\";\n    }\n\n    return msg;\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 850,
+        "y": 2480,
+        "wires": [
+            [
+                "7527f97ec56a1c7c",
+                "fd06ad78cf776235"
+            ]
+        ]
+    },
+    {
+        "id": "316b77a067ef068f",
+        "type": "function",
+        "z": "6add8d272f432a47",
+        "name": "No Error",
+        "func": "\nif (msg.payload != \"Error\"){\n    return msg;\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 860,
+        "y": 2540,
+        "wires": [
+            [
+                "1e3528bc509e60c7",
+                "014b1ebf8d2a034c"
+            ]
+        ]
+    },
+    {
+        "id": "fd06ad78cf776235",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 62",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1020,
+        "y": 2420,
+        "wires": []
+    },
+    {
+        "id": "1e3528bc509e60c7",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 63",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1060,
+        "y": 2600,
+        "wires": []
+    },
+    {
+        "id": "c42c26117b8f556f",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 64",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1280,
+        "y": 2600,
+        "wires": []
+    },
+    {
+        "id": "f059122dcc995510",
+        "type": "http in",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "url": "/model/predict4",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 300,
+        "y": 2780,
+        "wires": [
+            [
+                "263e6dac6f3ff4cf",
+                "6f4b038d50f26dcf"
+            ]
+        ]
+    },
+    {
+        "id": "35ae59f805cebe8b",
+        "type": "http request",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "method": "use",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 1070,
+        "y": 2780,
+        "wires": [
+            [
+                "197f43da42b5e08b",
+                "4fb70da5f70bf2cf"
+            ]
+        ]
+    },
+    {
+        "id": "b0bfab4623bc9fa9",
+        "type": "http response",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1510,
+        "y": 2780,
+        "wires": []
+    },
+    {
+        "id": "263e6dac6f3ff4cf",
+        "type": "function",
+        "z": "6add8d272f432a47",
+        "name": "Pre-processing for prediction",
+        "func": "\nif (msg.payload.destination == null || msg.payload.msg == null) {\n    msg.payload = \"Error\";\n    msg.topic = \"parameter\";\n} else {\n    msg.url = \"http://\" + msg.payload.destination + \"/predict4\";\n    msg.method = \"POST\";\n    msg.payload = msg.payload.msg;\n}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 600,
+        "y": 2780,
+        "wires": [
+            [
+                "c8ca1b8c169874dc",
+                "be315759af2a96f2",
+                "e2f0e61bf566551d"
+            ]
+        ]
+    },
+    {
+        "id": "197f43da42b5e08b",
+        "type": "function",
+        "z": "6add8d272f432a47",
+        "name": "post-processing",
+        "func": "if (msg.statusCode == 200 || msg.statusCode == 204){\n    return msg;\n} else {\n    msg.payload = \"|Error|: \"+ msg.payload;\n    return msg;\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1300,
+        "y": 2780,
+        "wires": [
+            [
+                "b0bfab4623bc9fa9"
+            ]
+        ]
+    },
+    {
+        "id": "6f4b038d50f26dcf",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 65",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 540,
+        "y": 2840,
+        "wires": []
+    },
+    {
+        "id": "c8ca1b8c169874dc",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 66",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 860,
+        "y": 2840,
+        "wires": []
+    },
+    {
+        "id": "9e762efc6d36becb",
+        "type": "http response",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1030,
+        "y": 2720,
+        "wires": []
+    },
+    {
+        "id": "be315759af2a96f2",
+        "type": "function",
+        "z": "6add8d272f432a47",
+        "name": "Error",
+        "func": "\nif (msg.payload == \"Error\"){\n    msg.statusCode = 400;\n\n    if (msg.topic == \"parameter\") {\n        msg.payload = \"|ERROR|: Parameter error\";\n    } else {\n        msg.payload = \"|ERROR|: Something unexpected happened\";\n    }\n\n    return msg;\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 850,
+        "y": 2720,
+        "wires": [
+            [
+                "9e762efc6d36becb",
+                "d11ecc953fc45a41"
+            ]
+        ]
+    },
+    {
+        "id": "e2f0e61bf566551d",
+        "type": "function",
+        "z": "6add8d272f432a47",
+        "name": "No Error",
+        "func": "\nif (msg.payload != \"Error\"){\n    return msg;\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 860,
+        "y": 2780,
+        "wires": [
+            [
+                "520521cec08732bd",
+                "35ae59f805cebe8b"
+            ]
+        ]
+    },
+    {
+        "id": "d11ecc953fc45a41",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 67",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1020,
+        "y": 2660,
+        "wires": []
+    },
+    {
+        "id": "520521cec08732bd",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 68",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1060,
+        "y": 2840,
+        "wires": []
+    },
+    {
+        "id": "4fb70da5f70bf2cf",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 69",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1280,
+        "y": 2840,
+        "wires": []
+    },
+    {
+        "id": "5093427e0acb2907",
+        "type": "inject",
+        "z": "6add8d272f432a47",
+        "name": "UnSub",
+        "props": [],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 1290,
+        "y": 600,
+        "wires": [
+            [
+                "248a988174306e7c"
+            ]
+        ]
+    },
+    {
+        "id": "0339d03d6b756ced",
+        "type": "function",
+        "z": "6add8d272f432a47",
+        "name": "Buffer Reset",
+        "func": "var printer = flow.get(\"activeprinter\") || [];\n\nflow.set(printer, []);\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 2170,
+        "y": 660,
+        "wires": [
+            [
+                "43ed9ed8ddcce00f"
+            ]
+        ]
+    },
+    {
+        "id": "f9f3c6bc14ac531a",
+        "type": "inject",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 1660,
+        "y": 840,
+        "wires": [
+            [
+                "2d3626991c21f6c1"
+            ]
+        ]
+    },
+    {
+        "id": "3fbc3dd0c82d09d8",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 70",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2020,
+        "y": 840,
+        "wires": []
+    },
+    {
+        "id": "2d3626991c21f6c1",
+        "type": "function",
+        "z": "6add8d272f432a47",
+        "name": "function 5",
+        "func": "var printer = flow.get(\"activeprinter\") || [];\n\nmsg.payload = flow.get(printer) || [];\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1840,
+        "y": 840,
+        "wires": [
+            [
+                "3fbc3dd0c82d09d8"
+            ]
+        ]
+    },
+    {
+        "id": "43ed9ed8ddcce00f",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "REINICIOU BUFFER",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2420,
+        "y": 660,
+        "wires": []
+    },
+    {
+        "id": "a17483fed837a76c",
+        "type": "http in",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "url": "/aas/get",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 270,
+        "y": 3020,
+        "wires": [
+            [
+                "86f7746622d5b848",
+                "ecad13a78f79e093"
+            ]
+        ]
+    },
+    {
+        "id": "d26d1e703eae1ae5",
+        "type": "http request",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "method": "use",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 1010,
+        "y": 3020,
+        "wires": [
+            [
+                "b5ee0c66851e5ad8",
+                "8f91885e93980880"
+            ]
+        ]
+    },
+    {
+        "id": "d38511a8555080d7",
+        "type": "http response",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1450,
+        "y": 3020,
+        "wires": []
+    },
+    {
+        "id": "86f7746622d5b848",
+        "type": "function",
+        "z": "6add8d272f432a47",
+        "name": "Pre-processing for prediction",
+        "func": "\nif (msg.payload.destination == null || msg.payload.msg == null) {\n    msg.payload = \"Error\";\n    msg.topic = \"parameter\";\n} else {\n    msg.url = \"http://\" + msg.payload.destination + \"/predict4\";\n    msg.method = \"POST\";\n    msg.payload = msg.payload.msg;\n}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 540,
+        "y": 3020,
+        "wires": [
+            [
+                "ca384caf2507c501",
+                "82e4a15960d6dfa5",
+                "0a5e9d96400dd427"
+            ]
+        ]
+    },
+    {
+        "id": "b5ee0c66851e5ad8",
+        "type": "function",
+        "z": "6add8d272f432a47",
+        "name": "post-processing",
+        "func": "if (msg.statusCode == 200 || msg.statusCode == 204){\n    return msg;\n} else {\n    msg.payload = \"|Error|: \"+ msg.payload;\n    return msg;\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1240,
+        "y": 3020,
+        "wires": [
+            [
+                "d38511a8555080d7"
+            ]
+        ]
+    },
+    {
+        "id": "ecad13a78f79e093",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 71",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 480,
+        "y": 3080,
+        "wires": []
+    },
+    {
+        "id": "ca384caf2507c501",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 72",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 800,
+        "y": 3080,
+        "wires": []
+    },
+    {
+        "id": "c7107a4a9e88c835",
+        "type": "http response",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 970,
+        "y": 2960,
+        "wires": []
+    },
+    {
+        "id": "82e4a15960d6dfa5",
+        "type": "function",
+        "z": "6add8d272f432a47",
+        "name": "Error",
+        "func": "\nif (msg.payload == \"Error\"){\n    msg.statusCode = 400;\n\n    if (msg.topic == \"parameter\") {\n        msg.payload = \"|ERROR|: Parameter error\";\n    } else {\n        msg.payload = \"|ERROR|: Something unexpected happened\";\n    }\n\n    return msg;\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 790,
+        "y": 2960,
+        "wires": [
+            [
+                "c7107a4a9e88c835",
+                "69df06546b10e324"
+            ]
+        ]
+    },
+    {
+        "id": "0a5e9d96400dd427",
+        "type": "function",
+        "z": "6add8d272f432a47",
+        "name": "No Error",
+        "func": "\nif (msg.payload != \"Error\"){\n    return msg;\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 800,
+        "y": 3020,
+        "wires": [
+            [
+                "c8857bbc8b744089",
+                "d26d1e703eae1ae5"
+            ]
+        ]
+    },
+    {
+        "id": "69df06546b10e324",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 73",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 960,
+        "y": 2900,
+        "wires": []
+    },
+    {
+        "id": "c8857bbc8b744089",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 74",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1000,
+        "y": 3080,
+        "wires": []
+    },
+    {
+        "id": "8f91885e93980880",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 75",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1220,
+        "y": 3080,
+        "wires": []
+    },
+    {
+        "id": "7cfb5db92d15bd55",
+        "type": "http in",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "url": "/aas/set",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 270,
+        "y": 3260,
+        "wires": [
+            [
+                "460d0f7b76f31976",
+                "14e2741adf64170f"
+            ]
+        ]
+    },
+    {
+        "id": "bb0112dbcf78c2dd",
+        "type": "http request",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "method": "use",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 1010,
+        "y": 3260,
+        "wires": [
+            [
+                "c30d0e6e2daf1064",
+                "dcf3b94746f348d6"
+            ]
+        ]
+    },
+    {
+        "id": "95261d1247501246",
+        "type": "http response",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1450,
+        "y": 3260,
+        "wires": []
+    },
+    {
+        "id": "460d0f7b76f31976",
+        "type": "function",
+        "z": "6add8d272f432a47",
+        "name": "Pre-processing for prediction",
+        "func": "\nif (msg.payload.destination == null || msg.payload.msg == null) {\n    msg.payload = \"Error\";\n    msg.topic = \"parameter\";\n} else {\n    msg.url = \"http://\" + msg.payload.destination + \"/predict4\";\n    msg.method = \"POST\";\n    msg.payload = msg.payload.msg;\n}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 540,
+        "y": 3260,
+        "wires": [
+            [
+                "c5e3ed29fac0393b",
+                "379a768860297487",
+                "382b2a9180626986"
+            ]
+        ]
+    },
+    {
+        "id": "c30d0e6e2daf1064",
+        "type": "function",
+        "z": "6add8d272f432a47",
+        "name": "post-processing",
+        "func": "if (msg.statusCode == 200 || msg.statusCode == 204){\n    return msg;\n} else {\n    msg.payload = \"|Error|: \"+ msg.payload;\n    return msg;\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1240,
+        "y": 3260,
+        "wires": [
+            [
+                "95261d1247501246"
+            ]
+        ]
+    },
+    {
+        "id": "14e2741adf64170f",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 76",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 480,
+        "y": 3320,
+        "wires": []
+    },
+    {
+        "id": "c5e3ed29fac0393b",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 77",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 800,
+        "y": 3320,
+        "wires": []
+    },
+    {
+        "id": "0c21b9f83a0f8161",
+        "type": "http response",
+        "z": "6add8d272f432a47",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 970,
+        "y": 3200,
+        "wires": []
+    },
+    {
+        "id": "379a768860297487",
+        "type": "function",
+        "z": "6add8d272f432a47",
+        "name": "Error",
+        "func": "\nif (msg.payload == \"Error\"){\n    msg.statusCode = 400;\n\n    if (msg.topic == \"parameter\") {\n        msg.payload = \"|ERROR|: Parameter error\";\n    } else {\n        msg.payload = \"|ERROR|: Something unexpected happened\";\n    }\n\n    return msg;\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 790,
+        "y": 3200,
+        "wires": [
+            [
+                "0c21b9f83a0f8161",
+                "2a29415cae9bf614"
+            ]
+        ]
+    },
+    {
+        "id": "382b2a9180626986",
+        "type": "function",
+        "z": "6add8d272f432a47",
+        "name": "No Error",
+        "func": "\nif (msg.payload != \"Error\"){\n    return msg;\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 800,
+        "y": 3260,
+        "wires": [
+            [
+                "ea498a889f803d15",
+                "bb0112dbcf78c2dd"
+            ]
+        ]
+    },
+    {
+        "id": "2a29415cae9bf614",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 78",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 960,
+        "y": 3140,
+        "wires": []
+    },
+    {
+        "id": "ea498a889f803d15",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 79",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1000,
+        "y": 3320,
+        "wires": []
+    },
+    {
+        "id": "dcf3b94746f348d6",
+        "type": "debug",
+        "z": "6add8d272f432a47",
+        "name": "debug 80",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1220,
+        "y": 3320,
+        "wires": []
+    },
+    {
+        "id": "a23b6c4d184ff287",
+        "type": "websocket-listener",
+        "path": "/ws/test",
+        "wholemsg": "false"
+    }
+]
